@@ -3,7 +3,7 @@ import mysql.connector
 conn = mysql.connector.connect(
   # mysql+pymysql://new_user:password@127.0.0.1:3306/schichtprotokoll
   host="127.0.0.1",
-  user="root",
+  user="new_user",
   password="password",
   database="schichtprotokoll"
 )
