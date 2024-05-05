@@ -32,7 +32,7 @@ async def validation_exception_handler(request, exc):
         content={"message": str(exc)},
     )
 
-@app.post("/machines/", response_model=list[schemas.MachineBase])
+@app.post("/api/machines/", response_model=list[schemas.MachineBase])
 def create_machine(machines: list[schemas.MachineBase], db: Session = Depends(get_db)):
     return crud.create_machines(db=db, machines=machines)
 
@@ -41,11 +41,11 @@ def read_machines(db: Session = Depends(get_db)):
     machines = crud.get_machines(db)
     return machines
 
-@app.post("/partinfo/", response_model=schemas.PartInfo)
+@app.post("/api/partinfo/", response_model=schemas.PartInfo)
 def create_partinfo(partinfo: schemas.PartInfo, db: Session = Depends(get_db)):
     return crud.create_partinfo(db=db, partinfo=partinfo)
 
-@app.post("/main/", response_model=schemas.MainBase)
+@app.post("/api/main/", response_model=schemas.MainBase)
 def post_main(main:schemas.MainBase, db:Session=Depends(get_db)):
     return crud.create_main(db=db,main=main)
 
