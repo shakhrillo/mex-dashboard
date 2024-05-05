@@ -1,31 +1,26 @@
 from pydantic import BaseModel
 
-class PartInfo(BaseModel):
-    title: str
-    partName: str
-    date: str
-    time: float
-    type: str
+class UserBase(BaseModel):
+    username: str
+    token: str
+
+class Token(BaseModel):
+    token: str
 
 class MachineBase(BaseModel):
-    name: str
-    status: str
-
-class MainBase(BaseModel):
+    token: str
     machineQrCode: str
-    ToolMounted: bool
-    MachineMounted: bool
+    toolMounted: bool
+    machineMounted: bool
     barcodeProductionNo: str
-    partNumber: str
-    partName: str
+    partNumber: int
+    partName: int
     cavity: int
-    cycleTime: int
+    cycleTime: str
     partStatus: str
     pieceNumber: int
     note: str
-    ToolCleaning: str
+    toolCleaning: str
     remainingProductionTime: int
-    OperatingHours: int
-
-class MainCreate(MainBase):
-    pass
+    operatingHours: int
+    
