@@ -10,7 +10,7 @@ conn = mysql.connector.connect(
 )
 
 cursor = conn.cursor()
-
+cursor.execute("DROP TABLE IF EXISTS users")
 cursor.execute("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), surname VARCHAR(255), token VARCHAR(255))")
 
 cursor.execute("SELECT * FROM users WHERE surname = 'admin'")
@@ -21,13 +21,13 @@ if len(rows) == 0:
   conn.commit()
 
 cursor.execute("DROP TABLE IF EXISTS data")
-cursor.execute("CREATE TABLE IF NOT EXISTS data (id INT AUTO_INCREMENT PRIMARY KEY, token VARCHAR(255), machineQrCode VARCHAR(255), toolMounted BOOLEAN, machineMounted BOOLEAN, barcodeProductionNo VARCHAR(255), cavity INT, cycleTime VARCHAR(255), partStatus VARCHAR(255), pieceNumber INT, note VARCHAR(255), toolCleaning VARCHAR(255), remainingProductionTime INT, operatingHours INT, machineStatus VARCHAR(255))")
+cursor.execute("CREATE TABLE IF NOT EXISTS data (id INT AUTO_INCREMENT PRIMARY KEY, date DATE, time TIME, shift VARCHAR(255), token VARCHAR(255), machineQrCode VARCHAR(255), toolMounted BOOLEAN, machineMounted BOOLEAN, barcodeProductionNo VARCHAR(255), cavity INT, cycleTime VARCHAR(255), partStatus VARCHAR(255), pieceNumber INT, note VARCHAR(255), toolCleaning VARCHAR(255), remainingProductionTime INT, operatingHours INT, machineStatus VARCHAR(255))")
 
 cursor.execute("SELECT * FROM data")
 rows = cursor.fetchall()
 
 if len(rows) == 0:
-  cursor.execute("INSERT INTO data (date, time, shift, token, machineQrCode, toolMounted, machineMounted, barcodeProductionNo, cavity, cycleTime, partStatus, pieceNumber, note, toolCleaning, remainingProductionTime, operatingHours, machineStatus) VALUES ('2021-09-01', '12:00:00', 'S2', '0004650166692', '0004650166692', 1, 1, '0004650166692', 1, '00:00:00', 'OK', 1, 'OK', 'OK', 0, 0, 'OK')")
+  cursor.execute("INSERT INTO data (date, time, shift, token, machineQrCode, toolMounted, machineMounted, barcodeProductionNo, cavity, cycleTime, partStatus, pieceNumber, note, toolCleaning, remainingProductionTime, operatingHours, machineStatus) VALUES ('2021-09-01', '12:00:00', 'S1', '0004650166692', '0004650166692', 1, 1, '0004650166692', 1, '00:00:00', 'OK', 1, 'OK', 'OK', 0, 0, 'OK')")
   conn.commit()
   print("Data inserted successfully")
 
