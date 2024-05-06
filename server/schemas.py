@@ -9,8 +9,7 @@ class Token(BaseModel):
     token: str
 
 class MachineBase(BaseModel):
-    date: str
-    time: str
+    createdAT: str
     shift: str
     token: str
     machineQrCode: str
@@ -24,6 +23,7 @@ class MachineBase(BaseModel):
     note: str
     toolCleaning: str
     remainingProductionTime: int
+    remainingProductionDays: int
     operatingHours: int
     machineStatus: str
 

@@ -12,8 +12,7 @@ class User(Base):
 class Machine(Base):
     __tablename__ = "data"
     id = Column(Integer, primary_key=True, index=True)
-    date = Column(String(255), index=True)
-    time = Column(String(255), index=True)
+    createdAT = Column(String(255), index=True)
     shift = Column(String(255), index=True)
     token = Column(String(255), index=True)
     machineQrCode = Column(String(255), index=True)
@@ -23,11 +22,11 @@ class Machine(Base):
     cavity = Column(Integer, index=True)
     cycleTime = Column(String(255), index=True)
     partStatus = Column(String(255), index=True)
-    # between 1-1.000.000 ( no , or . allowed)
     pieceNumber = Column(Integer, index=True)
     note = Column(String(255), index=True)
     toolCleaning = Column(String(255), index=True)
     remainingProductionTime = Column(Integer, index=True)
+    remainingProductionDays = Column(Integer, index=True)
     operatingHours = Column(Integer, index=True)
     machineStatus = Column(String(255), index=True)
 
