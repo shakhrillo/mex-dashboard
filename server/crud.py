@@ -27,12 +27,14 @@ def get_machine_status(db: Session, machineQrCode: str):
     if db_machine:
         return {
             "machineQrCode": db_machine.machineQrCode,
-            "machineStatus": db_machine.machineStatus
+            "machineStatus": db_machine.machineStatus,
+            "productNo": db_machine.barcodeProductionNo
         }
     else:
         return {
             "machineQrCode": "Invalid",
-            "machineStatus": "Invalid"
+            "machineStatus": "Invalid",
+            "productNo": 0
         }
     
 def get_productionnumber(db: Session, bauf: int):

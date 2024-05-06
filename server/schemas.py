@@ -28,6 +28,7 @@ class MachineBase(BaseModel):
 class MachineStatusBase(BaseModel):
     machineQrCode: str
     machineStatus: str
+    productNo: int
 
 class ProductionNumberBase(BaseModel):
     Partnumber: int

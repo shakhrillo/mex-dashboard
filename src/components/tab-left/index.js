@@ -6,7 +6,7 @@ export const TabLeft = (props) => {
     return (
         <div className='tab-left'>
             <TabLeftHeader />
-            <TabLeftContent bold={true} />
+            <TabLeftContent bold={true}  />
             {
                 props.data &&
                 props.data.map((item, index) => 

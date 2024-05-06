@@ -16,9 +16,8 @@ class Machine(Base):
     toolMounted = Column(Boolean, index=True)
     machineMounted = Column(Boolean, index=True)
     barcodeProductionNo = Column(String(255), index=True)
-    partNumber = Column(Integer, index=True)
-    partName = Column(Integer, index=True)
-    # cavity must be in input field between 1-99
+    # partNumber = Column(Integer, index=True)
+    # partName = Column(Integer, index=True)
     cavity = Column(Integer, index=True)
     cycleTime = Column(String(255), index=True)
     partStatus = Column(String(255), index=True)
