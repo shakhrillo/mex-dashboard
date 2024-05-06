@@ -45,8 +45,10 @@ cursor.execute("CREATE TABLE IF NOT EXISTS machines (id INT AUTO_INCREMENT PRIMA
 # }
 
 # add above data to machines table
-# cursor.execute("SELECT * FROM machines WHERE machineQrCode = 'F450iA–1'")
-# rows = cursor.fetchall()
+cursor.execute("SELECT * FROM machines")
+rows = cursor.fetchall()
+
+print(len(rows))
 
 if len(rows) == 0:
   cursor.execute("INSERT INTO machines (token, machineQrCode, toolMounted, machineMounted, barcodeProductionNo, partNumber, partName, cavity, cycleTime, partStatus, pieceNumber, note, toolCleaning, remainingProductionTime, operatingHours, machineStatus) VALUES ('0004650166692', 'F450iA–1', true, true, '0004650166692', 123456, 123, 1, '2,3', 'Good', 1, 'Note', '3,2', 0, 0, 'completed')") 
