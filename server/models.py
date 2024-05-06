@@ -12,7 +12,7 @@ class User(Base):
 class Machine(Base):
     __tablename__ = "data"
     id = Column(Integer, primary_key=True, index=True)
-    createdAT = Column(String(255), index=True)
+    createdAt = Column(String(255), index=True)
     shift = Column(String(255), index=True)
     token = Column(String(255), index=True)
     machineQrCode = Column(String(255), index=True)

@@ -9,7 +9,7 @@ class Token(BaseModel):
     token: str
 
 class MachineBase(BaseModel):
-    createdAT: str
+    createdAt: str
     shift: str
     token: str
     machineQrCode: str
