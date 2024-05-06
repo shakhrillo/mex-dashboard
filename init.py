@@ -23,7 +23,7 @@ if len(rows) == 0:
   cursor.execute("INSERT INTO users (username, token) VALUES ('admin', '0004650166692')") 
   conn.commit()
 
-
+cursor.execute("CREATE TABLE IF NOT EXISTS machines (id INT AUTO_INCREMENT PRIMARY KEY, token VARCHAR(255), machineQrCode VARCHAR(255), toolMounted BOOLEAN, machineMounted BOOLEAN, barcodeProductionNo VARCHAR(255), partNumber INT, partName INT, cavity INT, cycleTime VARCHAR(255), partStatus VARCHAR(255), pieceNumber INT, note VARCHAR(255), toolCleaning VARCHAR(255), remainingProductionTime INT, operatingHours INT, machineStatus VARCHAR(255))")
 
 cursor.close()
 conn.close()
