@@ -13,8 +13,6 @@ class MachineBase(BaseModel):
     toolMounted: bool
     machineMounted: bool
     barcodeProductionNo: str
-    partNumber: int
-    partName: int
     cavity: int
     cycleTime: str
     partStatus: str
