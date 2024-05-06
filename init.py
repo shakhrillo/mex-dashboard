@@ -27,7 +27,7 @@ cursor.execute("SELECT * FROM data")
 rows = cursor.fetchall()
 
 if len(rows) == 0:
-  cursor.execute("INSERT INTO data (date, time, shift, token, machineQrCode, toolMounted, machineMounted, barcodeProductionNo, cavity, cycleTime, partStatus, pieceNumber, note, toolCleaning, remainingProductionTime, operatingHours, machineStatus) VALUES ('2021-09-01', '12:00:00', 'S1', '0004650166692', '0004650166692', 1, 1, '0004650166692', 1, '00:00:00', 'OK', 1, 'OK', 'OK', 0, 0, 'OK')")
+  cursor.execute("INSERT INTO data (date, time, shift, token, machineQrCode, toolMounted, machineMounted, barcodeProductionNo, cavity, cycleTime, partStatus, pieceNumber, note, toolCleaning, remainingProductionTime, operatingHours, machineStatus) VALUES ('2021-09-01', '12:00:00', 'S1', '0004650166692', 'F450iA-1', 1, 1, '0004650166692', 1, '00:00:00', 'OK', 1, 'OK', 'OK', 0, 0, 'completed')")
   conn.commit()
   print("Data inserted successfully")
 
