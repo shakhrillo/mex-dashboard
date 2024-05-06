@@ -71,7 +71,7 @@ rows = cursor2.fetchall()
 
 print(len(rows))
 
-if len(rows) == 1:
+if len(rows) == 0:
   cursor2.execute("INSERT INTO bauf (bauf_artnr, bauf_artbez) VALUES (80735, 001)") 
   conn2.commit()
   print("Data inserted successfully")
