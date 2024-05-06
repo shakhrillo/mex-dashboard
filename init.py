@@ -1,4 +1,5 @@
 import mysql.connector
+import os
 
 conn = mysql.connector.connect(
   # mysql+pymysql://new_user:password@127.0.0.1:3306/schichtprotokoll
@@ -7,15 +8,17 @@ conn = mysql.connector.connect(
   # DB Password> M6p8xK7q1E
   # SB SERVER IP 192.168.100.2
   # host="192.168.100.21",
-  host="127.0.0.1",
-  user="root",
   # password="M6p8xK7q1E",
+  host=os.getenv("DB_HOST"),
+  user=os.getenv("DB_USER"),
+  password=os.getenv("DB_PASSWORD"),
   database="schichtprotokoll"
 )
 
 conn2 = mysql.connector.connect(
-  host="127.0.0.1",
-  user="root",
+  host=os.getenv("DB_HOST"),
+  user=os.getenv("DB_USER"),
+  password=os.getenv("DB_PASSWORD"),
   database="alfaplus"
 )
 
