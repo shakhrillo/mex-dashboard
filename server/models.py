@@ -6,18 +6,20 @@ from .database import Base
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String(255), index=True)
+    name = Column(String(255), index=True)
+    surname = Column(String(255), index=True)
     token = Column(String(255), index=True)
 class Machine(Base):
     __tablename__ = "data"
     id = Column(Integer, primary_key=True, index=True)
+    date = Column(String(255), index=True)
+    time = Column(String(255), index=True)
+    shift = Column(String(255), index=True)
     token = Column(String(255), index=True)
     machineQrCode = Column(String(255), index=True)
     toolMounted = Column(Boolean, index=True)
     machineMounted = Column(Boolean, index=True)
     barcodeProductionNo = Column(String(255), index=True)
-    # partNumber = Column(Integer, index=True)
-    # partName = Column(Integer, index=True)
     cavity = Column(Integer, index=True)
     cycleTime = Column(String(255), index=True)
     partStatus = Column(String(255), index=True)
@@ -34,42 +36,3 @@ class Bauf(Base):
     id = Column(Integer, primary_key=True, index=True)
     bauf_artnr = Column(Integer, index=True)
     bauf_artbez = Column(Integer, index=True)
-
-# CREATE TABLE IF NOT EXISTS data (
-#     id INT AUTO_INCREMENT PRIMARY KEY,
-#     token VARCHAR(255),
-#     machineQrCode VARCHAR(255),
-#     toolMounted BOOLEAN,
-#     machineMounted BOOLEAN,
-#     barcodeProductionNo VARCHAR(255),
-#     partNumber INT,
-#     partName INT,
-#     cavity INT,
-#     cycleTime VARCHAR(255),
-#     partStatus VARCHAR(255),
-#     pieceNumber INT,
-#     note VARCHAR(255),
-#     toolCleaning VARCHAR(255),
-#     remainingProductionTime INT,
-#     operatingHours INT,
-#     machineStatus VARCHAR(255)
-# )
-
-# {
-#     "token": "0004650166692",
-#     "machineQrCode": "F 450iA – 1",
-#     "toolMounted": true,
-#     "machineMounted": true,
-#     "barcodeProductionNo": "0004650166692",
-#     "partNumber": 123456,
-#     "partName": 123,
-#     "cavity": 1,
-#     "cycleTime": "2,3",
-#     "partStatus": "Good",
-#     "pieceNumber": 1,
-#     "note": "Note",
-#     "toolCleaning": "3,2",
-#     "remainingProductionTime": 0,
-#     "operatingHours": 0,
-#     "machineStatus": "completed"
-# }

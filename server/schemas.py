@@ -1,13 +1,17 @@
 from pydantic import BaseModel
 
 class UserBase(BaseModel):
-    username: str
+    name: str
+    surname: str
     token: str
 
 class Token(BaseModel):
     token: str
 
 class MachineBase(BaseModel):
+    date: str
+    time: str
+    shift: str
     token: str
     machineQrCode: str
     toolMounted: bool

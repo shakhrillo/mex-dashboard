@@ -6,12 +6,14 @@ def check_token(db: Session, token: schemas.Token):
     db_token = db.query(models.User).filter(models.User.token == token.token).first()
     if db_token:
         return {
-            "username": db_token.username,
+            "name": db_token.name,
+            "surname": db_token.surname,
             "token": db_token.token
         }
     else:
         return {
-            "username": "Invalid",
+            "name": "Invalid",
+            "surname": "Invalid",
             "token": "Invalid"
         }
 
