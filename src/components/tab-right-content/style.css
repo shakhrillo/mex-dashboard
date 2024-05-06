@@ -17,8 +17,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  /* padding: 4px; */
-  width: 25px;
+  width: 40px;
 }
 .tab-right-content > ul > li:nth-child(n + 1) {
   height: 100%;

@@ -5,13 +5,62 @@ import './style.css';
 
 export const Tab = ({ children }) => {
     const [scrollPosition, setScrollPosition] = useState(0);
-    const [data, setData] = React.useState([])
-
-    React.useEffect(() => {
-        fetch('http://localhost:5001/machines')
-            .then(response => response.json())
-            .then(data => setData(data))
-    }, [])
+    const [data, setData] = React.useState([
+        {
+            "name": "F450iA-1"
+        },
+        {
+            "name": "E 35-1"
+        },
+        {
+            "name": "E 45-2"
+        },
+        {
+            "name": "E 45-1"
+        },
+        {
+            "name": "E 50-2"
+        },
+        {
+            "name": "E 50-3"
+        },
+        {
+            "name": "Emac50-1"
+        },
+        {
+            "name": "Emac50-2"
+        },
+        {
+            "name": "Emac50-3"
+        },
+        {
+            "name": "F150iA-1"
+        },
+        {
+            "name": "E 80-1"
+        },
+        {
+            "name": "E 120-1"
+        },
+        {
+            "name": "E 55-1"
+        },
+        {
+            "name": "KM 150-1"
+        },
+        {
+            "name": "KM 80-1"
+        },
+        {
+            "name": "KM 50-1"
+        },
+        {
+            "name": "KM 420-1"
+        },
+        {
+            "name": "F250iA-1"
+        }
+    ])
 
     return (
         <div className='tab'>
@@ -43,8 +92,8 @@ export const Tab = ({ children }) => {
                         setScrollPosition(1)
                     }
                 }} style={{ display: "flex", overflow: "auto", whiteSpace: "nowrap" }}>
-                    {/* <TabRight header={'02 May 2024 - Thursday'} data={data} /> */}
                     <TabRight header={'03 May 2024 - Friday'} data={data} />
+                    {/* <TabRight header={'02 May 2024 - Thursday'} data={data} /> */}
                     {/* <TabRight header={'04 May 2024 - Saturday'} data={data} />
                     <TabRight header={'05 May 2024 - Sunday'} data={data} />
                     <TabRight header={'06 May 2024 - Monday'} data={data} /> */}

@@ -8,8 +8,8 @@ from sqlalchemy.orm import sessionmaker
 # host="127.0.0.1",
 #   user="root",
 #   database="schichtprotokoll"
-DB_URL = "mysql+pymysql://new_user:password@127.0.0.1:3306/schichtprotokoll"
-# DB_URL = "mysql+pymysql://root@127.0.0.1:3306/schichtprotokoll"
+# DB_URL = "mysql+pymysql://new_user:password@127.0.0.1:3306/schichtprotokoll"
+DB_URL = "mysql+pymysql://root@127.0.0.1:3306/schichtprotokoll"
 engine = create_engine(DB_URL,echo=True)
 SessionLocal = sessionmaker(autocommit=False,autoflush=False, bind=engine)
 

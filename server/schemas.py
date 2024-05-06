@@ -23,4 +23,8 @@ class MachineBase(BaseModel):
     toolCleaning: str
     remainingProductionTime: int
     operatingHours: int
-    
+    machineStatus: str
+
+class MachineStatusBase(BaseModel):
+    machineQrCode: str
+    machineStatus: str

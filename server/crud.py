@@ -21,3 +21,16 @@ def create_machines(db: Session, machines: schemas.MachineBase):
     db.commit()
     db.refresh(db_machine)
     return machines
+
+def get_machine_status(db: Session, machineQrCode: str):
+    db_machine = db.query(models.Machine).filter(models.Machine.machineQrCode == machineQrCode).first()
+    if db_machine:
+        return {
+            "machineQrCode": db_machine.machineQrCode,
+            "machineStatus": db_machine.machineStatus
+        }
+    else:
+        return {
+            "machineQrCode": "Invalid",
+            "machineStatus": "Invalid"
+        }

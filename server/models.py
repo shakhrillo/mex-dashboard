@@ -63,5 +63,6 @@ class Machine(Base):
 #     "note": "Note",
 #     "toolCleaning": "3,2",
 #     "remainingProductionTime": 0,
-#     "operatingHours": 0
+#     "operatingHours": 0,
+#     "machineStatus": "completed"
 # }
