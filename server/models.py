@@ -28,6 +28,7 @@ class Machine(Base):
     toolCleaning = Column(String(255), index=True)
     remainingProductionTime = Column(Integer, index=True)
     operatingHours = Column(Integer, index=True)
+    machineStatus = Column(String(255), index=True)
     
 # CREATE TABLE IF NOT EXISTS data (
 #     id INT AUTO_INCREMENT PRIMARY KEY,
