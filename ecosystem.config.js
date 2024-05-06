@@ -1,7 +1,7 @@
 module.exports = {
   apps : [{
     name: "server-nfc",
-    script: "/home/qqtechx/nfc_dash/myenv/bin/uvicorn",
+    script: "uvicorn",
     args: "server.main:app --port=3231",
     instances: 1,
     autorestart: true,
