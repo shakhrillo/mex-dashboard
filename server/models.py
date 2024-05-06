@@ -29,7 +29,13 @@ class Machine(Base):
     remainingProductionTime = Column(Integer, index=True)
     operatingHours = Column(Integer, index=True)
     machineStatus = Column(String(255), index=True)
-    
+
+class Bauf(Base):
+    __tablename__ = "bauf"
+    id = Column(Integer, primary_key=True, index=True)
+    bauf_artnr = Column(Integer, index=True)
+    bauf_artbez = Column(Integer, index=True)
+
 # CREATE TABLE IF NOT EXISTS data (
 #     id INT AUTO_INCREMENT PRIMARY KEY,
 #     token VARCHAR(255),

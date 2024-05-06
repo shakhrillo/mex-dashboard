@@ -1,10 +1,9 @@
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-import mysql.connector
 
 from . import crud,models, schemas
-from .database import SessionLocal, engine
+from .database import SessionLocal, SessionLocal_2, engine
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -12,6 +11,13 @@ app = FastAPI()
 
 def get_db():
     db = SessionLocal()
+    try : 
+        yield db
+    finally:
+        db.close()
+
+def get_db_2():
+    db = SessionLocal_2()
     try : 
         yield db
     finally:
@@ -38,23 +44,9 @@ async def validation_exception_handler(request, exc):
 def check_token(token: schemas.Token, db: Session = Depends(get_db)):
     return crud.check_token(db=db, token=token)
 
-@app.get("/api/productionnumber")
-def get_productionnumber(bauf_aufnr: str, bauf_posnr: str):
-    conn = mysql.connector.connect(
-        host="127.0.0.1",
-        user="root",
-        database="schichtprotokoll"
-    )
-
-    cursor = conn.cursor()
-
-    cursor.execute(f"SELECT bauf.bauf_artnr AS Partnumber, bauf.bauf_artbez AS Partname FROM bauf WHERE bauf.bauf_aufnr = '{bauf_aufnr}' AND bauf.bauf_posnr = '{bauf_posnr}' LIMIT 1;")
-    rows = cursor.fetchall()
-    
-    cursor.close()
-    conn.close()
-
-    return rows
+@app.get("/api/productionnumber/{bauf}", response_model=schemas.ProductionNumberBase)
+def check_productionnumber(bauf: int, db2: Session = Depends(get_db_2)):
+    return crud.get_productionnumber(db=db2, bauf=bauf)
 
 @app.post("/api/machines", response_model=schemas.MachineBase)
 def create_machines(machines: schemas.MachineBase, db: Session = Depends(get_db)):

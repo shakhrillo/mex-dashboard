@@ -6,13 +6,22 @@ conn = mysql.connector.connect(
   # DB User> qqdb_wweb
   # DB Password> M6p8xK7q1E
   # SB SERVER IP 192.168.100.2
-  host="192.168.100.21",
-  user="qqdb_wweb",
-  password="M6p8xK7q1E",
+  # host="192.168.100.21",
+  host="127.0.0.1",
+  user="root",
+  # password="M6p8xK7q1E",
   database="schichtprotokoll"
 )
 
+conn2 = mysql.connector.connect(
+  host="127.0.0.1",
+  user="root",
+  database="alfaplus"
+)
+
 cursor = conn.cursor()
+
+cursor2 = conn2.cursor()
 
 cursor.execute("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), token VARCHAR(255))")
 
@@ -54,6 +63,24 @@ if len(rows) == 0:
   cursor.execute("INSERT INTO machines (token, machineQrCode, toolMounted, machineMounted, barcodeProductionNo, partNumber, partName, cavity, cycleTime, partStatus, pieceNumber, note, toolCleaning, remainingProductionTime, operatingHours, machineStatus) VALUES ('0004650166692', 'F450iA–1', true, true, '0004650166692', 123456, 123, 1, '2,3', 'Good', 1, 'Note', '3,2', 0, 0, 'completed')") 
   conn.commit()
   print("Data inserted successfully")
+
+
+# create bauf table
+cursor2.execute("CREATE TABLE IF NOT EXISTS bauf (id INT AUTO_INCREMENT PRIMARY KEY, bauf_artnr INT, bauf_artbez INT)")
+
+# add data to bauf table
+cursor2.execute("SELECT * FROM bauf")
+rows = cursor2.fetchall()
+
+print(len(rows))
+
+if len(rows) == 1:
+  cursor2.execute("INSERT INTO bauf (bauf_artnr, bauf_artbez) VALUES (80735, 001)") 
+  conn2.commit()
+  print("Data inserted successfully")
+
+cursor2.close()
+conn2.close()
 
 cursor.close()
 conn.close()
