@@ -20,7 +20,7 @@ class Machine(Base):
     machineMounted = Column(Boolean, index=True)
     barcodeProductionNo = Column(String(255), index=True)
     cavity = Column(Integer, index=True)
-    cycleTime = Column(String(255), index=True)
+    cycleTime = Column(Integer, index=True)
     partStatus = Column(String(255), index=True)
     pieceNumber = Column(Integer, index=True)
     note = Column(String(255), index=True)

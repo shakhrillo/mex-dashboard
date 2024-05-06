@@ -9,21 +9,21 @@ class Token(BaseModel):
     token: str
 
 class MachineBase(BaseModel):
-    createdAt: str
     shift: str
     token: str
+    createdAt: str
     machineQrCode: str
     toolMounted: bool
     machineMounted: bool
     barcodeProductionNo: str
     cavity: int
-    cycleTime: str
+    cycleTime: int
     partStatus: str
     pieceNumber: int
     note: str
     toolCleaning: str
-    remainingProductionTime: int
     remainingProductionDays: int
+    remainingProductionTime: int
     operatingHours: int
     machineStatus: str
 
