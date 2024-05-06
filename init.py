@@ -1,17 +1,18 @@
+from dotenv import dotenv_values
 import mysql.connector
-import os
+config = dotenv_values(".env")
 
 conn = mysql.connector.connect(
-  host=os.getenv("DB_HOST"),
-  user=os.getenv("DB_USER"),
-  password=os.getenv("DB_PASSWORD"),
+  host=config["DB_HOST"],
+  user=config["DB_USERNAME"],
+  password=config["DB_PASSWORD"],
   database="schichtprotokoll"
 )
 
 conn2 = mysql.connector.connect(
-  host=os.getenv("DB_HOST"),
-  user=os.getenv("DB_USER"),
-  password=os.getenv("DB_PASSWORD"),
+  host=config["DB_HOST"],
+  user=config["DB_USERNAME"],
+  password=config["DB_PASSWORD"],
   database="alfaplus"
 )
 
