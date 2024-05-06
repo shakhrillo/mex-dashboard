@@ -2,9 +2,13 @@ import mysql.connector
 
 conn = mysql.connector.connect(
   # mysql+pymysql://new_user:password@127.0.0.1:3306/schichtprotokoll
-  host="127.0.0.1",
-  user="new_user",
-  password="password",
+  # DB Name> schichtprotokoll
+  # DB User> qqdb_wweb
+  # DB Password> M6p8xK7q1E
+  # SB SERVER IP 192.168.100.2
+  host="192.168.100.21",
+  user="qqdb_wweb",
+  password="M6p8xK7q1E",
   database="schichtprotokoll"
 )
 

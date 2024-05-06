@@ -23,7 +23,7 @@ def create_machines(db: Session, machines: schemas.MachineBase):
     return machines
 
 def get_machine_status(db: Session, machineQrCode: str):
-    db_machine = db.query(models.Machine).filter(models.Machine.machineQrCode == machineQrCode).first()
+    db_machine = db.query(models.Machine).get(machineQrCode)
     if db_machine:
         return {
             "machineQrCode": db_machine.machineQrCode,

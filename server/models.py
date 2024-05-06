@@ -46,7 +46,8 @@ class Machine(Base):
 #     note VARCHAR(255),
 #     toolCleaning VARCHAR(255),
 #     remainingProductionTime INT,
-#     operatingHours INT
+#     operatingHours INT,
+#     machineStatus VARCHAR(255)
 # )
 
 # {

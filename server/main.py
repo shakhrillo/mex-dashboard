@@ -61,5 +61,5 @@ def create_machines(machines: schemas.MachineBase, db: Session = Depends(get_db)
     return crud.create_machines(db=db, machines=machines)
 
 @app.get("/api/machines/{machine_id}/status", response_model=schemas.MachineStatusBase)
-def check_machine_status(machine_id: int, db: Session = Depends(get_db)):
+def check_machine_status(machine_id: str, db: Session = Depends(get_db)):
     return crud.get_machine_status(db=db, machineQrCode=machine_id)
