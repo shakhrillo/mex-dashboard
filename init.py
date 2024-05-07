@@ -39,19 +39,19 @@ conn2 = mysql.connector.connect(
   database="alfaplus"
 )
 
-cursor2 = conn2.cursor()
-cursor2.execute("DROP TABLE IF EXISTS bauf")
-cursor2.execute("CREATE TABLE IF NOT EXISTS bauf (id INT AUTO_INCREMENT PRIMARY KEY, bauf_artnr INT, bauf_artbez INT)")
-cursor2.execute("SELECT * FROM bauf")
-rows = cursor2.fetchall()
+# cursor2 = conn2.cursor()
+# cursor2.execute("DROP TABLE IF EXISTS bauf")
+# cursor2.execute("CREATE TABLE IF NOT EXISTS bauf (id INT AUTO_INCREMENT PRIMARY KEY, bauf_artnr INT, bauf_artbez INT)")
+# cursor2.execute("SELECT * FROM bauf")
+# rows = cursor2.fetchall()
 
-if len(rows) == 0:
-  cursor2.execute("INSERT INTO bauf (bauf_artnr, bauf_artbez) VALUES (80735, 001)") 
-  conn2.commit()
-  print("Data inserted successfully")
+# if len(rows) == 0:
+#   cursor2.execute("INSERT INTO bauf (bauf_artnr, bauf_artbez) VALUES (80735, 001)") 
+#   conn2.commit()
+#   print("Data inserted successfully")
 
-cursor2.close()
-conn2.close()
+# cursor2.close()
+# conn2.close()
 
 cursor.close()
 conn.close()
