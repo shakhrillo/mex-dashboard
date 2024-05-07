@@ -57,6 +57,16 @@ if config["DB_DEV"] == "True":
     conn2.commit()
     print("Data inserted successfully")
 
+# SELECT bauf.bauf_artnr AS Partnumber, bauf.bauf_artbez AS Partname
+# FROM bauf
+# WHERE bauf.bauf_aufnr = "811197"
+# AND bauf.bauf_posnr = "001"
+# LIMIT 1;
+cursor2.execute("SELECT * bauf.bauf_artnr AS Partnumber, bauf.bauf_artbez AS Partname FROM bauf WHERE bauf.bauf_aufnr = '811197' AND bauf.bauf_posnr = '001' LIMIT 1")
+rows = cursor2.fetchall()
+print(rows)
+
+
 cursor2.close()
 conn2.close()
 
