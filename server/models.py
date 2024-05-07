@@ -35,3 +35,5 @@ class Bauf(Base):
     id = Column(Integer, primary_key=True, index=True)
     bauf_artnr = Column(String(255), index=True)
     bauf_artbez = Column(String(255), index=True)
+    bauf_aufnr = Column(String(255), index=True)
+    bauf_posnr = Column(String(255), index=True)
