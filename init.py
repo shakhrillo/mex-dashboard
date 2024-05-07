@@ -39,6 +39,8 @@ conn2 = mysql.connector.connect(
   database="alfaplus"
 )
 
+# Create a table in the database
+
 # cursor2 = conn2.cursor()
 # cursor2.execute("DROP TABLE IF EXISTS bauf")
 # cursor2.execute("CREATE TABLE IF NOT EXISTS bauf (id INT AUTO_INCREMENT PRIMARY KEY, bauf_artnr INT, bauf_artbez INT)")
