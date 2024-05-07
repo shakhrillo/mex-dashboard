@@ -33,5 +33,5 @@ class MachineStatusBase(BaseModel):
     productNo: int
 
 class ProductionNumberBase(BaseModel):
-    Partnumber: int
-    Partname: int
+    Partnumber: str
+    Partname: str

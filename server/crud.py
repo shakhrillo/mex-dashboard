@@ -45,17 +45,14 @@ def get_productionnumber(db2: Session, bauf: int):
     # bauf_aufnr = 811471
     # bauf_posnr = 001
 
-    if len(str(bauf)) != 9:
+    if len(bauf) != 9:
         return {
-            "Partnumber": 0,
-            "Partname": 0
+            "Partnumber": '0',
+            "Partname": '0'
         }
     
     bauf_aufnr = str(bauf)[:6]
     bauf_posnr = str(bauf)[6:]
-    
-    bauf_aufnr = int(bauf_aufnr)
-    bauf_posnr = int(bauf_posnr)
     
     db_bauf = db2.query(models.Bauf).filter(models.Bauf.bauf_artnr == bauf_aufnr).filter(models.Bauf.bauf_artbez == bauf_posnr).first()
     if db_bauf:
@@ -65,6 +62,6 @@ def get_productionnumber(db2: Session, bauf: int):
         }
     else:
         return {
-            "Partnumber": 0,
-            "Partname": 0
+            "Partnumber": '0',
+            "Partname": '0'
         }
