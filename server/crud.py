@@ -39,7 +39,7 @@ def get_machine_status(db: Session, machineQrCode: str):
             "productNo": 0
         }
     
-def get_productionnumber(db2: Session, bauf: int):
+def get_productionnumber(db2: Session, bauf: str):
     # int 80735001
     # int 811471001
     # bauf_aufnr = 811471

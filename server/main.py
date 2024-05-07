@@ -45,7 +45,7 @@ def check_token(token: schemas.Token, db: Session = Depends(get_db)):
     return crud.check_token(db=db, token=token)
 
 @app.get("/api/productionnumber/{bauf}", response_model=schemas.ProductionNumberBase)
-def check_productionnumber(bauf: int, db2: Session = Depends(get_db_2)):
+def check_productionnumber(bauf: str, db2: Session = Depends(get_db_2)):
     return crud.get_productionnumber(db2=db2, bauf=bauf)
 
 @app.post("/api/machines", response_model=schemas.MachineBase)
