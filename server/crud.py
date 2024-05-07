@@ -56,7 +56,7 @@ def get_productionnumber(db2: Session, bauf: str):
     bauf_posnr = str(bauf)[6:]
 
     # show last 3 
-    raw = db2.query(models.Bauf).get(1)
+    raw = db2.query(models.Bauf).first()
     print(raw)
     for i in raw:
         print(i)
