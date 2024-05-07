@@ -45,6 +45,13 @@ def get_productionnumber(db2: Session, bauf: str):
     # bauf_aufnr = 811471
     # bauf_posnr = 001
 
+
+    print(len(bauf))
+    print(bauf)
+    print(str(bauf)[:6])
+    print(str(bauf)[6:])
+
+
     if len(bauf) != 9:
         return {
             "Partnumber": '0',
