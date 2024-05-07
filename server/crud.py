@@ -41,17 +41,18 @@ def get_machine_status(db: Session, machineQrCode: str):
     
 def get_productionnumber(db: Session, bauf: int):
     # int 80735001
-    # bauf_aufnr = 80735
+    # int 811471001
+    # bauf_aufnr = 811471
     # bauf_posnr = 001
 
-    if len(str(bauf)) != 8:
+    if len(str(bauf)) != 9:
         return {
             "Partnumber": 0,
             "Partname": 0
         }
     
-    bauf_aufnr = str(bauf)[:5]
-    bauf_posnr = str(bauf)[5:]
+    bauf_aufnr = str(bauf)[:6]
+    bauf_posnr = str(bauf)[6:]
     
     bauf_aufnr = int(bauf_aufnr)
     bauf_posnr = int(bauf_posnr)
