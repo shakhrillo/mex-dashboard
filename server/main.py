@@ -17,11 +17,11 @@ def get_db():
         db.close()
 
 def get_db_2():
-    db = SessionLocal_2()
+    db2 = SessionLocal_2()
     try : 
-        yield db
+        yield db2
     finally:
-        db.close()
+        db2.close()
 
 # Enable cors
 @app.middleware("http")
@@ -46,7 +46,7 @@ def check_token(token: schemas.Token, db: Session = Depends(get_db)):
 
 @app.get("/api/productionnumber/{bauf}", response_model=schemas.ProductionNumberBase)
 def check_productionnumber(bauf: int, db2: Session = Depends(get_db_2)):
-    return crud.get_productionnumber(db=db2, bauf=bauf)
+    return crud.get_productionnumber(db2=db2, bauf=bauf)
 
 @app.post("/api/machines", response_model=schemas.MachineBase)
 def create_machines(machines: schemas.MachineBase, db: Session = Depends(get_db)):

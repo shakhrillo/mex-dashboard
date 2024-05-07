@@ -39,7 +39,7 @@ def get_machine_status(db: Session, machineQrCode: str):
             "productNo": 0
         }
     
-def get_productionnumber(db: Session, bauf: int):
+def get_productionnumber(db2: Session, bauf: int):
     # int 80735001
     # int 811471001
     # bauf_aufnr = 811471
@@ -57,7 +57,7 @@ def get_productionnumber(db: Session, bauf: int):
     bauf_aufnr = int(bauf_aufnr)
     bauf_posnr = int(bauf_posnr)
     
-    db_bauf = db.query(models.Bauf).filter(models.Bauf.bauf_artnr == bauf_aufnr).filter(models.Bauf.bauf_artbez == bauf_posnr).first()
+    db_bauf = db2.query(models.Bauf).filter(models.Bauf.bauf_artnr == bauf_aufnr).filter(models.Bauf.bauf_artbez == bauf_posnr).first()
     if db_bauf:
         return {
             "Partnumber": db_bauf.bauf_artnr,
