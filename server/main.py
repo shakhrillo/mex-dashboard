@@ -67,8 +67,8 @@ def get_status(user_token: str, machine_id: str, db: Session = Depends(get_db)):
     return crud.get_status(db=db, user_token=user_token, machine_id=machine_id)
 
 @app.get("/api/machines/{user_token}")
-def get_machines(user_token: str, db: Session = Depends(get_db)):
-    return crud.get_machines(db=db, user_token=user_token)
+def get_machines(user_token: str, db: Session = Depends(get_db), db2: Session = Depends(get_db_2)):
+    return crud.get_machines(db=db, db2=db2, user_token=user_token)
 
 @app.get("/api/productionnumber/{bauf}")
 def check_productionnumber(bauf: str):

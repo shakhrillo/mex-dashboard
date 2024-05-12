@@ -1,7 +1,10 @@
 from datetime import datetime, time, timedelta
+from dotenv import dotenv_values
 from sqlalchemy.orm import Session
+import mysql.connector
 
 from . import models,schemas
+config = dotenv_values(".env")
 
 def is_end_of_month():
     today = datetime.now()
@@ -98,8 +101,33 @@ def check_token(db: Session, token: schemas.Token):
             "token": "Invalid"
         }
     
-def get_machines(db: Session, user_token: str):
+def get_machines(db: Session, db2: Session, user_token: str):
     user_machines = db.query(models.MachineData).filter(models.MachineData.token == user_token).all()
+
+    conn2 = mysql.connector.connect(
+        host=config["DB_HOST"],
+        user=config["DB_USERNAME"],
+        password=config["DB_PASSWORD"],
+        database="alfaplus"
+    )
+    cursor2 = conn2.cursor()
+    
+    for i in range(len(user_machines)):
+        bauf_aufnr = str(user_machines[i].barcodeProductionNo)[:6]
+        bauf_posnr = str(user_machines[i].barcodeProductionNo)[6:]
+        cursor2.execute(f"SELECT bauf.bauf_artnr AS Partnumber, bauf.bauf_artbez AS Partname FROM bauf WHERE bauf.bauf_aufnr = '{bauf_aufnr}' AND bauf.bauf_posnr = '{bauf_posnr}' LIMIT 1;")
+        productionnumber = cursor2.fetchall()
+        if len(productionnumber) == 0:
+            productionnumber = {
+                "Partnumber": '0',
+                "Partname": '0'
+            }
+        user_machines[i].partnumber = productionnumber["Partnumber"]
+        user_machines[i].partname = productionnumber["Partname"]
+
+    cursor2.close()
+    conn2.close()
+
     return user_machines
 
 def get_status(db: Session, user_token: str, machine_id: str):
@@ -198,54 +226,3 @@ def create_machines(db: Session, machines):
         "status": "ok",
         "total": len(user_machines),
     }
-
-def get_machine_status(db: Session, machineQrCode: str):
-    db_machine = db.query(models.Machine).filter(models.Machine.machineQrCode == machineQrCode).first()
-    if db_machine:
-        return {
-            "machineQrCode": db_machine.machineQrCode,
-            "machineStatus": db_machine.machineStatus,
-            "productNo": db_machine.barcodeProductionNo
-        }
-    else:
-        return {
-            "machineQrCode": "Invalid",
-            "machineStatus": "Invalid",
-            "productNo": 0
-        }
-    
-def get_productionnumber(db2: Session, bauf: str):
-    # int 80735001
-    # int 811471001
-    # bauf_aufnr = 811471
-    # bauf_posnr = 001
-
-
-    if len(bauf) != 9:
-        return {
-            "Partnumber": '0',
-            "Partname": '0'
-        }
-    
-    bauf_aufnr = str(bauf)[:6]
-    bauf_posnr = str(bauf)[6:]
-
-    # show last 3 
-    raw = db2.query(models.Bauf).first()
-    print('-------------------')
-    print(raw)
-    print(raw['bauf_artnr'])
-    print(raw['bauf_artbez'])
-    print('-------------------')
-    
-    db_bauf = db2.query(models.Bauf).filter(models.Bauf.bauf_artnr == bauf_aufnr).filter(models.Bauf.bauf_artbez == bauf_posnr).first()
-    if db_bauf:
-        return {
-            "Partnumber": db_bauf.bauf_artnr,
-            "Partname": db_bauf.bauf_artbez
-        }
-    else:
-        return {
-            "Partnumber": '0',
-            "Partname": '0'
-        }
