@@ -47,45 +47,49 @@ async def validation_exception_handler(request, exc):
 def check_token(token: schemas.Token, db: Session = Depends(get_db)):
     return crud.check_token(db=db, token=token)
 
-@app.get("/api/productionnumber/{bauf}", response_model=schemas.ProductionNumberBase)
-def check_productionnumber(bauf: str):
-    if len(bauf) != 9:
-        return {
-            "Partnumber": '0',
-            "Partname": '0'
-        }
+# @app.get("/api/productionnumber/{bauf}", response_model=schemas.ProductionNumberBase)
+# def check_productionnumber(bauf: str):
+#     if len(bauf) != 9:
+#         return {
+#             "Partnumber": '0',
+#             "Partname": '0'
+#         }
     
-    bauf_aufnr = str(bauf)[:6]
-    bauf_posnr = str(bauf)[6:]
+#     bauf_aufnr = str(bauf)[:6]
+#     bauf_posnr = str(bauf)[6:]
     
-    conn2 = mysql.connector.connect(
-        host=config["DB_HOST"],
-        user=config["DB_USERNAME"],
-        password=config["DB_PASSWORD"],
-        database="alfaplus"
-    )
-    cursor2 = conn2.cursor()
-    cursor2.execute(f"SELECT bauf.bauf_artnr AS Partnumber, bauf.bauf_artbez AS Partname FROM bauf WHERE bauf.bauf_aufnr = '{bauf_aufnr}' AND bauf.bauf_posnr = '{bauf_posnr}' LIMIT 1;")
+#     conn2 = mysql.connector.connect(
+#         host=config["DB_HOST"],
+#         user=config["DB_USERNAME"],
+#         password=config["DB_PASSWORD"],
+#         database="alfaplus"
+#     )
+#     cursor2 = conn2.cursor()
+#     cursor2.execute(f"SELECT bauf.bauf_artnr AS Partnumber, bauf.bauf_artbez AS Partname FROM bauf WHERE bauf.bauf_aufnr = '{bauf_aufnr}' AND bauf.bauf_posnr = '{bauf_posnr}' LIMIT 1;")
 
-    rows = cursor2.fetchall()
-    cursor2.close()
-    conn2.close()
+#     rows = cursor2.fetchall()
+#     cursor2.close()
+#     conn2.close()
 
-    if len(rows) == 0:
-        return {
-            "Partnumber": '0',
-            "Partname": '0'
-        }
+#     if len(rows) == 0:
+#         return {
+#             "Partnumber": '0',
+#             "Partname": '0'
+#         }
     
-    return {
-        "Partnumber": rows[0][0],
-        "Partname": rows[0][1]
-    }
+#     return {
+#         "Partnumber": rows[0][0],
+#         "Partname": rows[0][1]
+#     }
 
-@app.post("/api/machines", response_model=schemas.MachineBase)
+@app.post("/api/machines")
 def create_machines(machines: schemas.MachineBase, db: Session = Depends(get_db)):
     return crud.create_machines(db=db, machines=machines)
 
-@app.get("/api/machines/{machine_id}/status", response_model=schemas.MachineStatusBase)
-def check_machine_status(machine_id: str, db: Session = Depends(get_db)):
-    return crud.get_machine_status(db=db, machineQrCode=machine_id)
+@app.get("/api/status/{user_token}")
+def get_status(user_token: str, db: Session = Depends(get_db)):
+    return crud.get_status(db=db, user_token=user_token)
+
+# @app.get("/api/machines/{machine_id}/status", response_model=schemas.MachineStatusBase)
+# def check_machine_status(machine_id: str, db: Session = Depends(get_db)):
+#     return crud.get_machine_status(db=db, machineQrCode=machine_id)

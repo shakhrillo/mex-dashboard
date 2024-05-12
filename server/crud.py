@@ -1,6 +1,33 @@
+from datetime import datetime, time, timedelta
 from sqlalchemy.orm import Session
 
 from . import models,schemas
+
+def is_end_of_month():
+    today = datetime.now()
+    last_day_of_month = today.replace(day=1) + timedelta(days=32 - today.day)
+    return today == last_day_of_month and today.weekday() < 5
+
+def check_shift(time):
+    # Define the shifts
+    shifts = {
+        "F1": ("06:00", "14:30"),
+        "S2": ("14:00", "22:30"),
+        "N3": ("22:00", "06:30")
+    }
+
+    # Convert time strings to datetime objects for easier comparison
+    time_obj = datetime.strptime(time, "%H:%M")
+
+    # Check which shift the time falls into
+    for shift, (start, end) in shifts.items():
+        start_obj = datetime.strptime(start, "%H:%M")
+        end_obj = datetime.strptime(end, "%H:%M")
+
+        if start_obj <= time_obj < end_obj or (start_obj > end_obj and (time_obj >= start_obj or time_obj < end_obj)):
+            return shift
+
+    return None
 
 def check_token(db: Session, token: schemas.Token):
     db_token = db.query(models.User).filter(models.User.token == token.token).first()
@@ -17,12 +44,94 @@ def check_token(db: Session, token: schemas.Token):
             "token": "Invalid"
         }
 
-def create_machines(db: Session, machines: schemas.MachineBase):
-    db_machine = models.Machine(**machines.dict())
-    db.add(db_machine)
+def get_status(db: Session, user_token: str):
+    # shift time
+    shift = check_shift(datetime.now().strftime("%H:%M"))
+    # get user machines
+    user_machines = db.query(models.MachineData).filter(models.MachineData.token == user_token).group_by(models.MachineData.shift)
+    # get today's data
+    user_machines = user_machines.filter(models.MachineData.createdAt.like(f"{datetime.now().strftime('%Y-%m-%d')}%"))
+    # get shift data
+    user_machines = user_machines.filter(models.MachineData.shift == shift)
+    user_machines = user_machines.all()
+    
+    if len(user_machines) == 0:
+        return {
+            "status": "Invalid",
+            "message": "Not found"
+        }
+    
+    return {
+        "status": "ok",
+        "message": user_machines
+    }
+
+
+def create_machines(db: Session, machines):
+    # check machine qr code exists
+    print(machines)
+
+    db_machine = db.query(models.Machine).filter(models.Machine.machineQrCode == machines.machineQrCode).first()
+
+    if db_machine is None:
+        d = dict({
+            "machineQrCode": machines.machineQrCode        
+        })
+        db_machine = models.Machine(**d)
+        db.add(db_machine)
+        db.commit()
+        db.refresh(db_machine)
+
+    # check user token
+    db_token = db.query(models.User).filter(models.User.token == machines.token).first()
+    if db_token is None:
+        return {
+            "status": "Invalid",
+            "message": "Token not found"
+        }
+
+    # date and time format with python
+    createdAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    md = dict({
+        "machineQrCode": machines.machineQrCode,
+        "token": machines.token,
+
+        "shift": check_shift(datetime.now().strftime("%H:%M")),
+        "createdAt": createdAt,
+        
+        "toolMounted": machines.toolMounted,
+        "machineStopped": machines.machineStopped,
+
+        "machineStatus": machines.machineStatus
+    })
+
+    if md["toolMounted"] == True:
+        md["machineStopped"] = True
+
+    if md["machineStopped"] == False:
+        md["barcodeProductionNo"] = machines.barcodeProductionNo
+        md["cavity"] = machines.cavity
+        md["cycleTime"] = machines.cycleTime
+        md["note"] = machines.note
+        md["toolCleaning"] = machines.toolCleaning
+        md["remainingProductionTime"] = machines.remainingProductionTime
+        md["remainingProductionDays"] = machines.remainingProductionDays
+        md["operatingHours"] = machines.operatingHours
+
+    if is_end_of_month() and md["operatingHours"] == 0:
+        return {
+            "status": "Invalid",
+            "message": "Operating hours must be filled out at the end of the month"
+        }
+
+    model = models.MachineData(**md)
+    db.add(model)
     db.commit()
-    db.refresh(db_machine)
-    return machines
+    db.refresh(model)
+
+    return {
+        "status": "ok"
+    }
 
 def get_machine_status(db: Session, machineQrCode: str):
     db_machine = db.query(models.Machine).filter(models.Machine.machineQrCode == machineQrCode).first()
