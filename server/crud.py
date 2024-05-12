@@ -43,6 +43,10 @@ def check_token(db: Session, token: schemas.Token):
             "surname": "Invalid",
             "token": "Invalid"
         }
+    
+def get_machines(db: Session, user_token: str):
+    user_machines = db.query(models.MachineData).filter(models.MachineData.token == user_token).all()
+    return user_machines
 
 def get_status(db: Session, user_token: str, machine_id: str):
     # shift time
