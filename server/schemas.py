@@ -17,8 +17,8 @@ class MachineBase(BaseModel):
     machineStopped: bool
     barcodeProductionNo: str
     cavity: int
-    cycleTime: int
-    partStatus: str
+    cycleTime: str
+    partStatus: bool
     pieceNumber: int
     note: str
     toolCleaning: str

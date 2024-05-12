@@ -110,6 +110,8 @@ def create_machines(db: Session, machines):
         md["barcodeProductionNo"] = machines.barcodeProductionNo
         md["cavity"] = machines.cavity
         md["cycleTime"] = machines.cycleTime
+        md["partStatus"] = machines.partStatus
+        md["pieceNumber"] = machines.pieceNumber
         md["note"] = machines.note
         md["toolCleaning"] = machines.toolCleaning
         md["remainingProductionTime"] = machines.remainingProductionTime
