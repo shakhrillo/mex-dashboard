@@ -29,6 +29,46 @@ def check_shift(time):
 
     return None
 
+def start_machine(db: Session, user_token: str):
+    today = datetime.now().strftime("%Y-%m-%d")
+    db_machine = db.query(models.StartMachine).filter(models.StartMachine.token == user_token).order_by(models.StartMachine.id.desc())
+    db_machine = db_machine.filter(models.StartMachine.start_time.like(f"{today}%")).first()
+    if db_machine:
+        return {
+            "status": "Invalid",
+            "message": "Machine already started"
+        }
+    start_time = datetime.now().strftime("%Y-%m-%d %H:%M")
+    d = dict({
+        "token": user_token,
+        "start_time": start_time,
+        "shift": check_shift(datetime.now().strftime("%H:%M"))
+    })
+    model = models.StartMachine(**d)
+    db.add(model)
+    db.commit()
+    db.refresh(model)
+    return {
+        "status": "ok"
+    }
+
+def stop_machine(db: Session, user_token: str):
+    end_time = datetime.now().strftime("%Y-%m-%d %H:%M")
+    db_machine = db.query(models.StartMachine).filter(models.StartMachine.token == user_token).order_by(models.StartMachine.id.desc()).first()
+    if db_machine:
+        db_machine.end_time = end_time
+        db.commit()
+        db.refresh(db_machine)
+        return {
+            "status": "ok"
+        }
+    else:
+        return {
+            "status": "Invalid",
+            "message": "Start time not found"
+        }
+
+
 def check_token(db: Session, token: schemas.Token):
     db_token = db.query(models.User).filter(models.User.token == token.token).first()
     if db_token:

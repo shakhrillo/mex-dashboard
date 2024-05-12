@@ -3,6 +3,17 @@ from sqlalchemy.orm import relationship
 
 from .database import Base
 
+class StartMachine(Base):
+    __tablename__ = "workflow"
+
+    id = Column(Integer, primary_key=True, index=True)
+    token = Column(ForeignKey("users.token"), index=True)
+    start_time = Column(String(255), index=True)
+    end_time = Column(String(255), index=True)
+    shift = Column(String(255), index=True)
+
+    user = relationship("User", back_populates="workflow")
+
 class User(Base):
     __tablename__ = "users"
 
@@ -12,6 +23,7 @@ class User(Base):
     token = Column(String(255), index=True)
 
     machines = relationship("MachineData", back_populates="user")
+    workflow = relationship("StartMachine", back_populates="user")
 
 class Machine(Base):
     __tablename__ = "machines"
