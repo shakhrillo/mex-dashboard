@@ -25,4 +25,3 @@ class MachineBase(BaseModel):
     remainingProductionTime: int
     remainingProductionDays: int
     operatingHours: int
-    machineStatus: str

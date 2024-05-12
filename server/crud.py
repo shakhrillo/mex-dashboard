@@ -100,9 +100,7 @@ def create_machines(db: Session, machines):
         "createdAt": createdAt,
         
         "toolMounted": machines.toolMounted,
-        "machineStopped": machines.machineStopped,
-
-        "machineStatus": machines.machineStatus
+        "machineStopped": machines.machineStopped
     })
 
     if md["toolMounted"] == True:
