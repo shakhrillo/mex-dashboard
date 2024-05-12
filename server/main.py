@@ -46,6 +46,10 @@ async def validation_exception_handler(request, exc):
 def check_token(token: schemas.Token, db: Session = Depends(get_db)):
     return crud.check_token(db=db, token=token)
 
+@app.post("/api/comments/")
+def create_comment(comment: schemas.Comment, db: Session = Depends(get_db)):
+    return crud.create_comment(db=db, comment=comment)
+
 @app.get("/api/machines/{user_token}/start")
 def start_machine(user_token: str, db: Session = Depends(get_db)):
     return crud.start_machine(db=db, user_token=user_token)

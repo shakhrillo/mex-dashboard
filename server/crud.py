@@ -29,6 +29,20 @@ def check_shift(time):
 
     return None
 
+def create_comment(db: Session, comment: schemas.Comment):
+    d = dict({
+        "comment": comment.comment,
+        "preparation_shift": comment.preparation_shift,
+        "date": datetime.now().strftime("%Y-%m-%d"),
+        "token": comment.token,
+        "shift": check_shift(datetime.now().strftime("%H:%M"))
+    })
+    model = models.Comment(**d)
+    db.add(model)
+    db.commit()
+    db.refresh(model)
+    return model
+
 def start_machine(db: Session, user_token: str):
     today = datetime.now().strftime("%Y-%m-%d")
     db_machine = db.query(models.StartMachine).filter(models.StartMachine.token == user_token).order_by(models.StartMachine.id.desc())

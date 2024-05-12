@@ -1,5 +1,10 @@
 from pydantic import BaseModel
 
+class Comment(BaseModel):
+    comment: str
+    preparation_shift: str
+    token: str
+
 class UserBase(BaseModel):
     name: str
     surname: str

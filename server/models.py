@@ -3,6 +3,19 @@ from sqlalchemy.orm import relationship
 
 from .database import Base
 
+class Comment(Base):
+    __tablename__ = "comments"
+
+    id = Column(Integer, primary_key=True, index=True)
+    
+    comment = Column(String(255), index=True)
+    preparation_shift = Column(String(255), index=True)
+    date = Column(String(255), index=True)
+    token = Column(ForeignKey("users.token"), index=True)
+    shift = Column(String(255), index=True)
+
+    user = relationship("User", back_populates="comments")
+
 class StartMachine(Base):
     __tablename__ = "workflow"
 
@@ -24,6 +37,7 @@ class User(Base):
 
     machines = relationship("MachineData", back_populates="user")
     workflow = relationship("StartMachine", back_populates="user")
+    comments = relationship("Comment", back_populates="user")
 
 class Machine(Base):
     __tablename__ = "machines"
