@@ -114,9 +114,6 @@ def get_status(db: Session, user_token: str, machine_id: str):
 
 
 def create_machines(db: Session, machines):
-    # check machine qr code exists
-    print(machines)
-
     db_machine = db.query(models.Machine).filter(models.Machine.machineQrCode == machines.machineQrCode).first()
 
     if db_machine is None:
@@ -175,8 +172,17 @@ def create_machines(db: Session, machines):
     db.commit()
     db.refresh(model)
 
+    # get user machines data
+    shift = check_shift(datetime.now().strftime("%H:%M"))
+    user_machines = db.query(models.MachineData).filter(models.MachineData.token == machines.token)
+    user_machines = user_machines.filter(models.MachineData.createdAt.like(f"{datetime.now().strftime('%Y-%m-%d')}%"))
+    user_machines = user_machines.filter(models.MachineData.shift == shift)
+    user_machines = user_machines.group_by(models.MachineData.machineQrCode)
+    user_machines = user_machines.all()
+
     return {
-        "status": "ok"
+        "status": "ok",
+        "total": len(user_machines),
     }
 
 def get_machine_status(db: Session, machineQrCode: str):
