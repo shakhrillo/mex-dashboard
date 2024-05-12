@@ -44,7 +44,7 @@ def check_token(db: Session, token: schemas.Token):
             "token": "Invalid"
         }
 
-def get_status(db: Session, user_token: str):
+def get_status(db: Session, user_token: str, machine_id: str):
     # shift time
     shift = check_shift(datetime.now().strftime("%H:%M"))
     # get user machines
@@ -53,6 +53,8 @@ def get_status(db: Session, user_token: str):
     user_machines = user_machines.filter(models.MachineData.createdAt.like(f"{datetime.now().strftime('%Y-%m-%d')}%"))
     # get shift data
     user_machines = user_machines.filter(models.MachineData.shift == shift)
+    # get machine data
+    user_machines = user_machines.filter(models.MachineData.machineQrCode == machine_id)
     user_machines = user_machines.all()
     
     if len(user_machines) == 0:

@@ -86,9 +86,9 @@ def check_token(token: schemas.Token, db: Session = Depends(get_db)):
 def create_machines(machines: schemas.MachineBase, db: Session = Depends(get_db)):
     return crud.create_machines(db=db, machines=machines)
 
-@app.get("/api/status/{user_token}")
-def get_status(user_token: str, db: Session = Depends(get_db)):
-    return crud.get_status(db=db, user_token=user_token)
+@app.get("/api/status/{user_token}/{machine_id}")
+def get_status(user_token: str, machine_id: str, db: Session = Depends(get_db)):
+    return crud.get_status(db=db, user_token=user_token, machine_id=machine_id)
 
 # @app.get("/api/machines/{machine_id}/status", response_model=schemas.MachineStatusBase)
 # def check_machine_status(machine_id: str, db: Session = Depends(get_db)):
