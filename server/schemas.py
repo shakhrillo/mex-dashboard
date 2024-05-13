@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 class Comment(BaseModel):
     comment: str
-    preparation_shift: str
+    preparation_shift: bool
     token: str
 
 class UserBase(BaseModel):
