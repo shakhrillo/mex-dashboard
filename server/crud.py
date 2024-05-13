@@ -98,7 +98,7 @@ def check_token(db: Session, token: schemas.Token):
             "token": "Invalid"
         }
     
-def get_machines(db: Session, db2: Session, user_token: str):
+def get_machines(db: Session, user_token: str):
     user_machines = db.query(models.MachineData).filter(models.MachineData.token == user_token).all()
 
     conn2 = mysql.connector.connect(
