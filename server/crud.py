@@ -47,19 +47,17 @@ def create_comment(db: Session, comment: schemas.Comment):
     return model
 
 def start_machine(db: Session, user_token: str):
-    today = datetime.now().strftime("%Y-%m-%d")
-    db_machine = db.query(models.StartMachine).filter(models.StartMachine.token == user_token).order_by(models.StartMachine.id.desc())
-    db_machine = db_machine.filter(models.StartMachine.start_time.like(f"{today}%")).first()
-    if db_machine:
+    db_machine = db.query(models.StartMachine).filter(models.StartMachine.token == user_token).order_by(models.StartMachine.id.desc()).first()
+    
+    if db_machine and db_machine.start_time and not db_machine.end_time:
         return {
             "status": "Invalid",
             "message": "Machine already started"
         }
-    start_time = datetime.now().strftime("%Y-%m-%d %H:%M")
+    start_time = datetime.now()
     d = dict({
         "token": user_token,
-        "start_time": start_time,
-        "shift": check_shift(datetime.now().strftime("%H:%M"))
+        "start_time": start_time
     })
     model = models.StartMachine(**d)
     db.add(model)
@@ -70,7 +68,7 @@ def start_machine(db: Session, user_token: str):
     }
 
 def stop_machine(db: Session, user_token: str):
-    end_time = datetime.now().strftime("%Y-%m-%d %H:%M")
+    end_time = datetime.now()
     db_machine = db.query(models.StartMachine).filter(models.StartMachine.token == user_token).order_by(models.StartMachine.id.desc()).first()
     if db_machine:
         db_machine.end_time = end_time

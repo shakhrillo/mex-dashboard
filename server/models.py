@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -10,7 +10,7 @@ class Comment(Base):
     
     comment = Column(String(255), index=True)
     preparation_shift = Column(String(255), index=True)
-    date = Column(String(255), index=True)
+    date = Column(Date, index=True)
     token = Column(ForeignKey("users.token"), index=True)
     shift = Column(String(255), index=True)
 
@@ -21,9 +21,9 @@ class StartMachine(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     token = Column(ForeignKey("users.token"), index=True)
-    start_time = Column(String(255), index=True)
-    end_time = Column(String(255), index=True)
-    shift = Column(String(255), index=True)
+    start_time = Column(Date, index=True)
+    end_time = Column(Date, index=True)
+    # shift = Column(String(255), index=True)
 
     user = relationship("User", back_populates="workflow")
 
@@ -70,11 +70,3 @@ class MachineData(Base):
     remainingProductionDays = Column(Integer, index=True)
     operatingHours = Column(Integer, index=True)
     machineStatus = Column(String(255), index=True)
-
-# class Bauf(Base):
-#     __tablename__ = "bauf"
-#     id = Column(Integer, primary_key=True, index=True)
-#     bauf_artnr = Column(String(255), index=True)
-#     bauf_artbez = Column(String(255), index=True)
-#     bauf_aufnr = Column(String(255), index=True)
-#     bauf_posnr = Column(String(255), index=True)
