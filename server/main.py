@@ -70,7 +70,7 @@ def get_machines(machine_id: str, db: Session = Depends(get_db)):
 def get_status(user_token: str, machine_id: str, db: Session = Depends(get_db)):
     return crud.get_status(db=db, user_token=user_token, machine_id=machine_id)
 
-@app.get("/api/machines/{user_token}")
+@app.get("/api/all_machines/{user_token}")
 def get_all_machines(machine_id: str, db: Session = Depends(get_db)):
     return crud.get_all_machines(db=db, machine_id=machine_id)
 
