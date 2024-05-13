@@ -83,7 +83,6 @@ def stop_machine(db: Session, user_token: str):
             "message": "Start time not found"
         }
 
-
 def check_token(db: Session, token: schemas.Token):
     db_token = db.query(models.User).filter(models.User.token == token.token).first()
     if db_token:
@@ -127,6 +126,14 @@ def get_machines(db: Session, db2: Session, user_token: str):
     conn2.close()
 
     return user_machines
+
+def get_all_machines(db: Session, machine_id: str):
+    db_machines = db.query(models.MachineData).filter(models.MachineData.machineQrCode == machine_id)
+    # order by date
+    db_machines = db_machines.order_by(models.MachineData.createdAt.desc())
+    # get all data
+    db_machines = db_machines.all()
+    return db_machines
 
 def get_status(db: Session, user_token: str, machine_id: str):
     # shift time
