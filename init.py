@@ -17,8 +17,8 @@ cursor = conn.cursor()
 if config["DB_DEV"] == "True":
   init_user(cursor, conn)
   
-if config["DB_DEV"] == "True":
-  init_data(cursor, conn)
+# if config["DB_DEV"] == "True":
+#   init_data(cursor, conn)
 
 if config["DB_DEV"] == "True":
   cursor.close()

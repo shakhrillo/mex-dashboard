@@ -20,13 +20,13 @@ class MachineBase(BaseModel):
     machineQrCode: str
     toolMounted: bool
     machineStopped: bool
-    barcodeProductionNo: str
+    barcodeProductionNo: int
     cavity: int
     cycleTime: str
     partStatus: bool
     pieceNumber: int
     note: str
-    toolCleaning: str
+    toolCleaning: bool
     remainingProductionTime: int
     remainingProductionDays: int
-    operatingHours: int
+    operatingHours: str
