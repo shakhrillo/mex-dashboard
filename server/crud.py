@@ -186,8 +186,8 @@ def create_machines(db: Session, machines):
         "machineQrCode": machines.machineQrCode,
         "token": machines.token,
 
-        "shift": check_shift(machines.createdAt),
-        "createdAt": machines.createdAt,
+        "shift": check_shift(datetime.strptime(machines.createdAt, "%Y-%m-%d %H:%M:%S").strftime("%H:%M")),
+        "createdAt": datetime.strptime(machines.createdAt, "%Y-%m-%d %H:%M:%S"),
         
         "toolMounted": machines.toolMounted,
         "machineStopped": machines.machineStopped
