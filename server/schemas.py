@@ -1,3 +1,4 @@
+import datetime
 from pydantic import BaseModel
 
 class Comment(BaseModel):
@@ -16,7 +17,7 @@ class Token(BaseModel):
 class MachineBase(BaseModel):
     shift: str
     token: str
-    createdAt: str
+    createdAt: datetime
     machineQrCode: str
     toolMounted: bool
     machineStopped: bool
