@@ -182,6 +182,7 @@ def create_machines(db: Session, machines):
 
     # date and time format with python
     createdAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(createdAt)
     md = dict({
         "machineQrCode": machines.machineQrCode,
         "token": machines.token,
