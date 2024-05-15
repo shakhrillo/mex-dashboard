@@ -181,13 +181,13 @@ def create_machines(db: Session, machines):
         }
 
     # date and time format with python
-    # createdAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    createdAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     md = dict({
         "machineQrCode": machines.machineQrCode,
         "token": machines.token,
 
-        "shift": check_shift(datetime.strptime(machines.createdAt, "%Y-%m-%d %H:%M:%S").strftime("%H:%M")),
-        "createdAt": datetime.strptime(machines.createdAt, "%Y-%m-%d %H:%M:%S"),
+        "shift": check_shift(datetime.strptime(createdAt, "%Y-%m-%d %H:%M:%S").strftime("%H:%M")),
+        "createdAt": datetime.strptime(createdAt, "%Y-%m-%d %H:%M:%S"),
         
         "toolMounted": machines.toolMounted,
         "machineStopped": machines.machineStopped
