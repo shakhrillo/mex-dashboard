@@ -1,12 +1,18 @@
 import './App.css';
-import { Body } from './sections/body';
-import { Header } from './sections/header';
+import Table from './components/table';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <Body />
+    <div className='App'>
+      {/* header with box shadow */}
+      <header className='App-header'>
+        <h4>logo</h4>
+      </header>
+      {/* table component */}
+      {/* table wrapper */}
+      <div className='tab-wrapper'>
+        <Table />
+      </div>
     </div>
   );
 }
