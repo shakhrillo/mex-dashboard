@@ -1,18 +1,31 @@
-import './App.css';
-import Table from './components/table';
+import { BoxArrowRight, Person } from "react-bootstrap-icons";
+import "./App.css";
+import LastFiveDaysTimeline from "./components/calendar-table";
+import Table from "./components/table";
 
 function App() {
   return (
-    <div className='App'>
+    <div className="App">
       {/* header with box shadow */}
-      <header className='App-header'>
-        <h4>logo</h4>
+      <header className="App-header">
+        <nav>
+          <h4>Schichtbuch</h4>
+          {/* <div className="user-info"> */}
+          {/* <span>
+              <Person size={18} />
+              <h4>User</h4>
+            </span>
+            <BoxArrowRight color="#cc0000" size={24} /> */}
+          {/* </div> */}
+        </nav>
       </header>
       {/* table component */}
       {/* table wrapper */}
-      <div className='tab-wrapper'>
+      <div className="tab-wrapper">
         <Table />
       </div>
+
+      {/* <LastFiveDaysTimeline /> */}
     </div>
   );
 }

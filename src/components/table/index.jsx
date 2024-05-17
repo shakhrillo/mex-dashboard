@@ -7,6 +7,7 @@ const Table = ({ columns, data }) => {
   const rightRef = useRef(null);
   const leftRef = useRef(null);
   const headerRef = useRef(null);
+  const [width, setWidth] = useState(null);
   // last five weekdays state
   const [lastFiveWeekdays, setLastFiveWeekdays] = useState([]);
   const [machinesData, setMachinesData] = useState([]);
@@ -20,7 +21,7 @@ const Table = ({ columns, data }) => {
   // get the year
   const year = today.getFullYear();
 
-  const getDivScrollPosition = () => {
+  const setRightScroll = () => {
     if (rightRef.current) {
       const scrollPosition = rightRef.current.scrollTop;
       const scrolRight = rightRef.current.scrollLeft;
@@ -29,19 +30,62 @@ const Table = ({ columns, data }) => {
     }
   };
 
+  const setLeftScroll = () => {
+    if (leftRef.current) {
+      const scrollPosition = leftRef.current.scrollTop;
+      rightRef.current.scrollTop = scrollPosition;
+    }
+  };
+
+  const setHeaderScroll = () => {
+    if (headerRef.current) {
+      const scrolRight = headerRef.current.scrollLeft;
+      rightRef.current.scrollLeft = scrolRight;
+    }
+  };
+
+  function calculateDaysBetweenDates(date1, date2) {
+    // Convert both dates to milliseconds
+    // const date1_ms = date1.getTime();
+    // const date2_ms = date2.getTime();
+
+    const date1_ms = new Date(date1);
+    const date2_ms = new Date(date2);
+
+    date1_ms.setHours(0, 0, 0, 0);
+    date2_ms.setHours(0, 0, 0, 0);
+
+    console.log("date1:", date1);
+    console.log("date2:", date2);
+
+    console.log("date1_ms:", date1_ms);
+    console.log("date2_ms:", date2_ms);
+
+    // Calculate the difference in milliseconds
+    const difference_ms = Math.abs(date2_ms - date1_ms);
+
+    // Convert the difference back to days
+    const difference_days = Math.ceil(difference_ms / (1000 * 60 * 60 * 24));
+
+    console.log("difference_days:", difference_days);
+
+    if (difference_days > 4) {
+      return difference_days - 2;
+    }
+    return difference_days;
+  }
+
   // useEffect hook
   useEffect(() => {
     const getLastFiveWeekdays = () => {
       const weekdays = [];
       let currentDate = new Date();
-      currentDate.setDate(currentDate.getDate() - 1);
       let daysToSubtract = 0;
 
       // Loop until we have collected five weekdays
       while (weekdays.length < 5) {
         // Subtract days one by one
         currentDate = new Date();
-        currentDate.setDate(currentDate.getDate() - 1);
         currentDate.setDate(currentDate.getDate() - daysToSubtract);
 
         // Check if the current day is not Saturday or Sunday
@@ -77,7 +121,7 @@ const Table = ({ columns, data }) => {
 
           const data = await response.json();
           let machineInfo = [];
-          let width = 35;
+          let width = 70;
 
           for (let i = 0; i < data.length; i++) {
             const current = data[i];
@@ -85,9 +129,12 @@ const Table = ({ columns, data }) => {
 
             if (!current.toolMounted && !current.machineStopped) {
               if (next && !next.toolMounted && !next.machineStopped) {
-                width += 35;
+                width += 70;
               } else {
                 machineInfo.push({
+                  barcodeProductionNo: current.barcodeProductionNo,
+                  createdAt: current.createdAt,
+                  shift: current.shift,
                   machine,
                   width,
                   status: "success",
@@ -95,9 +142,12 @@ const Table = ({ columns, data }) => {
               }
             } else if (!current.toolMounted && current.machineStopped) {
               if (next && !next.toolMounted && next.machineStopped) {
-                width += 35;
+                width += 70;
               } else {
                 machineInfo.push({
+                  barcodeProductionNo: current.barcodeProductionNo,
+                  createdAt: current.createdAt,
+                  shift: current.shift,
                   machine,
                   width,
                   status: "danger",
@@ -105,9 +155,12 @@ const Table = ({ columns, data }) => {
               }
             } else if (current.toolMounted && !current.machineStopped) {
               if (next && next.toolMounted && !next.machineStopped) {
-                width += 35;
+                width += 70;
               } else {
                 machineInfo.push({
+                  barcodeProductionNo: current.barcodeProductionNo,
+                  createdAt: current.createdAt,
+                  shift: current.shift,
                   machine,
                   width,
                   status: "transparent",
@@ -126,11 +179,32 @@ const Table = ({ columns, data }) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    function handleResize() {
+      if (rightRef.current) {
+        const elementWidth = rightRef.current.getBoundingClientRect().width;
+        headerRef.current.style.width = `${elementWidth}px`;
+        setWidth(elementWidth);
+      }
+    }
+
+    // Initial width calculation
+    handleResize();
+
+    // Attach resize event listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup function to remove event listener
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   console.log("machines data:", machinesData);
   return (
     <div className="tab">
       {/* left side */}
-      <div ref={leftRef} className="tab-left">
+      <div ref={leftRef} onScroll={setLeftScroll} className="tab-left">
         {/* header of the table */}
         <div className="side-header">
           <div className="tab-header-today">
@@ -173,11 +247,8 @@ const Table = ({ columns, data }) => {
         ))}
       </div>
       {/* right side */}
-      <div
-        ref={rightRef}
-        onScroll={getDivScrollPosition}
-        className="right-side">
-        <div ref={headerRef} className="side-header">
+      <div ref={rightRef} onScroll={setRightScroll} className="right-side">
+        <div ref={headerRef} onScroll={setHeaderScroll} className="side-header">
           <div className="right-side-days">
             <div className="right-side-days-wrapper">
               {lastFiveWeekdays.map((day, index) => (
@@ -216,33 +287,60 @@ const Table = ({ columns, data }) => {
           </div>
         </div>
         <div style={{ height: 75.5 }}></div>
+        {/*  */}
         {machinesData.map((machine, index) => (
-          <div className="squars">
+          <div key={index} className="squars">
             <div className="squars-line">
-              <div style={{ width: 52.5 }}></div>
-              {machine.map((item, key) => (
-                <Popover
-                  content={
-                    <div>
-                      <p>{item["machine"]}</p>
+              {machine.map((item, key) => {
+                return (
+                  <Popover
+                    content={
+                      <div className="popover-content">
+                        <p>
+                          <span>Part No: </span>
+                          {item["barcodeProductionNo"]}
+                        </p>
+                        <p>
+                          <span>Part Name: </span>
+                          part name
+                        </p>
+                        <p>
+                          <span>Date and Time: </span>
+                          {item["createdAt"]}
+                        </p>
+                      </div>
+                    }
+                    key={key}>
+                    <div
+                      style={{
+                        left:
+                          calculateDaysBetweenDates(
+                            new Date(item["createdAt"]),
+                            today
+                          ) *
+                            210 +
+                          (item["shift"] === "F1"
+                            ? 53.5
+                            : item["shift"] === "S2"
+                            ? 122.5
+                            : 192.5),
+                        width: item["width"],
+                        backgroundColor:
+                          item["status"] === "success"
+                            ? "#5cb85c"
+                            : item["status"] === "danger"
+                            ? "#cc0000"
+                            : "#fff",
+                      }}
+                      className="status">
+                      <span>
+                        {item["barcodeProductionNo"]}/{item["shift"]}/
+                        {item["createdAt"]}
+                      </span>
                     </div>
-                  }
-                  key={key}>
-                  <div
-                    style={{
-                      width: item["width"],
-                      backgroundColor:
-                        item["status"] == "success"
-                          ? "#5cb85c"
-                          : item["status"] == "danger"
-                          ? "#cc0000"
-                          : "#fff",
-                    }}
-                    className="status">
-                    <span>{item["machine"]}</span>
-                  </div>
-                </Popover>
-              ))}
+                  </Popover>
+                );
+              })}
             </div>
             {[...Array(30)].map((_, index) => (
               <div className="squar" key={index}></div>
