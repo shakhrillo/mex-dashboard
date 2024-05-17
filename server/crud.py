@@ -225,7 +225,8 @@ def create_machines(db: Session, machines):
     user_machines = db.query(models.MachineData).filter(models.MachineData.token == machines.token)
     user_machines = user_machines.filter(models.MachineData.createdAt.like(f"{datetime.now().strftime('%Y-%m-%d')}%"))
     user_machines = user_machines.filter(models.MachineData.shift == shift)
-    user_machines = user_machines.group_by(models.MachineData.machineQrCode)
+    # user_machines = user_machines.group_by(models.MachineData.machineQrCode)
+    
     user_machines = user_machines.all()
 
     return {
