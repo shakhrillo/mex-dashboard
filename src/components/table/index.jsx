@@ -32,15 +32,15 @@ const Table = ({ columns, data }) => {
 
   const setLeftScroll = () => {
     if (leftRef.current) {
-      const scrollPosition = leftRef.current.scrollTop;
-      rightRef.current.scrollTop = scrollPosition;
+      const scrollPosition = leftRef.current.scrollTop - 1;
+      rightRef.current.scrollTop = scrollPosition + 1;
     }
   };
 
   const setHeaderScroll = () => {
     if (headerRef.current) {
-      const scrolRight = headerRef.current.scrollLeft;
-      rightRef.current.scrollLeft = scrolRight;
+      const scrolRight = headerRef.current.scrollLeft - 1;
+      rightRef.current.scrollLeft = scrolRight + 1;
     }
   };
 
@@ -93,7 +93,7 @@ const Table = ({ columns, data }) => {
           weekdays.push(new Date(currentDate));
         }
 
-        daysToSubtract++; // Move to the previous day
+        daysToSubtract--; // Move to the previous day
       }
 
       return weekdays;
@@ -111,7 +111,8 @@ const Table = ({ columns, data }) => {
           };
 
           const response = await fetch(
-            `http://192.168.100.23:7878/api/all_machines/${machine}`,
+            `http://34.31.212.138/api/all_machines/${machine}`,
+            // `http://192.168.100.23:7878/api/all_machines/${machine}`,
             requestOptions
           );
 
@@ -120,13 +121,12 @@ const Table = ({ columns, data }) => {
           }
 
           const data = await response.json();
+          console.log("data:", data);
           let machineInfo = [];
-          let width = 70;
-
+          let width = 0;
           for (let i = 0; i < data.length; i++) {
             const current = data[i];
             const next = data[i + 1];
-
             if (!current.toolMounted && !current.machineStopped) {
               if (next && !next.toolMounted && !next.machineStopped) {
                 width += 70;
@@ -136,7 +136,7 @@ const Table = ({ columns, data }) => {
                   createdAt: current.createdAt,
                   shift: current.shift,
                   machine,
-                  width,
+                  width: (current.remainingProductionTime / 60) * 8.75,
                   status: "success",
                 });
               }
@@ -222,17 +222,17 @@ const Table = ({ columns, data }) => {
           </div>
           <div className="side-title header-tile">
             <div className="side-title-item">
-              <h3>Machine</h3>
+              <h3>Maschine</h3>
             </div>
             <div className="side-title-item">
               <h3>Status</h3>
             </div>
             <div className="side-title-item">
-              <h3>Product No</h3>
+              <h3>Production Nr</h3>
             </div>
           </div>
         </div>
-        <div style={{ height: 75.5 }}></div>
+        <div style={{ height: 66.5 }}></div>
         {/* data */}
         {machines.map((machine, index) => (
           <div key={index} className="side-title">
@@ -286,9 +286,10 @@ const Table = ({ columns, data }) => {
             ))}
           </div>
         </div>
-        <div style={{ height: 75.5 }}></div>
+        <div style={{ height: 66.5 }}></div>
         {/*  */}
         {machinesData.map((machine, index) => (
+          // {[...Array(18)].map((machine, index) => (
           <div key={index} className="squars">
             <div className="squars-line">
               {machine.map((item, key) => {
@@ -313,17 +314,17 @@ const Table = ({ columns, data }) => {
                     key={key}>
                     <div
                       style={{
-                        left:
-                          calculateDaysBetweenDates(
-                            new Date(item["createdAt"]),
-                            today
-                          ) *
-                            210 +
-                          (item["shift"] === "F1"
-                            ? 53.5
-                            : item["shift"] === "S2"
-                            ? 122.5
-                            : 192.5),
+                        left: 0,
+                        // calculateDaysBetweenDates(
+                        //   new Date(item["createdAt"]),
+                        //   today
+                        // ) *
+                        //   210 +
+                        // (item["shift"] === "F1"
+                        //   ? 53.5
+                        //   : item["shift"] === "S2"
+                        //   ? 122.5
+                        //   : 192.5),
                         width: item["width"],
                         backgroundColor:
                           item["status"] === "success"
