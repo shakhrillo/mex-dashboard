@@ -9,7 +9,8 @@ function App() {
       {/* header with box shadow */}
       <header className="App-header">
         <nav>
-          <h4>Schichtbuch</h4>
+          <h4>KTBU Maschinen <br />
+            Dashboard</h4>
           {/* <div className="user-info"> */}
           {/* <span>
               <Person size={18} />
