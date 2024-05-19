@@ -105,6 +105,12 @@ def get_machine_status(db: Session, machine_id: str):
     # get all data
     db_machine = db_machines.first()
 
+    if db_machine is None:
+        return {
+            "status": "Invalid",
+            "message": "Not found"
+        }
+
     # Get part number and part name
     conn2 = mysql.connector.connect(
         host=config["DB_HOST"],
