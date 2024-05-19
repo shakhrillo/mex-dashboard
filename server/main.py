@@ -81,6 +81,18 @@ def check_productionnumber(bauf: str):
             "Partnumber": '0',
             "Partname": '0'
         }
+    # CREATE TABLE bauf (
+    #     bauf_aufnr VARCHAR(6),
+    #     bauf_posnr VARCHAR(3),
+    #     bauf_artnr VARCHAR(3),
+    #     bauf_artbez VARCHAR(50)
+    # );
+    # INSERT INTO bauf (bauf_aufnr, bauf_posnr, bauf_artnr, bauf_artbez) VALUES
+    # ('811202', '001', '001', 'Part 1 Name'),
+    # ('765432', '001', '002', 'Part 2 Name'),
+    # ('123456', '001', '003', 'Part 3 Name'),
+    # ('123456', '002', '004', 'Part 4 Name');
+
     
     bauf_aufnr = str(bauf)[:6]
     bauf_posnr = str(bauf)[6:]

@@ -119,8 +119,8 @@ def get_machines(db: Session, user_token: str):
                 "Partnumber": '0',
                 "Partname": '0'
             }
-        user_machines[i].partnumber = productionnumber["Partnumber"]
-        user_machines[i].partname = productionnumber["Partname"]
+        user_machines[i].partnumber = productionnumber[0][0]
+        user_machines[i].partname = productionnumber[0][1]
 
     cursor2.close()
     conn2.close()
