@@ -115,10 +115,7 @@ def get_machines(db: Session, user_token: str):
         cursor2.execute(f"SELECT bauf.bauf_artnr AS Partnumber, bauf.bauf_artbez AS Partname FROM bauf WHERE bauf.bauf_aufnr = '{bauf_aufnr}' AND bauf.bauf_posnr = '{bauf_posnr}' LIMIT 1;")
         productionnumber = cursor2.fetchall()
         if len(productionnumber) == 0:
-            productionnumber = {
-                "Partnumber": '0',
-                "Partname": '0'
-            }
+            productionnumber = [('0', '0')]
         user_machines[i].partnumber = productionnumber[0][0]
         user_machines[i].partname = productionnumber[0][1]
 
