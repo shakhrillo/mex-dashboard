@@ -62,6 +62,10 @@ def stop_machine(user_token: str, db: Session = Depends(get_db)):
 def create_machines(machines: schemas.MachineBase, db: Session = Depends(get_db)):
     return crud.create_machines(db=db, machines=machines)
 
+@app.get("/api/machine/status/{machine_id}")
+def get_machine_status(machine_id: str, db: Session = Depends(get_db)):
+    return crud.get_machine_status(db=db, machine_id=machine_id)
+
 @app.get("/api/machines/{user_token}")
 def get_machines(user_token: str, db: Session = Depends(get_db)):
     return crud.get_machines(db=db, user_token=user_token)
