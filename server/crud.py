@@ -98,6 +98,44 @@ def check_token(db: Session, token: schemas.Token):
             "token": "Invalid"
         }
     
+def get_machine_status(db: Session, machine_id: str):
+    db_machines = db.query(models.MachineData).filter(models.MachineData.machineQrCode == machine_id)
+    # order by remainingProductionTime and remainingProductionDays
+    db_machines = db_machines.order_by(models.MachineData.remainingProductionTime.desc(), models.MachineData.remainingProductionDays.desc())
+    # get all data
+    db_machine = db_machines.first()
+
+    if db_machine is None:
+        return {
+            "status": "Invalid",
+            "message": "Not found"
+        }
+
+    # Get part number and part name
+    conn2 = mysql.connector.connect(
+        host=config["DB_HOST"],
+        user=config["DB_USERNAME"],
+        password=config["DB_PASSWORD"],
+        database="alfaplus"
+    )
+    cursor2 = conn2.cursor()
+
+    bauf_aufnr = str(db_machine.barcodeProductionNo)[:6]
+    bauf_posnr = str(db_machine.barcodeProductionNo)[6:]
+
+    cursor2.execute(f"SELECT bauf.bauf_artnr AS Partnumber, bauf.bauf_artbez AS Partname FROM bauf WHERE bauf.bauf_aufnr = '{bauf_aufnr}' AND bauf.bauf_posnr = '{bauf_posnr}' LIMIT 1;")
+    productionnumber = cursor2.fetchall()
+    if len(productionnumber) == 0:
+        productionnumber = [('0', '0')]
+    db_machine.partnumber = productionnumber[0][0]
+    db_machine.partname = productionnumber[0][1]
+
+    cursor2.close()
+    conn2.close()
+
+    return db_machine
+    
+    
 def get_machines(db: Session, user_token: str):
     user_machines = db.query(models.MachineData).filter(models.MachineData.token == user_token).all()
 
@@ -115,12 +153,9 @@ def get_machines(db: Session, user_token: str):
         cursor2.execute(f"SELECT bauf.bauf_artnr AS Partnumber, bauf.bauf_artbez AS Partname FROM bauf WHERE bauf.bauf_aufnr = '{bauf_aufnr}' AND bauf.bauf_posnr = '{bauf_posnr}' LIMIT 1;")
         productionnumber = cursor2.fetchall()
         if len(productionnumber) == 0:
-            productionnumber = {
-                "Partnumber": '0',
-                "Partname": '0'
-            }
-        user_machines[i].partnumber = productionnumber["Partnumber"]
-        user_machines[i].partname = productionnumber["Partname"]
+            productionnumber = [('0', '0')]
+        user_machines[i].partnumber = productionnumber[0][0]
+        user_machines[i].partname = productionnumber[0][1]
 
     cursor2.close()
     conn2.close()
@@ -225,7 +260,8 @@ def create_machines(db: Session, machines):
     user_machines = db.query(models.MachineData).filter(models.MachineData.token == machines.token)
     user_machines = user_machines.filter(models.MachineData.createdAt.like(f"{datetime.now().strftime('%Y-%m-%d')}%"))
     user_machines = user_machines.filter(models.MachineData.shift == shift)
-    user_machines = user_machines.group_by(models.MachineData.machineQrCode)
+    # user_machines = user_machines.group_by(models.MachineData.machineQrCode)
+    
     user_machines = user_machines.all()
 
     return {

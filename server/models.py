@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -10,7 +10,7 @@ class Comment(Base):
     
     comment = Column(String(255), index=True)
     preparation_shift = Column(Boolean, index=True)
-    date = Column(Date, index=True)
+    date = Column(DateTime, index=True)
     token = Column(ForeignKey("users.token"), index=True)
     shift = Column(String(255), index=True)
 
@@ -21,8 +21,8 @@ class StartMachine(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     token = Column(ForeignKey("users.token"), index=True)
-    start_time = Column(Date, index=True)
-    end_time = Column(Date, index=True)
+    start_time = Column(DateTime, index=True)
+    end_time = Column(DateTime, index=True)
     # shift = Column(String(255), index=True)
 
     user = relationship("User", back_populates="workflow")
@@ -56,7 +56,7 @@ class MachineData(Base):
     machine = relationship("Machine", back_populates="machine_data")
 
     shift = Column(String(255), index=True)
-    createdAt = Column(Date, index=True)
+    createdAt = Column(DateTime, index=True)
     toolMounted = Column(Boolean, index=True)
     machineStopped = Column(Boolean, index=True)
     barcodeProductionNo = Column(Integer, index=True)

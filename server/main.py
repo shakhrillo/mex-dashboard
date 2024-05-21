@@ -26,14 +26,22 @@ def get_db_2():
     finally:
         db2.close()
 
-# Enable cors
+# Enable cors for http://192.168.100.23:3230/
 @app.middleware("http")
 async def add_cors_header(request, call_next):
     response = await call_next(request)
-    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Origin"] = "http://192.168.100.23:3230"
     response.headers["Access-Control-Allow-Methods"] = "*"
     response.headers["Access-Control-Allow-Headers"] = "*"
     return response
+    
+# @app.middleware("http")
+# async def add_cors_header(request, call_next):
+#     response = await call_next(request)
+#     response.headers["Access-Control-Allow-Origin"] = "*"
+#     response.headers["Access-Control-Allow-Methods"] = "*"
+#     response.headers["Access-Control-Allow-Headers"] = "*"
+#     return response
 
 @app.exception_handler(Exception)
 async def validation_exception_handler(request, exc):
@@ -62,6 +70,10 @@ def stop_machine(user_token: str, db: Session = Depends(get_db)):
 def create_machines(machines: schemas.MachineBase, db: Session = Depends(get_db)):
     return crud.create_machines(db=db, machines=machines)
 
+@app.get("/api/machine/status/{machine_id}")
+def get_machine_status(machine_id: str, db: Session = Depends(get_db)):
+    return crud.get_machine_status(db=db, machine_id=machine_id)
+
 @app.get("/api/machines/{user_token}")
 def get_machines(user_token: str, db: Session = Depends(get_db)):
     return crud.get_machines(db=db, user_token=user_token)
@@ -81,6 +93,18 @@ def check_productionnumber(bauf: str):
             "Partnumber": '0',
             "Partname": '0'
         }
+    # CREATE TABLE bauf (
+    #     bauf_aufnr VARCHAR(6),
+    #     bauf_posnr VARCHAR(3),
+    #     bauf_artnr VARCHAR(3),
+    #     bauf_artbez VARCHAR(50)
+    # );
+    # INSERT INTO bauf (bauf_aufnr, bauf_posnr, bauf_artnr, bauf_artbez) VALUES
+    # ('811202', '001', '001', 'Part 1 Name'),
+    # ('765432', '001', '002', 'Part 2 Name'),
+    # ('123456', '001', '003', 'Part 3 Name'),
+    # ('123456', '002', '004', 'Part 4 Name');
+
     
     bauf_aufnr = str(bauf)[:6]
     bauf_posnr = str(bauf)[6:]
