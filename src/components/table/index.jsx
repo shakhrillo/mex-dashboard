@@ -280,7 +280,7 @@ const Table = ({ columns, data }) => {
               <div className="squars-line">
                 {machine.map((item, key) => {
                   console.log("item:", item);
-                  return (
+                  return item.width && (
                     <Popover
                       content={
                         <div className="popover-content">
