@@ -196,6 +196,9 @@ def get_status(db: Session, user_token: str, machine_id: str):
         "message": user_machines
     }
 
+def get_all_machines_list(db: Session):
+    db_machines = db.query(models.Machine).all()
+    return db_machines
 
 def create_machines(db: Session, machines):
     db_machine = db.query(models.Machine).filter(models.Machine.machineQrCode == machines.machineQrCode).first()
