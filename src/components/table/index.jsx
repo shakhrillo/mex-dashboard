@@ -280,7 +280,7 @@ const Table = ({ columns, data }) => {
               <div className="squars-line">
                 {machine.map((item, key) => {
                   console.log("item:", item);
-                  return item.barcodeProductionNo ? (
+                  return (
                     <Popover
                       content={
                         <div className="popover-content">
@@ -329,7 +329,7 @@ const Table = ({ columns, data }) => {
                         </span>
                       </div>
                     </Popover>
-                  ): '';
+                  );
                 })}
               </div>
               {[...Array(30)].map((_, index) => (
