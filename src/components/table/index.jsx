@@ -85,8 +85,23 @@ const Table = ({ columns, data }) => {
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
+          let data = await response.json();
+          if (data["status"] === "Invalid") {
+            const reResponse = await fetch(
+              `http://34.31.212.138/api/machine/status/${machine.replace(
+                /\s+/g,
+                ""
+              )}`,
+              requestOptions
+            );
 
-          const data = await response.json();
+            if (!reResponse.ok) {
+              throw new Error("Network response was not ok on retry");
+            }
+
+            data = await reResponse.json();
+          }
+
           let machineInfo = [];
           let machineList = [];
           let width = 0;
@@ -106,7 +121,10 @@ const Table = ({ columns, data }) => {
               ),
               shift: data.shift,
               machine,
-              width: (data.remainingProductionTime / 60) * 8.75,
+              width:
+                (data.remainingProductionTime / 60) * 8.75 -
+                calculateDaysExcludingWeekends(data.createdAt, today) * 210,
+              // * 8.75 -
               status: "success",
             });
           } else if (
@@ -296,7 +314,7 @@ const Table = ({ columns, data }) => {
                           </p>
                           <p>
                             <span>Date and Time: </span>
-                            {item.finishDate.toLocaleString()}
+                            {item.finishDate.toLocaleString().slice(0, 17)}
                           </p>
                         </div>
                       }
@@ -308,15 +326,7 @@ const Table = ({ columns, data }) => {
                             today.getDate()
                               ? new Date(item["createdAt"]).getHours() * 8.75
                               : 0,
-                          width:
-                            item["status"] === "danger"
-                              ? "auto"
-                              : item["width"] -
-                                calculateDaysExcludingWeekends(
-                                  item["createdAt"],
-                                  today
-                                ) *
-                                  210,
+                          width: item.width,
                           backgroundColor:
                             item["status"] === "success"
                               ? "#5cb85c"
@@ -324,7 +334,7 @@ const Table = ({ columns, data }) => {
                               ? "#cc0000"
                               : "#fff",
                         }}
-                        className="status">
+                        className={`status ${item["status"]}`}>
                         <span>
                           {item.partNo}/{item.partName}/
                           {item.finishDate.toLocaleDateString()}{" "}
