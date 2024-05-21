@@ -296,7 +296,7 @@ const Table = ({ columns, data }) => {
                           </p>
                           <p>
                             <span>Date and Time: </span>
-                            {item.finishDate.toLocaleDateString()}{" "}
+                            {item.finishDate.toLocaleString()}
                           </p>
                         </div>
                       }
