@@ -58,7 +58,7 @@ const Table = ({ columns, data }) => {
   const handleResize = () => {
     if (rightRef.current) {
       const elementWidth = rightRef.current.getBoundingClientRect().width;
-      headerRef.current.style.width = `${elementWidth}px`;
+      headerRef.current.style.width = `${elementWidth - 8}px`;
       setWidth(elementWidth);
     }
   };
@@ -66,11 +66,35 @@ const Table = ({ columns, data }) => {
   useEffect(() => {
     handleResize();
     window.addEventListener("resize", handleResize);
-    const fetchData = async () => {
+
+    const fetchMachines = async () => {
+      try {
+        const requestOptions = {
+          method: "GET",
+          redirect: "follow",
+        };
+
+        let response = await fetch(
+          "http://34.31.212.138/api/machines",
+          requestOptions
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        let data = await response.json();
+        fetchData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fetchData = async (machinesList) => {
       try {
         const updatedMachinesData = [];
         const updateMachinesList = [];
-        for (const machine of machines) {
+        for (let machine of machinesList) {
+          machine = machine["machineQrCode"];
           const requestOptions = {
             method: "GET",
             redirect: "follow",
@@ -102,9 +126,8 @@ const Table = ({ columns, data }) => {
 
             data = await reResponse.json();
           }
-
+          console.log(data);
           let machineInfo = [];
-          let machineList = [];
           let width = 0;
           if (
             !(data["status"] === "Invalid") &&
@@ -118,12 +141,15 @@ const Table = ({ columns, data }) => {
               createdAt: data.createdAt,
               finishDate: addMinutes(
                 data.createdAt,
-                data.remainingProductionTime
+                data.remainingProductionTime,
+                data.remainingProductionDays
               ),
               shift: data.shift,
               machine,
               width:
-                (data.remainingProductionTime / 60) * 8.75 -
+                (data.remainingProductionTime / 60 +
+                  data.remainingProductionDays * 24) *
+                  8.75 -
                 calculateDaysExcludingWeekends(data.createdAt, today) * 210,
               // * 8.75 -
               status: "success",
@@ -140,11 +166,12 @@ const Table = ({ columns, data }) => {
               createdAt: data.createdAt,
               finishDate: addMinutes(
                 data.createdAt,
-                data.remainingProductionTime
+                data.remainingProductionTime,
+                data.remainingProductionDays
               ),
               shift: data.shift,
               machine,
-              width: (data.remainingProductionTime / 60) * 8.75,
+              width: 90,
               status: "danger",
             });
           } else if (
@@ -159,7 +186,8 @@ const Table = ({ columns, data }) => {
               createdAt: data.createdAt,
               finishDate: addMinutes(
                 data.createdAt,
-                data.remainingProductionTime
+                data.remainingProductionTime,
+                data.remainingProductionDays
               ),
               shift: data.shift,
               machine,
@@ -167,7 +195,7 @@ const Table = ({ columns, data }) => {
               status: "transparent",
             });
           }
-          console.log("data:", data);
+
           updateMachinesList.push({
             machine,
             barcodeProductionNo: data["barcodeProductionNo"],
@@ -188,12 +216,12 @@ const Table = ({ columns, data }) => {
       }
     };
     setLastFiveWeekdays(getLastFiveWeekdays());
-    fetchData();
+    // fetchData();
+    fetchMachines();
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  console.log("machines data:", machinesData);
   return (
     <div className="tab-container">
       <div className="tab">
@@ -229,7 +257,6 @@ const Table = ({ columns, data }) => {
           <div style={{ height: 66.5 }}></div>
           {/* data */}
           {machinesList.map((machine, index) => {
-            console.log("machine", machine);
             return (
               <div key={index} className="side-title">
                 <div className="side-title-item">
@@ -300,7 +327,6 @@ const Table = ({ columns, data }) => {
             <div key={index} className="squars">
               <div className="squars-line">
                 {machine.map((item, key) => {
-                  console.log("item:", item);
                   return (
                     <Popover
                       content={

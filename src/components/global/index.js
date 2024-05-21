@@ -32,8 +32,6 @@ export const calculateDaysExcludingWeekends = (startDate, endDate) => {
 
     start.setHours(0, 0, 0, 0);
     end.setHours(0, 0, 0, 0);
-    console.log("Start Date: ", start);
-    console.log("End Date: ", end);
     let totalDays = 0;
     let weekendDays = 0;
 
@@ -44,9 +42,6 @@ export const calculateDaysExcludingWeekends = (startDate, endDate) => {
             totalDays++;
         }
     }
-    console.log("Total Days: ", totalDays);
-    console.log("Weekend Days: ", weekendDays);
-    console.log("Total Days: ", totalDays);
     return totalDays;
 };
 
@@ -72,9 +67,9 @@ export const getLastFiveWeekdays = () => {
     return weekdays;
 };
 
-export function addMinutes(date, minutes) {
+export function addMinutes(date, minutes, days = 0) {
     const millisecondsPerMinute = 60000;
-    let updatedTime = new Date(date).getTime() + minutes * millisecondsPerMinute;
+    let updatedTime = new Date(date).getTime() + minutes * millisecondsPerMinute + days * 24 * 60 * millisecondsPerMinute;
     let newDate = new Date(updatedTime);
 
     // Function to check if a date is on a weekend

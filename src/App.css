@@ -4,12 +4,12 @@
   padding: 0;
   box-sizing: border-box;
   -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  /* scrollbar-width: none; Firefox */
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
+/* ::-webkit-scrollbar {
+  display: ;
+} */
 
 body {
   font-family: "Lexend", sans-serif;
@@ -93,7 +93,7 @@ body {
   /* border radius */
   border-radius: 5px;
   max-width: 1200px;
-  padding: 16px;
+  padding: 16px 8px 8px 16px;
   max-height: calc(100vh - 120px);
 }
 .tab {
@@ -105,6 +105,10 @@ body {
   display: flex;
 }
 
+.tab-left::-webkit-scrollbar {
+  height: 8px;
+  width: 0px;
+}
 .tab-left {
   min-width: 360px;
   overflow: scroll;
@@ -126,6 +130,7 @@ body {
 
 .side-header {
   overflow: scroll;
+  scrollbar-width: none;
   position: fixed;
   background-color: white;
   z-index: 1;
@@ -185,6 +190,24 @@ body {
 .bg-danger {
   background-color: #ff0000;
 }
+.right-side::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.right-side::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the scrollbar handle */
+  border-radius: 4px; /* Rounded corners of the scrollbar handle */
+}
+.right-side::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Color when hovering over the scrollbar handle */
+}
+
+.right-side::-webkit-scrollbar-track {
+  position: absolute;
+  margin-top: 67px;
+  background-color: #f1f1f1; /* Background of the scrollbar track */
+}
+
 .right-side {
   width: 100%;
   position: relative;
