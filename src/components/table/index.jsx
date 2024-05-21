@@ -77,8 +77,8 @@ const Table = ({ columns, data }) => {
           };
 
           const response = await fetch(
-            // `http://34.31.212.138/api/machine/status/${machine}`,
-            `http://192.168.100.23:7878/api/all_machines/${machine}`,
+            `http://34.31.212.138/api/machine/status/${machine}`,
+            // `http://192.168.100.23:7878/api/machine/status/${machine}`,
             requestOptions
           );
 
@@ -192,7 +192,7 @@ const Table = ({ columns, data }) => {
               </div>
               {/* actual time */}
               <span className="tab-header-today-time">
-                {today.toLocaleTimeString()}
+                {today.toLocaleTimeString().slice(0, 5)}
               </span>
             </div>
             <div className="side-title header-tile">
@@ -216,7 +216,9 @@ const Table = ({ columns, data }) => {
                 <div className="side-title-item">
                   <span>{machine.machine}</span>
                 </div>
-                <div className={`side-title-item bg-${machine.status}`}></div>
+                <div className="side-title-item">
+                  <div className={`status-box bg-${machine.status}`}></div>
+                </div>
                 <div className="side-title-item">
                   <span>
                     {machine.barcodeProductionNo === null ||

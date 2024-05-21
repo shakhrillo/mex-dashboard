@@ -6,8 +6,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <nav>
-          <h4>KTBU Maschinen <br />
-            Dashboard</h4>
+          <h4>KTBU Maschinen Dashboard</h4>
         </nav>
       </header>
       <div className="tab-wrapper">

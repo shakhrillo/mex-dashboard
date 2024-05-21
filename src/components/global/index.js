@@ -1,5 +1,4 @@
 export const machines = [
-    "Emac50-1333",
     "E 35-1",
     "E45-1",
     "E45-2",
