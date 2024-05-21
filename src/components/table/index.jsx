@@ -88,6 +88,7 @@ const Table = ({ columns, data }) => {
           let data = await response.json();
           if (data["status"] === "Invalid") {
             const reResponse = await fetch(
+              // `http://192.168.100.23:7878/api/machine/status/${machine}`,
               `http://34.31.212.138/api/machine/status/${machine.replace(
                 /\s+/g,
                 ""
