@@ -101,7 +101,9 @@ def check_token(db: Session, token: schemas.Token):
 def get_machine_status(db: Session, machine_id: str):
     db_machines = db.query(models.MachineData).filter(models.MachineData.machineQrCode == machine_id)
     # order by remainingProductionTime and remainingProductionDays
-    db_machines = db_machines.order_by(models.MachineData.remainingProductionTime.desc(), models.MachineData.remainingProductionDays.desc())
+    # db_machines = db_machines.order_by(models.MachineData.remainingProductionTime.desc(), models.MachineData.remainingProductionDays.desc())
+    # get the latest
+    db_machines = db_machines.order_by(models.MachineData.createdAt.desc())
     # get all data
     db_machine = db_machines.first()
 
