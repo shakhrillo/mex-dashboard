@@ -154,6 +154,11 @@ body {
   width: 360px;
   background-color: white;
 }
+.status-box {
+  height: 16px;
+  width: 80%;
+}
+
 .side-title-item {
   height: 30px;
   display: flex;
@@ -195,6 +200,7 @@ body {
   height: 37px;
   min-width: 210px;
   display: flex;
+  gap: 10px;
   align-items: center;
   justify-content: center;
   font-size: 0.8rem;
