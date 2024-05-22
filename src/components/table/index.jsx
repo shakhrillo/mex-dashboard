@@ -341,7 +341,7 @@ const Table = ({ columns, data }) => {
                           </p>
                           <p>
                             <span>Date and Time: </span>
-                            {item.finishDate.toLocaleString().slice(0, 17)}
+                            {item.createdAt.toLocaleString().slice(0, 17)}
                           </p>
                         </div>
                       }
