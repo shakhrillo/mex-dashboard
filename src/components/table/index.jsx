@@ -75,7 +75,7 @@ const Table = ({ columns, data }) => {
         };
 
         let response = await fetch(
-          "http://34.31.212.138/api/machines",
+          "http://192.168.100.23:7878/api/machines",
           requestOptions
         );
 
@@ -113,7 +113,7 @@ const Table = ({ columns, data }) => {
           if (data["status"] === "Invalid") {
             const reResponse = await fetch(
               // `http://192.168.100.23:7878/api/machine/status/${machine}`,
-              `http://34.31.212.138/api/machine/status/${machine.replace(
+              `http://192.168.100.23:7878/api/machine/status/${machine.replace(
                 /\s+/g,
                 ""
               )}`,
