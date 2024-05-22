@@ -342,6 +342,7 @@ const Table = ({ columns, data }) => {
                           <p>
                             <span>Date and Time: </span>
                             {/* dat and time */}
+                            {item.finishDate}
                             {
                               item["createdAt"].split("T")[0].split("-").reverse()
                                 .join("/")
