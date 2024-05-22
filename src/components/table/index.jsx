@@ -76,6 +76,7 @@ const Table = ({ columns, data }) => {
 
         let response = await fetch(
           "http://192.168.100.23:7878/api/machines",
+          // "http://34.31.212.138/api/machines",
           requestOptions
         );
 
@@ -113,6 +114,7 @@ const Table = ({ columns, data }) => {
           if (data["status"] === "Invalid") {
             const reResponse = await fetch(
               // `http://192.168.100.23:7878/api/machine/status/${machine}`,
+              // `http://34.31.212.138/api/machine/status/${machine.replace(
               `http://192.168.100.23:7878/api/machine/status/${machine.replace(
                 /\s+/g,
                 ""
@@ -344,11 +346,10 @@ const Table = ({ columns, data }) => {
                             {/* dat and time */}
                             {/* {item.finishDate.toLocaleString().slice(0, 17)} */}
                             {
-                              item.finishDate.toLocaleString().split(",")[0]
-                            }
-                            {" "}
+                              item.finishDate && item.finishDate.toLocaleString().split(",")[0]
+                            } 
                             {
-                              item.finishDate.toLocaleString().split(",")[1].slice(0, 5)
+                              item.finishDate && item.finishDate.toLocaleString().split(",")[1].slice(0, 5)
                             }
                           </p>
                         </div>
