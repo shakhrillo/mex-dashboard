@@ -341,7 +341,15 @@ const Table = ({ columns, data }) => {
                           </p>
                           <p>
                             <span>Date and Time: </span>
-                            {item.createdAt.toLocaleString().slice(0, 17)}
+                            {/* dat and time */}
+                            {
+                              item["createdAt"].split("T")[0].split("-").reverse()
+                                .join("/")
+
+                            }
+                            {
+                              item["createdAt"].split("T")[1].slice(0, 5)
+                            }
                           </p>
                         </div>
                       }
