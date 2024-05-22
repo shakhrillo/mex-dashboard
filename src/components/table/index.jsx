@@ -349,7 +349,7 @@ const Table = ({ columns, data }) => {
                               item.finishDate && item.finishDate.toLocaleString().split(",")[0]
                             } 
                             {
-                              item.finishDate && item.finishDate.toLocaleString().split(",")[1].slice(0, 5)
+                              item.finishDate && item.finishDate.toLocaleString().split(",")[1].slice(0, 6)
                             }
                           </p>
                         </div>
