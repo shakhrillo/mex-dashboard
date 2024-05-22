@@ -197,7 +197,33 @@ def get_status(db: Session, user_token: str, machine_id: str):
     }
 
 def get_all_machines_list(db: Session):
-    db_machines = db.query(models.Machine).all()
+    db_machines = db.query(models.Machine)
+    machines = [
+        "E 35-1",
+        "E 45-1",
+        "E 45-2",
+        "F450iA-1",
+        "E 50-2",
+        "E 50-3",
+        "F150iA-1",
+        "Emac50-1",
+        "Emac50-2",
+        "Emac50-3",
+        "KM 50-1",
+        "KM 80-1",
+        "KM 150-1",
+        "E 55-1",
+        "KM 420-1",
+        "E 120-1",
+        "E 80-1",
+        "F250iA-1"
+    ]
+    db_machines = db_machines.all()
+    db_machines = sorted(db_machines, key=lambda x: machines.index(x.machineQrCode))
+    
+    # order like above
+
+
     return db_machines
 
 def create_machines(db: Session, machines):
