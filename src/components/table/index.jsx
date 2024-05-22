@@ -347,6 +347,7 @@ const Table = ({ columns, data }) => {
                                 .join("/")
 
                             }
+                            {" "}
                             {
                               item["createdAt"].split("T")[1].slice(0, 5)
                             }
