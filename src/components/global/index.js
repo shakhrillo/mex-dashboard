@@ -81,7 +81,13 @@ export function addMinutes(date, minutes, days = 0) {
     // If the new date is on a weekend, move to the next Monday
     while (isWeekend(newDate)) {
         newDate.setDate(newDate.getDate() + 1);
-        newDate.setHours(0, 0, 0, 0); // Reset time to the start of the day
+        // newDate.setHours(
+        //     // by calculating the minutes
+        //     Math.floor(minutes / 60),
+        //     minutes % 60,
+        //     0,
+        //     0
+        // );
     }
 
     return newDate;
