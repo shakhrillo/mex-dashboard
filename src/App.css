@@ -153,19 +153,19 @@ body {
   color: #336699;
 }
 .side-title {
-  height: 30px;
+  height: 26px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   width: 360px;
   background-color: white;
 }
 .status-box {
-  height: 16px;
-  width: 80%;
+  height: 25.5px;
+  width: 100%;
 }
 
 .side-title-item {
-  height: 30px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -188,7 +188,7 @@ body {
   background-color: #00cc00;
 }
 .bg-danger {
-  background-color: #ff0000;
+  background-color: #cc0000;
 }
 .right-side::-webkit-scrollbar {
   height: 8px;
@@ -227,7 +227,7 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 0.8rem;
-  font-weight: 300;
+  font-weight: 500;
   color: #336699;
   padding: 10px 0;
   border-right: #848484 0.5px solid;
@@ -246,7 +246,7 @@ body {
 
 .right-side-hours-item {
   width: 35px;
-  height: 30px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -262,12 +262,12 @@ body {
   display: flex;
   align-items: center;
   overflow: hidden;
-  width: 1050px;
+  width: 1470px;
 }
 .squars > .squar {
   min-width: 35px;
   width: 35px;
-  height: 30px;
+  height: 26px;
   border-right: 0.5px solid #848484;
   border-bottom: 0.5px solid #848484;
 }
@@ -280,7 +280,7 @@ body {
 .squars-line {
   display: flex;
   position: absolute;
-  margin-bottom: 13px;
+  margin-bottom: 17px;
 }
 .squars-line > .status {
   padding-left: 10px;
@@ -288,12 +288,12 @@ body {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  height: 14px;
+  height: 16px;
   position: absolute;
 }
 .squars-line > .status > span {
   color: #fff;
-  font-size: 0.6rem;
+  font-size: 0.68rem;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;

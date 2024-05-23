@@ -113,7 +113,6 @@ const Table = ({ columns, data }) => {
           let data = await response.json();
           if (data["status"] === "Invalid") {
             const reResponse = await fetch(
-              // `http://192.168.100.23:7878/api/machine/status/${machine}`,
               // `http://34.31.212.138/api/machine/status/${machine.replace(
               `http://192.168.100.23:7878/api/machine/status/${machine.replace(
                 /\s+/g,
@@ -173,7 +172,7 @@ const Table = ({ columns, data }) => {
               ),
               shift: data.shift,
               machine,
-              width: 90,
+              width: "auto",
               status: "danger",
             });
           } else if (
@@ -233,7 +232,7 @@ const Table = ({ columns, data }) => {
           <div className="side-header">
             <div className="tab-header-today">
               <div className="tab-header-today-day">
-                <h3>Today:</h3>
+                <h3>Heute:</h3>
                 {/* day mont on text year */}
                 <span>
                   {dayOfMonth} {month} {year}
@@ -256,7 +255,7 @@ const Table = ({ columns, data }) => {
               </div>
             </div>
           </div>
-          <div style={{ height: 66.5 }}></div>
+          <div style={{ height: 63 }}></div>
           {/* data */}
           {machinesList.map((machine, index) => {
             return (
@@ -322,7 +321,7 @@ const Table = ({ columns, data }) => {
               ))}
             </div>
           </div>
-          <div style={{ height: 66.5 }}></div>
+          <div style={{ height: 63 }}></div>
           {/*  */}
           {machinesData.map((machine, index) => (
             // {[...Array(18)].map((machine, index) => (
@@ -345,12 +344,13 @@ const Table = ({ columns, data }) => {
                             <span>Date and Time: </span>
                             {/* dat and time */}
                             {/* {item.finishDate.toLocaleString().slice(0, 17)} */}
-                            {
-                              item.finishDate && item.finishDate.toLocaleString().split(",")[0]
-                            } 
-                            {
-                              item.finishDate && item.finishDate.toLocaleString().split(",")[1].slice(0, 6)
-                            }
+                            {item.finishDate &&
+                              item.finishDate.toLocaleString().split(",")[0]}
+                            {item.finishDate &&
+                              item.finishDate
+                                .toLocaleString()
+                                .split(",")[1]
+                                .slice(0, 6)}
                           </p>
                         </div>
                       }
@@ -365,7 +365,7 @@ const Table = ({ columns, data }) => {
                           width: item.width,
                           backgroundColor:
                             item["status"] === "success"
-                              ? "#5cb85c"
+                              ? "#00cc00"
                               : item["status"] === "danger"
                               ? "#cc0000"
                               : "#fff",
@@ -380,7 +380,7 @@ const Table = ({ columns, data }) => {
                   );
                 })}
               </div>
-              {[...Array(30)].map((_, index) => (
+              {[...Array(42)].map((_, index) => (
                 <div className="squar" key={index}></div>
               ))}
             </div>

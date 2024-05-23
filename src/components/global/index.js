@@ -20,11 +20,31 @@ export const machines = [
 ];
 
 // get weekdays name
-export const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+export const weekdays = [
+    "Montag",
+    "Dienstag",
+    "Mittwoch",
+    "Donnerstag",
+    "Freitag",
+    "Samstag",
+    "Sonntag"
+];
 
 // get the month name
-export const monthNames = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"];
+export const monthNames = [
+    "Januar",
+    "Februar",
+    "März",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Dezember"
+];
 
 export const calculateDaysExcludingWeekends = (startDate, endDate) => {
     const start = new Date(startDate);
@@ -51,7 +71,7 @@ export const getLastFiveWeekdays = () => {
     let daysToSubtract = 0;
 
     // Loop until we have collected five weekdays
-    while (weekdays.length < 5) {
+    while (weekdays.length < 7) {
         // Subtract days one by one
         currentDate = new Date();
         currentDate.setDate(currentDate.getDate() - daysToSubtract);
