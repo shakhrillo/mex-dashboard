@@ -39,7 +39,8 @@ body {
 
 .App-header nav {
   width: 100%;
-  max-width: 1200px;
+  max-width: 100%;
+  padding: 0 32px;
   display: flex;
   justify-content: space-between;
   text-align: center;
@@ -92,14 +93,14 @@ body {
   box-shadow: 0 2px 4px 0 rgba(33, 66, 99, 0.34);
   /* border radius */
   border-radius: 5px;
-  max-width: 1200px;
+  /* max-width: 1200px; */
   padding: 16px 8px 8px 16px;
   max-height: calc(100vh - 120px);
 }
 .tab {
   padding: 16px;
   flex-direction: row;
-  max-width: 1200px;
+  /* max-width: 1200px; */
   width: 100%;
   max-height: calc(100vh - 120px);
   display: flex;
@@ -110,7 +111,7 @@ body {
   width: 0px;
 }
 .tab-left {
-  min-width: 360px;
+  min-width: 290px;
   overflow: scroll;
   position: relative;
 }
@@ -119,7 +120,6 @@ body {
   background-color: white;
   position: sticky;
   height: 37px;
-  width: 360px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -155,8 +155,7 @@ body {
 .side-title {
   height: 26px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  width: 360px;
+  grid-template-columns: 100px 90px 100px;
   background-color: white;
 }
 .status-box {
@@ -174,6 +173,12 @@ body {
   border-right: #848484 0.5px solid;
   border-bottom: #848484 0.5px solid;
   color: #336699;
+}
+.side-title-item-status {
+  width: 90px;
+}
+.side-title-item-productionNr {
+  width: 100px;
 }
 .side-title-item > h3 {
   font-size: 0.8rem;
@@ -280,7 +285,7 @@ body {
 .squars-line {
   display: flex;
   position: absolute;
-  margin-bottom: 17px;
+  margin-bottom: 18px;
 }
 .squars-line > .status {
   padding-left: 10px;
@@ -288,12 +293,13 @@ body {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  height: 16px;
+  height: 18px;
   position: absolute;
 }
 .squars-line > .status > span {
   color: #fff;
-  font-size: 0.68rem;
+  font-size: 0.77rem;
+  font-weight: 500;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;

@@ -27,7 +27,7 @@ export const weekdays = [
     "Donnerstag",
     "Freitag",
     "Samstag",
-    "Sonntag"
+    "Sonntag",
 ];
 
 // get the month name
@@ -46,24 +46,49 @@ export const monthNames = [
     "Dezember"
 ];
 
-export const calculateDaysExcludingWeekends = (startDate, endDate) => {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+export function calculateDaysExcludingWeekends(start, end) {
+    console.log(start, end);
+    // Parse the date strings into Date objects
+    const startDate = new Date(start);
+    const endDate = new Date(end); // today
 
-    start.setHours(0, 0, 0, 0);
-    end.setHours(0, 0, 0, 0);
-    let totalDays = 0;
+    endDate.setHours(0, 0, 0, 0);
+
+    // Calculate total time difference in milliseconds
+    const totalMilliseconds = endDate - startDate;
+
+    // Convert to hours and minutes
+    const totalMinutes = Math.floor(totalMilliseconds / (1000 * 60));
+    const totalHours = Math.floor(totalMinutes / 60);
+    const remainingMinutes = totalMinutes % 60;
+
+    // Create an array to keep track of weekend days (0 = Sunday, 6 = Saturday)
     let weekendDays = 0;
+    let currentDate = new Date(startDate);
 
-    for (let date = new Date(start); date < end; date.setDate(date.getDate() + 1)) {
-        if (date.getDay() === 0 || date.getDay() === 6) {
+    // Loop through each day in the range
+    while (currentDate < endDate) {
+        const dayOfWeek = currentDate.getDay();
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
             weekendDays++;
-        } else {
-            totalDays++;
         }
+        currentDate.setDate(currentDate.getDate() + 1);
     }
-    return totalDays;
-};
+
+    // Calculate effective time excluding weekends
+    const effectiveTotalMinutes = totalMinutes - (weekendDays * 24 * 60);
+    const effectiveHours = Math.floor(effectiveTotalMinutes / 60);
+    const effectiveMinutes = effectiveTotalMinutes % 60;
+
+    console.log(
+        "Days:", Math.floor(effectiveHours / 24), "hours", effectiveHours % 24, "effectiveMinutes", effectiveMinutes);
+    return effectiveHours;
+    // return {
+    //     days: Math.floor(effectiveHours / 24),
+    //     hours: effectiveHours % 24,
+    //     minutes: effectiveMinutes
+    // };
+}
 
 export const getLastFiveWeekdays = () => {
     const weekdays = [];
@@ -86,6 +111,38 @@ export const getLastFiveWeekdays = () => {
 
     return weekdays;
 };
+
+function addDaysAndMinutes(date, days, minutes) {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    result.setMinutes(result.getMinutes() + minutes);
+    return result;
+}
+
+function skipWeekend(date) {
+    const day = date.getDay();
+    if (day === 6) { // Saturday
+        date.setDate(date.getDate() + 2); // Skip to Monday
+    } else if (day === 0) { // Sunday
+        date.setDate(date.getDate() + 1); // Skip to Monday
+    }
+    return date;
+}
+
+function calculateNewDate(initialDate) {
+    let newDate = addDaysAndMinutes(initialDate, 2, 12);
+    newDate = skipWeekend(newDate);
+    return newDate;
+}
+
+// Initial date: 23 May 00:00 (year is assumed for Date object)
+const initialDate = new Date('2024-05-23T00:00:00');
+
+// Calculate the new date
+const newDate = calculateNewDate(initialDate);
+
+console.log("newDate", newDate);
+
 
 export function addMinutes(date, minutes, days = 0) {
     const millisecondsPerMinute = 60000;
@@ -111,4 +168,23 @@ export function addMinutes(date, minutes, days = 0) {
     }
 
     return newDate;
+}
+
+export function addTimeSkippingWeekends(startDate, daysToAdd, minutesToAdd) {
+    const totalMinutes = daysToAdd * 24 * 60 + minutesToAdd;
+    let remainingMinutes = totalMinutes;
+    let currentDate = new Date(startDate);
+
+    while (remainingMinutes > 0) {
+        currentDate.setMinutes(currentDate.getMinutes() + 1);
+
+        // Skip weekends
+        if (currentDate.getDay() === 6 || currentDate.getDay() === 0) {
+            continue;
+        }
+
+        remainingMinutes--;
+    }
+
+    return currentDate;
 }

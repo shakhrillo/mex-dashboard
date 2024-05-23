@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   addMinutes,
+  addTimeSkippingWeekends,
   calculateDaysExcludingWeekends,
   getLastFiveWeekdays,
   machines,
@@ -140,10 +141,10 @@ const Table = ({ columns, data }) => {
               partNo: data.partnumber,
               partName: data.partname,
               createdAt: data.createdAt,
-              finishDate: addMinutes(
+              finishDate: addTimeSkippingWeekends(
                 data.createdAt,
-                data.remainingProductionTime,
-                data.remainingProductionDays
+                data.remainingProductionDays,
+                data.remainingProductionTime
               ),
               shift: data.shift,
               machine,
@@ -151,8 +152,7 @@ const Table = ({ columns, data }) => {
                 (data.remainingProductionTime / 60 +
                   data.remainingProductionDays * 24) *
                   8.75 -
-                calculateDaysExcludingWeekends(data.createdAt, today) * 210,
-              // * 8.75 -
+                calculateDaysExcludingWeekends(data.createdAt, today) * 8.75,
               status: "success",
             });
           } else if (
@@ -247,10 +247,10 @@ const Table = ({ columns, data }) => {
               <div className="side-title-item">
                 <h3>Maschine</h3>
               </div>
-              <div className="side-title-item">
+              <div className="side-title-item side-title-item-status">
                 <h3>Status</h3>
               </div>
-              <div className="side-title-item">
+              <div className="side-title-item side-title-item-productionNr">
                 <h3>Production Nr</h3>
               </div>
             </div>
@@ -263,10 +263,10 @@ const Table = ({ columns, data }) => {
                 <div className="side-title-item">
                   <span>{machine.machine}</span>
                 </div>
-                <div className="side-title-item">
+                <div className="side-title-item side-title-item-status">
                   <div className={`status-box bg-${machine.status}`}></div>
                 </div>
-                <div className="side-title-item">
+                <div className="side-title-item side-title-item-productionNr">
                   <span>
                     {machine.barcodeProductionNo === null ||
                     machine.barcodeProductionNo === undefined
@@ -333,24 +333,19 @@ const Table = ({ columns, data }) => {
                       content={
                         <div className="popover-content">
                           <p>
-                            <span>Part No: </span>
+                            <span>ArtikelNr: </span>
                             {item.partNo}
                           </p>
                           <p>
-                            <span>Part Name: </span>
+                            <span>Artikelname: </span>
                             {item.partName}
                           </p>
                           <p>
-                            <span>Date and Time: </span>
+                            <span>Fertigstellungstermin: </span>
                             {/* dat and time */}
                             {/* {item.finishDate.toLocaleString().slice(0, 17)} */}
-                            {item.finishDate &&
-                              item.finishDate.toLocaleString().split(",")[0]}
-                            {item.finishDate &&
-                              item.finishDate
-                                .toLocaleString()
-                                .split(",")[1]
-                                .slice(0, 6)}
+                            {item.finishDate.toLocaleDateString()}{" "}
+                            {item.finishDate.toLocaleTimeString().slice(0, 5)}
                           </p>
                         </div>
                       }
@@ -374,6 +369,7 @@ const Table = ({ columns, data }) => {
                         <span>
                           {item.partNo}/{item.partName}/
                           {item.finishDate.toLocaleDateString()}{" "}
+                          {item.finishDate.toLocaleTimeString().slice(0, 5)}
                         </span>
                       </div>
                     </Popover>
