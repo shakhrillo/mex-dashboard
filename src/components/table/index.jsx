@@ -251,7 +251,7 @@ const Table = ({ columns, data }) => {
                 <h3>Status</h3>
               </div>
               <div className="side-title-item side-title-item-productionNr">
-                <h3>Production Nr</h3>
+                <h3>Productionsnr</h3>
               </div>
             </div>
           </div>
