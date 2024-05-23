@@ -21,13 +21,13 @@ export const machines = [
 
 // get weekdays name
 export const weekdays = [
+    "Sonntag",
     "Montag",
     "Dienstag",
     "Mittwoch",
     "Donnerstag",
     "Freitag",
     "Samstag",
-    "Sonntag",
 ];
 
 // get the month name
