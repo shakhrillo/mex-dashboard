@@ -14,9 +14,9 @@ def is_end_of_month():
 def check_shift(time):
     # Define the shifts
     shifts = {
-        "F1": ("06:00", "14:30"),
-        "S2": ("14:00", "22:30"),
-        "N3": ("22:00", "06:30")
+        "F1": ("05:55", "13:50"),
+        "S2": ("13:55", "21:50"),
+        "N3": ("21:55", "05:50")
     }
 
     # Convert time strings to datetime objects for easier comparison
@@ -275,11 +275,11 @@ def create_machines(db: Session, machines):
         md["remainingProductionDays"] = machines.remainingProductionDays
         md["operatingHours"] = machines.operatingHours
 
-    if is_end_of_month() and md["operatingHours"] == 0:
-        return {
-            "status": "Invalid",
-            "message": "Operating hours must be filled out at the end of the month"
-        }
+    # if is_end_of_month() and md["operatingHours"] == 0:
+    #     return {
+    #         "status": "Invalid",
+    #         "message": "Operating hours must be filled out at the end of the month"
+    #     }
 
     model = models.MachineData(**md)
     db.add(model)
