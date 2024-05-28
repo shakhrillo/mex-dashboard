@@ -48,7 +48,7 @@ export const monthNames = [
 
 export function calculateDaysExcludingWeekends(start, end) {
     console.log(start, end);
-    // Parse the date strings into Date objects
+
     const startDate = new Date(start);
     const endDate = new Date(end); // today
 
@@ -68,10 +68,10 @@ export function calculateDaysExcludingWeekends(start, end) {
 
     // Loop through each day in the range
     while (currentDate < endDate) {
-        const dayOfWeek = currentDate.getDay();
-        if (dayOfWeek === 0 || dayOfWeek === 6) {
-            weekendDays++;
-        }
+        // const dayOfWeek = currentDate.getDay();
+        // if (dayOfWeek === 0 || dayOfWeek === 6) {
+        //     weekendDays++;
+        // }
         currentDate.setDate(currentDate.getDate() + 1);
     }
 
@@ -82,6 +82,8 @@ export function calculateDaysExcludingWeekends(start, end) {
 
     console.log(
         "Days:", Math.floor(effectiveHours / 24), "hours", effectiveHours % 24, "effectiveMinutes", effectiveMinutes);
+    if (effectiveHours < 0)
+        return 0;
     return effectiveHours;
     // return {
     //     days: Math.floor(effectiveHours / 24),
@@ -102,9 +104,10 @@ export const getLastFiveWeekdays = () => {
         currentDate.setDate(currentDate.getDate() - daysToSubtract);
 
         // Check if the current day is not Saturday or Sunday
-        if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
-            weekdays.push(new Date(currentDate));
-        }
+        // if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
+        //     weekdays.push(new Date(currentDate));
+        // }
+        weekdays.push(new Date(currentDate)); // O'chadi
 
         daysToSubtract--; // Move to the previous day
     }
@@ -136,12 +139,12 @@ function calculateNewDate(initialDate) {
 }
 
 // Initial date: 23 May 00:00 (year is assumed for Date object)
-const initialDate = new Date('2024-05-23T00:00:00');
+// const initialDate = new Date('2024-05-23T00:00:00');
 
 // Calculate the new date
-const newDate = calculateNewDate(initialDate);
+// const newDate = calculateNewDate(initialDate);
 
-console.log("newDate", newDate);
+// console.log("newDate", newDate);
 
 
 export function addMinutes(date, minutes, days = 0) {
@@ -179,9 +182,9 @@ export function addTimeSkippingWeekends(startDate, daysToAdd, minutesToAdd) {
         currentDate.setMinutes(currentDate.getMinutes() + 1);
 
         // Skip weekends
-        if (currentDate.getDay() === 6 || currentDate.getDay() === 0) {
-            continue;
-        }
+        // if (currentDate.getDay() === 6 || currentDate.getDay() === 0) {
+        //     continue;
+        // }
 
         remainingMinutes--;
     }

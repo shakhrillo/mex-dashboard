@@ -59,7 +59,7 @@ const Table = ({ columns, data }) => {
   const handleResize = () => {
     if (rightRef.current) {
       const elementWidth = rightRef.current.getBoundingClientRect().width;
-      headerRef.current.style.width = `${elementWidth - 8}px`;
+      headerRef.current.style.width = `${elementWidth}px`;
       setWidth(elementWidth);
     }
   };
@@ -115,7 +115,7 @@ const Table = ({ columns, data }) => {
           if (data["status"] === "Invalid") {
             const reResponse = await fetch(
               // `http://34.31.212.138/api/machine/status/${machine.replace(
-              `http://192.168.100.23:7878/api/machine/status/${machine.replace(
+                `http://192.168.100.23:7878/api/machine/status/${machine.replace(
                 /\s+/g,
                 ""
               )}`,
@@ -150,14 +150,17 @@ const Table = ({ columns, data }) => {
               machine,
               width:
                 (data.remainingProductionTime / 60 +
-                  data.remainingProductionDays * 24) *
+                  data.remainingProductionDays * 24-
+                  //if the current date is the same as the created date then minus one else minus 0
+                  (new Date(data.createdAt).getDate() === today.getDate() ? 0 : 1) 
+                  ) *
                   8.75 -
-                calculateDaysExcludingWeekends(data.createdAt, today) * 8.75,
+                calculateDaysExcludingWeekends(data.createdAt, today) *
+                  8.75,
               status: "success",
             });
           } else if (
             !(data["status"] === "Invalid") &&
-            !data.toolMounted &&
             data.machineStopped
           ) {
             machineInfo.push({
@@ -192,7 +195,7 @@ const Table = ({ columns, data }) => {
               ),
               shift: data.shift,
               machine,
-              width: (data.remainingProductionTime / 60) * 8.75,
+              width: 0,
               status: "transparent",
             });
           }
@@ -251,7 +254,7 @@ const Table = ({ columns, data }) => {
                 <h3>Status</h3>
               </div>
               <div className="side-title-item side-title-item-productionNr">
-                <h3>Productionsnr</h3>
+                <h3>ProductionsNr.</h3>
               </div>
             </div>
           </div>
@@ -322,9 +325,7 @@ const Table = ({ columns, data }) => {
             </div>
           </div>
           <div style={{ height: 63 }}></div>
-          {/*  */}
           {machinesData.map((machine, index) => (
-            // {[...Array(18)].map((machine, index) => (
             <div key={index} className="squars">
               <div className="squars-line">
                 {machine.map((item, key) => {
@@ -342,8 +343,6 @@ const Table = ({ columns, data }) => {
                           </p>
                           <p>
                             <span>Fertigstellungstermin: </span>
-                            {/* dat and time */}
-                            {/* {item.finishDate.toLocaleString().slice(0, 17)} */}
                             {item.finishDate.toLocaleDateString()}{" "}
                             {item.finishDate.toLocaleTimeString().slice(0, 5)}
                           </p>
@@ -357,7 +356,8 @@ const Table = ({ columns, data }) => {
                             today.getDate()
                               ? new Date(item["createdAt"]).getHours() * 8.75
                               : 0,
-                          width: item.width,
+                          width: item.width < 0 ? 0 : item.width,
+                          padding: item.width < 0 ? 0 : 2,
                           backgroundColor:
                             item["status"] === "success"
                               ? "#00cc00"
