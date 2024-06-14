@@ -68,10 +68,10 @@ export function calculateDaysExcludingWeekends(start, end) {
 
     // Loop through each day in the range
     while (currentDate < endDate) {
-        // const dayOfWeek = currentDate.getDay();
-        // if (dayOfWeek === 0 || dayOfWeek === 6) {
-        //     weekendDays++;
-        // }
+        const dayOfWeek = currentDate.getDay();
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+            weekendDays++;
+        }
         currentDate.setDate(currentDate.getDate() + 1);
     }
 
