@@ -182,9 +182,9 @@ export function addTimeSkippingWeekends(startDate, daysToAdd, minutesToAdd) {
         currentDate.setMinutes(currentDate.getMinutes() + 1);
 
         // Skip weekends
-        // if (currentDate.getDay() === 6 || currentDate.getDay() === 0) {
-        //     continue;
-        // }
+        if (currentDate.getDay() === 6 || currentDate.getDay() === 0) {
+            continue;
+        }
 
         remainingMinutes--;
     }
