@@ -104,10 +104,10 @@ export const getLastFiveWeekdays = () => {
         currentDate.setDate(currentDate.getDate() - daysToSubtract);
 
         // Check if the current day is not Saturday or Sunday
-        // if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
-        //     weekdays.push(new Date(currentDate));
-        // }
-        weekdays.push(new Date(currentDate)); // O'chadi
+        if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
+            weekdays.push(new Date(currentDate));
+        }
+        // weekdays.push(new Date(currentDate)); // O'chadi
 
         daysToSubtract--; // Move to the previous day
     }
