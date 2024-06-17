@@ -291,12 +291,58 @@ def create_machines(db: Session, machines):
     user_machines = db.query(models.MachineData).filter(models.MachineData.token == machines.token)
     user_machines = user_machines.filter(models.MachineData.createdAt.like(f"{datetime.now().strftime('%Y-%m-%d')}%"))
     user_machines = user_machines.filter(models.MachineData.shift == shift)
-    # unique machine names
-    user_machines = user_machines.group_by(models.MachineData.machineQrCode)
+    # unique machine names without using group_by
+    # user_machines = user_machines.group_by(models.MachineData.machineQrCode)
     
     user_machines = user_machines.all()
 
+    unique_machines = []
+
+    for machine in user_machines:
+        if machine.machineQrCode not in unique_machines:
+            unique_machines.append(machine.machineQrCode)
+
     return {
         "status": "ok",
-        "total": len(user_machines),
+        "total": len(unique_machines)
     }
+
+
+def update_machines(db: Session, machine_id: str, machines):
+    db_machine = db.query(models.MachineData).filter(models.MachineData.id == machine_id).first()
+
+    if db_machine is None:
+        return {
+            "status": "Invalid",
+            "message": "Machine not found"
+        }
+
+    if machines.toolMounted:
+        db_machine.machineStopped = True
+
+    if not machines.machineStopped:
+        if machines.barcodeProductionNo:
+            db_machine.barcodeProductionNo = machines.barcodeProductionNo
+        if machines.cavity:
+            db_machine.cavity = machines.cavity
+        if machines.cycleTime:
+            db_machine.cycleTime = machines.cycleTime
+        if machines.partStatus:
+            db_machine.partStatus = machines.partStatus
+        if machines.pieceNumber:
+            db_machine.pieceNumber = machines.pieceNumber
+        if machines.note:
+            db_machine.note = machines.note
+        if machines.toolCleaning:
+            db_machine.toolCleaning = machines.toolCleaning
+        if machines.remainingProductionTime:
+            db_machine.remainingProductionTime = machines.remainingProductionTime
+        if machines.remainingProductionDays:
+            db_machine.remainingProductionDays = machines.remainingProductionDays
+        if machines.operatingHours:
+            db_machine.operatingHours = machines.operatingHours
+
+    db.commit()
+    db.refresh(db_machine)
+
+    return db_machine
