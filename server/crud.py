@@ -320,27 +320,28 @@ def update_machines(db: Session, machine_id: str, machines):
     if machines.toolMounted:
         db_machine.machineStopped = True
 
-    if not machines.machineStopped:
-        if machines.barcodeProductionNo:
-            db_machine.barcodeProductionNo = machines.barcodeProductionNo
-        if machines.cavity:
-            db_machine.cavity = machines.cavity
-        if machines.cycleTime:
-            db_machine.cycleTime = machines.cycleTime
-        if machines.partStatus:
-            db_machine.partStatus = machines.partStatus
-        if machines.pieceNumber:
-            db_machine.pieceNumber = machines.pieceNumber
-        if machines.note:
-            db_machine.note = machines.note
-        if machines.toolCleaning:
-            db_machine.toolCleaning = machines.toolCleaning
-        if machines.remainingProductionTime:
-            db_machine.remainingProductionTime = machines.remainingProductionTime
-        if machines.remainingProductionDays:
-            db_machine.remainingProductionDays = machines.remainingProductionDays
-        if machines.operatingHours:
-            db_machine.operatingHours = machines.operatingHours
+    if machines.machineStopped:
+        db_machine.machineStopped = machines.machineStopped
+    if machines.barcodeProductionNo:
+        db_machine.barcodeProductionNo = machines.barcodeProductionNo
+    if machines.cavity:
+        db_machine.cavity = machines.cavity
+    if machines.cycleTime:
+        db_machine.cycleTime = machines.cycleTime
+    if machines.partStatus:
+        db_machine.partStatus = machines.partStatus
+    if machines.pieceNumber:
+        db_machine.pieceNumber = machines.pieceNumber
+    if machines.note:
+        db_machine.note = machines.note
+    if machines.toolCleaning:
+        db_machine.toolCleaning = machines.toolCleaning
+    if machines.remainingProductionTime:
+        db_machine.remainingProductionTime = machines.remainingProductionTime
+    if machines.remainingProductionDays:
+        db_machine.remainingProductionDays = machines.remainingProductionDays
+    if machines.operatingHours:
+        db_machine.operatingHours = machines.operatingHours
 
     db.commit()
     db.refresh(db_machine)
