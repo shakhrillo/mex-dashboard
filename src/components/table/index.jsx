@@ -76,8 +76,9 @@ const Table = ({ columns, data }) => {
         };
 
         let response = await fetch(
-          "http://192.168.100.23:7878/api/machines",
+          // "http://192.168.100.23:7878/api/machines",
           // "http://34.31.212.138/api/machines",
+          "http://104.198.75.202/api/machines",
           requestOptions
         );
 
@@ -103,8 +104,9 @@ const Table = ({ columns, data }) => {
           };
 
           const response = await fetch(
+            `http://104.198.75.202/api/machine/status/${machine}`,
             // `http://34.31.212.138/api/machine/status/${machine}`,
-            `http://192.168.100.23:7878/api/machine/status/${machine}`,
+            // `http://192.168.100.23:7878/api/machine/status/${machine}`,
             requestOptions
           );
 
@@ -114,8 +116,9 @@ const Table = ({ columns, data }) => {
           let data = await response.json();
           if (data["status"] === "Invalid") {
             const reResponse = await fetch(
+              `http://104.198.75.202/api/machine/status/${machine.replace(
               // `http://34.31.212.138/api/machine/status/${machine.replace(
-                `http://192.168.100.23:7878/api/machine/status/${machine.replace(
+                // `http://192.168.100.23:7878/api/machine/status/${machine.replace(
                 /\s+/g,
                 ""
               )}`,
@@ -174,6 +177,7 @@ const Table = ({ columns, data }) => {
                 data.remainingProductionDays
               ),
               shift: data.shift,
+              note: data.note,
               machine,
               width: "auto",
               status: "danger",
@@ -362,15 +366,21 @@ const Table = ({ columns, data }) => {
                             item["status"] === "success"
                               ? "#00cc00"
                               : item["status"] === "danger"
-                              ? "#cc0000"
+                              ? "#FC863E"
                               : "#fff",
                         }}
                         className={`status ${item["status"]}`}>
+                          {item["status"] === "danger" ? (
                         <span>
+                          {item.partNo}/{item.partName}/{item.note}
+                          {/* {item.finishDate.toLocaleDateString()}{" "}
+                          {item.finishDate.toLocaleTimeString().slice(0, 5)} */}
+                        </span>) : (
+                          <span>
                           {item.partNo}/{item.partName}/
                           {item.finishDate.toLocaleDateString()}{" "}
                           {item.finishDate.toLocaleTimeString().slice(0, 5)}
-                        </span>
+                        </span>)}
                       </div>
                     </Popover>
                   );
