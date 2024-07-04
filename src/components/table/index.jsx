@@ -104,9 +104,9 @@ const Table = ({ columns, data }) => {
           };
 
           const response = await fetch(
-            `http://104.198.75.202/api/machine/status/${machine}`,
+            // `http://104.198.75.202/api/machine/status/${machine}`,
             // `http://34.31.212.138/api/machine/status/${machine}`,
-            // `http://192.168.100.23:7878/api/machine/status/${machine}`,
+            `http://192.168.100.23:7878/api/machine/status/${machine}`,
             requestOptions
           );
 

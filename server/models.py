@@ -58,6 +58,7 @@ class MachineData(Base):
     shift = Column(String(255), index=True)
     createdAt = Column(DateTime, index=True)
     toolMounted = Column(Boolean, index=True)
+    toolNo = Column(Integer, index=True)
     machineStopped = Column(Boolean, index=True)
     barcodeProductionNo = Column(Integer, index=True)
     cavity = Column(Integer, index=True)

@@ -159,6 +159,10 @@ def get_machines(db: Session, user_token: str):
         user_machines[i].partnumber = productionnumber[0][0]
         user_machines[i].partname = productionnumber[0][1]
 
+    # Return for today only
+    today = datetime.now().strftime("%Y-%m-%d")
+    user_machines = [machine for machine in user_machines if machine.createdAt.strftime("%Y-%m-%d") == today]
+
     cursor2.close()
     conn2.close()
 
@@ -176,7 +180,8 @@ def get_status(db: Session, user_token: str, machine_id: str):
     # shift time
     shift = check_shift(datetime.now().strftime("%H:%M"))
     # get user machines
-    user_machines = db.query(models.MachineData).filter(models.MachineData.token == user_token).group_by(models.MachineData.shift)
+    user_machines = db.query(models.MachineData).filter(models.MachineData.token == user_token)
+    # user_machines = db.query(models.MachineData).filter(models.MachineData.token == user_token).group_by(models.MachineData.shift)
     # get today's data
     user_machines = user_machines.filter(models.MachineData.createdAt.like(f"{datetime.now().strftime('%Y-%m-%d')}%"))
     # get shift data
@@ -199,6 +204,8 @@ def get_status(db: Session, user_token: str, machine_id: str):
 def get_all_machines_list(db: Session):
     db_machines = db.query(models.Machine)
     machines = [
+        "E 41",
+
         "E 35-1",
         "E 45-1",
         "E 45-2",
@@ -257,7 +264,8 @@ def create_machines(db: Session, machines):
         "createdAt": datetime.strptime(createdAt, "%Y-%m-%d %H:%M:%S"),
         
         "toolMounted": machines.toolMounted,
-        "machineStopped": machines.machineStopped
+        "machineStopped": machines.machineStopped,
+        "toolNo": machines.toolNo,
     })
 
     if md["toolMounted"] == True:
