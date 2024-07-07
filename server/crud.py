@@ -205,6 +205,7 @@ def get_all_machines_list(db: Session):
     db_machines = db.query(models.Machine)
     machines = [
         "E 41",
+        "E 35-2",
 
         "E 35-1",
         "E 45-1",
