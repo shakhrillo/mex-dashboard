@@ -269,20 +269,20 @@ def create_machines(db: Session, machines):
         "toolNo": machines.toolNo,
     })
 
-    if md["toolMounted"] == True:
-        md["machineStopped"] = True
+    # if md["toolMounted"] == True:
+    #     md["machineStopped"] = True
 
-    if md["machineStopped"] == False:
-        md["barcodeProductionNo"] = machines.barcodeProductionNo
-        md["cavity"] = machines.cavity
-        md["cycleTime"] = machines.cycleTime
-        md["partStatus"] = machines.partStatus
-        md["pieceNumber"] = machines.pieceNumber
-        md["note"] = machines.note
-        md["toolCleaning"] = machines.toolCleaning
-        md["remainingProductionTime"] = machines.remainingProductionTime
-        md["remainingProductionDays"] = machines.remainingProductionDays
-        md["operatingHours"] = machines.operatingHours
+    # if md["machineStopped"] == False:
+    md["barcodeProductionNo"] = machines.barcodeProductionNo
+    md["cavity"] = machines.cavity
+    md["cycleTime"] = machines.cycleTime
+    md["partStatus"] = machines.partStatus
+    md["pieceNumber"] = machines.pieceNumber
+    md["note"] = machines.note
+    md["toolCleaning"] = machines.toolCleaning
+    md["remainingProductionTime"] = machines.remainingProductionTime
+    md["remainingProductionDays"] = machines.remainingProductionDays
+    md["operatingHours"] = machines.operatingHours
 
     # if is_end_of_month() and md["operatingHours"] == 0:
     #     return {
@@ -325,32 +325,9 @@ def update_machines(db: Session, machine_id: str, machines):
             "status": "Invalid",
             "message": "Machine not found"
         }
-
-    if machines.toolMounted:
-        db_machine.machineStopped = True
-
-    if machines.machineStopped:
-        db_machine.machineStopped = machines.machineStopped
-    if machines.barcodeProductionNo:
-        db_machine.barcodeProductionNo = machines.barcodeProductionNo
-    if machines.cavity:
-        db_machine.cavity = machines.cavity
-    if machines.cycleTime:
-        db_machine.cycleTime = machines.cycleTime
-    if machines.partStatus:
-        db_machine.partStatus = machines.partStatus
-    if machines.pieceNumber:
-        db_machine.pieceNumber = machines.pieceNumber
-    if machines.note:
-        db_machine.note = machines.note
-    if machines.toolCleaning:
-        db_machine.toolCleaning = machines.toolCleaning
-    if machines.remainingProductionTime:
-        db_machine.remainingProductionTime = machines.remainingProductionTime
-    if machines.remainingProductionDays:
-        db_machine.remainingProductionDays = machines.remainingProductionDays
-    if machines.operatingHours:
-        db_machine.operatingHours = machines.operatingHours
+    
+    for key, value in machines.items():
+        setattr(db_machine, key, value)
 
     db.commit()
     db.refresh(db_machine)

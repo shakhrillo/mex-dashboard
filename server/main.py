@@ -72,7 +72,7 @@ def create_machines(machines: schemas.MachineBase, db: Session = Depends(get_db)
     return crud.create_machines(db=db, machines=machines)
 
 @app.put("/api/machines/{machine_id}")
-def update_machines(machine_id: str, machines: schemas.MachineBase, db: Session = Depends(get_db)):
+def update_machines(machine_id: str, machines: dict, db: Session = Depends(get_db)):
     return crud.update_machines(db=db, machine_id=machine_id, machines=machines)
 
 @app.get("/api/machines")
