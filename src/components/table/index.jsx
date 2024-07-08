@@ -8,6 +8,7 @@ import {
   machines,
   monthNames,
   weekdays,
+  CONFIG,
 } from "../global";
 import { Popover } from "antd";
 import { ClipLoader } from "react-spinners";
@@ -76,7 +77,7 @@ const Table = ({ columns, data }) => {
         };
 
         let response = await fetch(
-          "http://192.168.100.23:7878/api/machines",
+          CONFIG.API_URL + "/api/machines",
           requestOptions
         );
 
@@ -94,6 +95,7 @@ const Table = ({ columns, data }) => {
       try {
         const updatedMachinesData = [];
         const updateMachinesList = [];
+        
         for (let machine of machinesList) {
           machine = machine["machineQrCode"];
           const requestOptions = {
@@ -102,21 +104,18 @@ const Table = ({ columns, data }) => {
           };
 
           const response = await fetch(
-            `http://35.184.23.4/api/machine/status/${machine}`,
-            // `http://34.31.212.138/api/machine/status/${machine}`,
-            // `http://192.168.100.23:7878/api/machine/status/${machine}`,
+            CONFIG.API_URL + `/api/machine/status/${machine}`,
             requestOptions
           );
 
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
+
           let data = await response.json();
           if (data["status"] === "Invalid") {
             const reResponse = await fetch(
-              // `http://35.184.23.4/api/machine/status/${machine.replace(
-              // `http://34.31.212.138/api/machine/status/${machine.replace(
-                `http://192.168.100.23:7878/api/machine/status/${machine.replace(
+                CONFIG.API_URL + `/api/machine/status/${machine.replace(
                 /\s+/g,
                 ""
               )}`,
@@ -129,15 +128,16 @@ const Table = ({ columns, data }) => {
 
             data = await reResponse.json();
           }
-          console.log(data);
+
           let machineInfo = [];
-          let width = 0;
+
           if (
             !(data["status"] === "Invalid") &&
             !data.toolMounted &&
             !data.machineStopped
           ) {
             machineInfo.push({
+              ...data,
               barcodeProductionNo: data.barcodeProductionNo,
               partNo: data.partnumber,
               partName: data.partname,
@@ -165,6 +165,7 @@ const Table = ({ columns, data }) => {
             data.machineStopped
           ) {
             machineInfo.push({
+              ...data,
               barcodeProductionNo: data.barcodeProductionNo,
               partNo: data.partnumber,
               partName: data.partname,
@@ -186,6 +187,7 @@ const Table = ({ columns, data }) => {
             !data.machineStopped
           ) {
             machineInfo.push({
+              ...data,
               barcodeProductionNo: data.barcodeProductionNo,
               partNo: data.partnumber,
               partName: data.partname,
@@ -202,15 +204,27 @@ const Table = ({ columns, data }) => {
             });
           }
 
+          let _status = "transparent";
+
+          if (data["machineStopped"] === true) {
+            _status = "danger";
+          }
+          
+          if (data["machineStopped"] === false) {
+            _status = "success";
+          }
+          
+          if (!data["toolNo"]) {
+            _status = "warning";
+          }
+
+          console.log('_status', _status);
+
           updateMachinesList.push({
+            ...data,
             machine,
             barcodeProductionNo: data["barcodeProductionNo"],
-            status:
-              data["machineStopped"] === true
-                ? "danger"
-                : data["machineStopped"] === false
-                ? "success"
-                : "transparent",
+            status: _status
           });
           updatedMachinesData.push(machineInfo);
         }
@@ -330,7 +344,26 @@ const Table = ({ columns, data }) => {
           {machinesData.map((machine, index) => (
             <div key={index} className="squars">
               <div className="squars-line">
-                {machine.map((item, key) => {
+                {machine.map(item => {
+                  console.log('+++item', item);
+                  let _status = "transparent";
+
+                  if (item["machineStopped"] === true) {
+                    _status = "danger";
+                  }
+                  
+                  if (item["machineStopped"] === false) {
+                    _status = "success";
+                  }
+                  
+                  if (!item["toolNo"]) {
+                    _status = "warning";
+                  }
+
+                  item["status"] = _status;
+                  
+                  return item;
+                }).map((item, key) => {
                   return (
                     <Popover
                       content={
@@ -360,14 +393,8 @@ const Table = ({ columns, data }) => {
                               : 0,
                           width: item.width < 0 ? 0 : item.width,
                           padding: item.width < 0 ? 0 : 2,
-                          backgroundColor:
-                            item["status"] === "success"
-                              ? "#00cc00"
-                              : item["status"] === "danger"
-                              ? "#FC863E"
-                              : "#fff",
                         }}
-                        className={`status ${item["status"]}`}>
+                        className={`status bg-${item["status"]}`}>
                           {item["status"] === "danger" ? (
                         <span>
                           {item.partNo}/{item.partName}/{item.note}

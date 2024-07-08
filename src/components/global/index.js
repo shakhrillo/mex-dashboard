@@ -1,3 +1,8 @@
+export const CONFIG = {
+    // API_URL: 'http://192.168.100.23:7878',
+    API_URL: 'http://127.0.0.1:8000',
+}
+
 export const machines = [
     "E 35-1",
     "E 45-1",

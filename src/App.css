@@ -193,6 +193,9 @@ body {
   background-color: #00cc00;
 }
 .bg-danger {
+  background-color: #ff0000;
+}
+.bg-warning {
   background-color: #FC863E;
 }
 .right-side::-webkit-scrollbar {
