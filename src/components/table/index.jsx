@@ -209,12 +209,12 @@ const Table = ({ columns, data }) => {
           if (data["machineStopped"] === true) {
             _status = "danger";
           }
-          
+          console.log(`${data["machineQrCode"]} ${data["machineStopped"]}`);
           if (data["machineStopped"] === false) {
             _status = "success";
           }
           
-          if (!data["toolNo"]) {
+          if (data["toolNo"]) {
             _status = "warning";
           }
 
@@ -356,7 +356,7 @@ const Table = ({ columns, data }) => {
                     _status = "success";
                   }
                   
-                  if (!item["toolNo"]) {
+                  if (item["toolNo"]) {
                     _status = "warning";
                   }
 
