@@ -356,7 +356,7 @@ const Table = ({ columns, data }) => {
                     _status = "success";
                   }
                   
-                  if (item["toolNo"]) {
+                  if (item["toolNo"] && item["machineStopped"]) {
                     _status = "warning";
                   }
 
