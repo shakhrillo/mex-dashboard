@@ -381,6 +381,10 @@ const Table = ({ columns, data }) => {
                             {item.finishDate.toLocaleDateString()}{" "}
                             {item.finishDate.toLocaleTimeString().slice(0, 5)}
                           </p>
+                          <p>
+                            <span>Werkzeugnummer: </span>
+                            {item.toolNo}
+                          </p>
                         </div>
                       }
                       key={key}>
