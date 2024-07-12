@@ -19,7 +19,7 @@ class MachineBase(BaseModel):
     createdAt: str
     machineQrCode: str
     toolMounted: bool
-    toolNo: int
+    toolNo: str
     machineStopped: bool
     barcodeProductionNo: int
     cavity: int
