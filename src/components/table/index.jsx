@@ -232,7 +232,7 @@ const Table = ({ columns, data }) => {
 
           console.log('d', data, width);
           
-          if (data["width"] == 0 && !data["toolMounted"]) {
+          if (width == 0 && !data["toolMounted"]) {
             _status = "danger";
           }
 
