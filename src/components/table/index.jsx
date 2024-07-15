@@ -227,10 +227,10 @@ const Table = ({ columns, data }) => {
             _status = "success";
           }
           
-          if (finalProductionTime == 0 && !data["toolMounted"]) {
+          if (data["width"] == 0 && !data["toolMounted"]) {
             _status = "danger";
           }
-          
+
           if (data["toolMounted"] && data["machineStopped"]) {
             _status = "warning";
           }
