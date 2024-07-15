@@ -130,6 +130,7 @@ const Table = ({ columns, data }) => {
           }
 
           let machineInfo = [];
+          let width = 0;
 
           if (
             // !data.toolMounted &&
@@ -155,6 +156,8 @@ const Table = ({ columns, data }) => {
             const excludedWeekendHours = calculateDaysExcludingWeekends(data.createdAt, today) * 8.75;
 
             const finalProductionTime = adjustedProductionTime - excludedWeekendHours;
+
+            width = finalProductionTime;
             
             // console.log('data', data);
             // console.log('finalProductionTime', finalProductionTime);
@@ -227,9 +230,9 @@ const Table = ({ columns, data }) => {
             _status = "success";
           }
 
-          console.log('d', data);
+          console.log('d', data, width);
           
-          if (data["width"] == '0' && !data["toolMounted"]) {
+          if (data["width"] == 0 && !data["toolMounted"]) {
             _status = "danger";
           }
 
