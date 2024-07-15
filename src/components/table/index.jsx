@@ -227,13 +227,14 @@ const Table = ({ columns, data }) => {
             _status = "success";
           }
           
+          if (finalProductionTime == 0 && !data["toolMounted"]) {
+            _status = "danger";
+          }
+          
           if (data["toolMounted"] && data["machineStopped"]) {
             _status = "warning";
           }
 
-          if (finalProductionTime == 0 && !data["toolMounted"]) {
-            _status = "danger";
-          }
 
           updateMachinesList.push({
             ...data,
