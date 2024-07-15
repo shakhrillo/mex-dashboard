@@ -161,7 +161,7 @@ def get_machines(db: Session, user_token: str):
 
     # Return for today only
     today = datetime.now().strftime("%Y-%m-%d")
-    # user_machines = [machine for machine in user_machines if machine.createdAt.strftime("%Y-%m-%d") == today]
+    user_machines = [machine for machine in user_machines if machine.createdAt.strftime("%Y-%m-%d") == today]
 
     cursor2.close()
     conn2.close()
