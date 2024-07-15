@@ -149,7 +149,6 @@ const Table = ({ columns, data }) => {
 
             console.log('data', data);
             console.log('finalProductionTime', finalProductionTime);
-            console.log('adjustedProductionTime', adjustedProductionTime);
 
             machineInfo.push({
               ...data,
@@ -216,7 +215,6 @@ const Table = ({ columns, data }) => {
           if (data["machineStopped"] === true) {
             _status = "danger";
           }
-          console.log(`${data["machineQrCode"]} ${data["machineStopped"]}`);
           if (data["machineStopped"] === false) {
             _status = "success";
           }
@@ -224,8 +222,6 @@ const Table = ({ columns, data }) => {
           if (data["toolMounted"] && data["machineStopped"]) {
             _status = "warning";
           }
-
-          console.log('_status', _status);
 
           updateMachinesList.push({
             ...data,
@@ -352,7 +348,6 @@ const Table = ({ columns, data }) => {
             <div key={index} className="squars">
               <div className="squars-line">
                 {machine.map(item => {
-                  console.log('+++item', item);
                   let _status = "transparent";
 
                   if (item["machineStopped"] === true) {

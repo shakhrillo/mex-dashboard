@@ -53,8 +53,6 @@ export const monthNames = [
 ];
 
 export function calculateDaysExcludingWeekends(start, end) {
-    console.log(start, end);
-
     const startDate = new Date(start);
     const endDate = new Date(end); // today
 
@@ -86,8 +84,6 @@ export function calculateDaysExcludingWeekends(start, end) {
     const effectiveHours = Math.floor(effectiveTotalMinutes / 60);
     const effectiveMinutes = effectiveTotalMinutes % 60;
 
-    console.log(
-        "Days:", Math.floor(effectiveHours / 24), "hours", effectiveHours % 24, "effectiveMinutes", effectiveMinutes);
     if (effectiveHours < 0)
         return 0;
     return effectiveHours;
@@ -150,7 +146,6 @@ function calculateNewDate(initialDate) {
 // Calculate the new date
 // const newDate = calculateNewDate(initialDate);
 
-// console.log("newDate", newDate);
 
 
 export function addMinutes(date, minutes, days = 0) {
