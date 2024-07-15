@@ -231,6 +231,10 @@ const Table = ({ columns, data }) => {
             _status = "warning";
           }
 
+          if (finalProductionTime == 0 && !data["toolMounted"]) {
+            _status = "danger";
+          }
+
           updateMachinesList.push({
             ...data,
             machine,
