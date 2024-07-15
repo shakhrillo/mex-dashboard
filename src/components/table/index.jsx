@@ -156,8 +156,8 @@ const Table = ({ columns, data }) => {
 
             const finalProductionTime = adjustedProductionTime - excludedWeekendHours;
             
-            console.log('data', data);
-            console.log('finalProductionTime', finalProductionTime);
+            // console.log('data', data);
+            // console.log('finalProductionTime', finalProductionTime);
 
             machineInfo.push({
               ...data,
@@ -226,8 +226,10 @@ const Table = ({ columns, data }) => {
           if (data["machineStopped"] === false) {
             _status = "success";
           }
+
+          console.log('d', data);
           
-          if (data["width"] == 0 && !data["toolMounted"]) {
+          if (data["width"] == '0' && !data["toolMounted"]) {
             _status = "danger";
           }
 
