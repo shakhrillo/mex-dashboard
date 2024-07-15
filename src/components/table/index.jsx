@@ -132,8 +132,7 @@ const Table = ({ columns, data }) => {
           let machineInfo = [];
 
           if (
-            !(data["status"] === "Invalid") &&
-            !data.toolMounted &&
+            // !data.toolMounted &&
             !data.machineStopped
           ) {
             const createdAt = new Date(data.createdAt);
@@ -177,7 +176,6 @@ const Table = ({ columns, data }) => {
               status: "success",
             });
           } else if (
-            !(data["status"] === "Invalid") &&
             data.machineStopped
           ) {
             machineInfo.push({
@@ -197,28 +195,28 @@ const Table = ({ columns, data }) => {
               width: "auto",
               status: "danger",
             });
-          } else if (
-            !(data["status"] === "Invalid") &&
-            data.toolMounted &&
-            !data.machineStopped
-          ) {
-            machineInfo.push({
-              ...data,
-              barcodeProductionNo: data.barcodeProductionNo,
-              partNo: data.partnumber,
-              partName: data.partname,
-              createdAt: data.createdAt,
-              finishDate: addMinutes(
-                data.createdAt,
-                data.remainingProductionTime,
-                data.remainingProductionDays
-              ),
-              shift: data.shift,
-              machine,
-              width: 0,
-              status: "transparent",
-            });
           }
+          //  else if (
+          //   data.toolMounted &&
+          //   !data.machineStopped
+          // ) {
+          //   machineInfo.push({
+          //     ...data,
+          //     barcodeProductionNo: data.barcodeProductionNo,
+          //     partNo: data.partnumber,
+          //     partName: data.partname,
+          //     createdAt: data.createdAt,
+          //     finishDate: addMinutes(
+          //       data.createdAt,
+          //       data.remainingProductionTime,
+          //       data.remainingProductionDays
+          //     ),
+          //     shift: data.shift,
+          //     machine,
+          //     width: 0,
+          //     status: "transparent",
+          //   });
+          // }
 
           let _status = "transparent";
 
