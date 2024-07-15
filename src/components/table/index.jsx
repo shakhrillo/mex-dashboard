@@ -375,6 +375,10 @@ const Table = ({ columns, data }) => {
                   if (item["machineStopped"] === false) {
                     _status = "success";
                   }
+
+                  if (item["width"] == 0 && !item["toolMounted"]) {
+                    _status = "danger";
+                  }
                   
                   if (item["toolMounted"] && item["machineStopped"]) {
                     _status = "warning";
