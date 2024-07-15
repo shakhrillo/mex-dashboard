@@ -136,17 +136,27 @@ const Table = ({ columns, data }) => {
             !data.toolMounted &&
             !data.machineStopped
           ) {
+            const createdAt = new Date(data.createdAt);
+            const today = new Date();  // Ensure 'today' is defined
+
+            const isSameDate = (date1, date2) => {
+                return date1.getFullYear() === date2.getFullYear() &&
+                      date1.getMonth() === date2.getMonth() &&
+                      date1.getDate() === date2.getDate();
+            };
+
             const productionTimeInHours = (data.remainingProductionTime / 60) + (data.remainingProductionDays * 24);
 
             // If the current date is the same as the created date, subtract 0, otherwise subtract 1
-            const dayAdjustment = new Date(data.createdAt).getDate() === today.getDate() ? 0 : 1;
+            const dayAdjustment = isSameDate(createdAt, today) ? 0 : 1;
 
             const adjustedProductionTime = (productionTimeInHours - dayAdjustment) * 8.75;
 
+            // Calculate hours excluding weekends
             const excludedWeekendHours = calculateDaysExcludingWeekends(data.createdAt, today) * 8.75;
 
             const finalProductionTime = adjustedProductionTime - excludedWeekendHours;
-
+            
             console.log('data', data);
             console.log('finalProductionTime', finalProductionTime);
 
