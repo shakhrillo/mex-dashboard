@@ -136,6 +136,21 @@ const Table = ({ columns, data }) => {
             !data.toolMounted &&
             !data.machineStopped
           ) {
+            const productionTimeInHours = (data.remainingProductionTime / 60) + (data.remainingProductionDays * 24);
+
+            // If the current date is the same as the created date, subtract 0, otherwise subtract 1
+            const dayAdjustment = new Date(data.createdAt).getDate() === today.getDate() ? 0 : 1;
+
+            const adjustedProductionTime = (productionTimeInHours - dayAdjustment) * 8.75;
+
+            const excludedWeekendHours = calculateDaysExcludingWeekends(data.createdAt, today) * 8.75;
+
+            const finalProductionTime = adjustedProductionTime - excludedWeekendHours;
+
+            console.log('data', data);
+            console.log('finalProductionTime', finalProductionTime);
+            console.log('adjustedProductionTime', adjustedProductionTime);
+
             machineInfo.push({
               ...data,
               barcodeProductionNo: data.barcodeProductionNo,
@@ -149,15 +164,7 @@ const Table = ({ columns, data }) => {
               ),
               shift: data.shift,
               machine,
-              width:
-                (data.remainingProductionTime / 60 +
-                  data.remainingProductionDays * 24-
-                  //if the current date is the same as the created date then minus one else minus 0
-                  (new Date(data.createdAt).getDate() === today.getDate() ? 0 : 1) 
-                  ) *
-                  8.75 -
-                calculateDaysExcludingWeekends(data.createdAt, today) *
-                  8.75,
+              width: finalProductionTime,
               status: "success",
             });
           } else if (
