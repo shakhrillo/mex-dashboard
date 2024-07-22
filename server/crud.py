@@ -165,7 +165,7 @@ def get_machine_status(db: Session, machine_id: str):
         color = "danger"
 
     return {
-        **db_machine,
+        **db_machine.__dict__,
         "status": color
     }
     
