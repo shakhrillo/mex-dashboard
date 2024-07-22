@@ -230,8 +230,6 @@ const Table = ({ columns, data }) => {
             _status = "success";
           }
 
-          console.log('d', data, width);
-          
           if (width == 0 && !data["toolMounted"]) {
             _status = "danger";
           }
@@ -239,7 +237,6 @@ const Table = ({ columns, data }) => {
           if (data["toolMounted"] && data["machineStopped"]) {
             _status = "warning";
           }
-
 
           updateMachinesList.push({
             ...data,
