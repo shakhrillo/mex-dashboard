@@ -263,7 +263,10 @@ def get_all_machines_list(db: Session):
         "E 80-1",
         "F250iA-1"
     ]
+    
     db_machines = db_machines.all()
+    # if machine is not in the list, skip
+    db_machines = [machine for machine in db_machines if machine.machineQrCode in machines]
     db_machines = sorted(db_machines, key=lambda x: machines.index(x.machineQrCode))
     
     # order like above
