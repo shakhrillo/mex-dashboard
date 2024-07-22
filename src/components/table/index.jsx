@@ -176,28 +176,28 @@ const Table = ({ columns, data }) => {
               shift: data.shift,
               machine,
               width: finalProductionTime,
-              status: "success",
+              status: data["status"],
             });
-          } else if (
-            data.machineStopped
-          ) {
-            machineInfo.push({
-              ...data,
-              barcodeProductionNo: data.barcodeProductionNo,
-              partNo: data.partnumber,
-              partName: data.partname,
-              createdAt: data.createdAt,
-              finishDate: addMinutes(
-                data.createdAt,
-                data.remainingProductionTime,
-                data.remainingProductionDays
-              ),
-              shift: data.shift,
-              note: data.note,
-              machine,
-              width: "auto",
-              status: "danger",
-            });
+          // } else if (
+          //   data.machineStopped
+          // ) {
+          //   machineInfo.push({
+          //     ...data,
+          //     barcodeProductionNo: data.barcodeProductionNo,
+          //     partNo: data.partnumber,
+          //     partName: data.partname,
+          //     createdAt: data.createdAt,
+          //     finishDate: addMinutes(
+          //       data.createdAt,
+          //       data.remainingProductionTime,
+          //       data.remainingProductionDays
+          //     ),
+          //     shift: data.shift,
+          //     note: data.note,
+          //     machine,
+          //     width: "auto",
+          //     status: "danger",
+          //   });
           }
           //  else if (
           //   data.toolMounted &&
@@ -221,28 +221,28 @@ const Table = ({ columns, data }) => {
           //   });
           // }
 
-          let _status = "transparent";
+          // let _status = data["status"];
 
-          if (data["machineStopped"] === true) {
-            _status = "danger";
-          }
-          if (data["machineStopped"] === false) {
-            _status = "success";
-          }
+          // if (data["machineStopped"] === true) {
+          //   _status = "danger";
+          // }
+          // if (data["machineStopped"] === false) {
+          //   _status = "success";
+          // }
 
-          if (width == 0 && !data["toolMounted"]) {
-            _status = "danger";
-          }
+          // if (width == 0 && !data["toolMounted"]) {
+          //   _status = "danger";
+          // }
 
-          if (data["toolMounted"] && data["machineStopped"]) {
-            _status = "warning";
-          }
+          // if (data["toolMounted"] && data["machineStopped"]) {
+          //   _status = "warning";
+          // }
 
           updateMachinesList.push({
             ...data,
             machine,
             barcodeProductionNo: data["barcodeProductionNo"],
-            status: _status
+            status: data["status"],
           });
           updatedMachinesData.push(machineInfo);
         }
@@ -365,22 +365,27 @@ const Table = ({ columns, data }) => {
                 {machine.map(item => {
                   let _status = "transparent";
 
-                  if (item["machineStopped"] === true) {
-                    _status = "danger";
-                  }
+                  // if (item["machineStopped"] === true) {
+                  //   _status = "danger";
+                  // }
                   
-                  if (item["machineStopped"] === false) {
-                    _status = "success";
-                  }
+                  // if (item["machineStopped"] === false) {
+                  //   _status = "success";
+                  // }
 
-                  if (item["width"] == 0 && !item["toolMounted"]) {
-                    _status = "danger";
-                  }
+                  // if (item["width"] == 0 && !item["toolMounted"]) {
+                  //   _status = "danger";
+                  // }
                   
-                  if (item["toolMounted"] && item["machineStopped"]) {
-                    _status = "warning";
+                  // if (item["toolMounted"] && item["machineStopped"]) {
+                  //   _status = "warning";
+                  // }
+                  console.log('item', item);
+                  if (item['status'] == "Invalid") {
+                    _status = 'transparent';
+                  } else {
+                    _status = item['status'];
                   }
-
                   item["status"] = _status;
                   
                   return item;
