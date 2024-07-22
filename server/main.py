@@ -100,7 +100,7 @@ def get_all_machines(machine_id: str, db: Session = Depends(get_db)):
 def get_current(machine_id: str, db: Session = Depends(get_db)):
     last_data = db.query(models.Machine).filter(models.Machine.machineQrCode == machine_id)
     # order by date
-    last_data = last_data.order_by(models.MachineData.createdAt.desc()).first()
+    last_data = last_data.order_by(models.Machine.createdAt.desc()).first()
     last_shift = last_data.shift
     last_tool_cleaning = last_data.toolCleaning
 
