@@ -32,7 +32,15 @@ def check_shift(time):
 
     return None
 
-def create_comment(db: Session, comment: schemas.Comment):
+def create_comment(db: Session, comment: schemas.Comment, user_token: str):
+
+    end_time = datetime.now()
+    db_machine = db.query(models.StartMachine).filter(models.StartMachine.token == user_token).order_by(models.StartMachine.id.desc()).first()
+    if db_machine:
+        db_machine.end_time = end_time
+        db.commit()
+        db.refresh(db_machine)
+
     d = dict({
         "comment": comment.comment,
         "preparation_shift": comment.preparation_shift,
