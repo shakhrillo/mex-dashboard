@@ -2,7 +2,7 @@
   "name": "mex-dashboard",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://35.184.23.4/dashboard",
+  "homepage": "http://35.184.23.4/dashboard/build",
   "dependencies": {
     "@aldabil/react-scheduler": "^2.9.2",
     "@testing-library/jest-dom": "^5.17.0",
