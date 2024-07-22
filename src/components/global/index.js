@@ -1,7 +1,7 @@
 export const CONFIG = {
-    API_URL: 'http://192.168.100.23:7878',
+    // API_URL: 'http://192.168.100.23:7878',
     // API_URL: 'http://127.0.0.1:8000',
-    // API_URL: 'http://35.184.23.4',
+    API_URL: 'http://35.184.23.4',
 }
 
 export const machines = [
