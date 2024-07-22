@@ -98,7 +98,7 @@ def get_all_machines(machine_id: str, db: Session = Depends(get_db)):
 # http://35.184.23.4/api/current
 @app.get("/api/current/{machine_id}")
 def get_current(machine_id: str, db: Session = Depends(get_db)):
-    last_data = db.query(models.Machine).filter(models.Machine.machine_id == machine_id).order_by(models.Machine.id.desc()).first()
+    last_data = db.query(models.Machine).filter(models.Machine.machineQrCode == machine_id).order_by(models.Machine.id.desc()).first()
     last_shift = last_data.shift
     last_tool_cleaning = last_data.toolCleaning
 
