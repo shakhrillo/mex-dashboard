@@ -95,6 +95,15 @@ def get_status(user_token: str, machine_id: str, db: Session = Depends(get_db)):
 def get_all_machines(machine_id: str, db: Session = Depends(get_db)):
     return crud.get_all_machines(db=db, machine_id=machine_id)
 
+# http://35.184.23.4/api/current
+@app.get("/api/current")
+def get_current(db: Session = Depends(get_db)):
+    # return crud.get_current(db=db)
+    return {
+        "text": "Werkzeugreinigung in Schicht F1 erledigt?",
+        "status": "success",
+    }
+
 @app.get("/api/productionnumber/{bauf}")
 def check_productionnumber(bauf: str):
     if len(bauf) != 9:
