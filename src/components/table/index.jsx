@@ -178,65 +178,25 @@ const Table = ({ columns, data }) => {
               width: finalProductionTime,
               status: data["status"],
             });
-          // } else if (
-          //   data.machineStopped
-          // ) {
-          //   machineInfo.push({
-          //     ...data,
-          //     barcodeProductionNo: data.barcodeProductionNo,
-          //     partNo: data.partnumber,
-          //     partName: data.partname,
-          //     createdAt: data.createdAt,
-          //     finishDate: addMinutes(
-          //       data.createdAt,
-          //       data.remainingProductionTime,
-          //       data.remainingProductionDays
-          //     ),
-          //     shift: data.shift,
-          //     note: data.note,
-          //     machine,
-          //     width: "auto",
-          //     status: "danger",
-          //   });
+          
+          } else {
+            machineInfo.push({
+              ...data,
+              barcodeProductionNo: data.barcodeProductionNo,
+              partNo: data.partnumber,
+              partName: data.partname,
+              createdAt: data.createdAt,
+              finishDate: addTimeSkippingWeekends(
+                data.createdAt,
+                data.remainingProductionDays,
+                data.remainingProductionTime
+              ),
+              shift: data.shift,
+              machine,
+              width: 0,
+              status: data["status"],
+            });
           }
-          //  else if (
-          //   data.toolMounted &&
-          //   !data.machineStopped
-          // ) {
-          //   machineInfo.push({
-          //     ...data,
-          //     barcodeProductionNo: data.barcodeProductionNo,
-          //     partNo: data.partnumber,
-          //     partName: data.partname,
-          //     createdAt: data.createdAt,
-          //     finishDate: addMinutes(
-          //       data.createdAt,
-          //       data.remainingProductionTime,
-          //       data.remainingProductionDays
-          //     ),
-          //     shift: data.shift,
-          //     machine,
-          //     width: 0,
-          //     status: "transparent",
-          //   });
-          // }
-
-          // let _status = data["status"];
-
-          // if (data["machineStopped"] === true) {
-          //   _status = "danger";
-          // }
-          // if (data["machineStopped"] === false) {
-          //   _status = "success";
-          // }
-
-          // if (width == 0 && !data["toolMounted"]) {
-          //   _status = "danger";
-          // }
-
-          // if (data["toolMounted"] && data["machineStopped"]) {
-          //   _status = "warning";
-          // }
 
           updateMachinesList.push({
             ...data,
