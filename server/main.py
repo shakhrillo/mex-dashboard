@@ -2,6 +2,7 @@ from dotenv import dotenv_values
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
+from fastapi.middleware.cors import CORSMiddleware
 
 config = dotenv_values(".env")
 import mysql.connector
@@ -26,14 +27,21 @@ def get_db_2():
     finally:
         db2.close()
 
-# Enable cors for http://192.168.100.23:3230/
+# CORS Middleware configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
 @app.middleware("http")
 async def add_cors_header(request, call_next):
     response = await call_next(request)
     response.headers["Access-Control-Allow-Origin"] = "*"
     response.headers["Access-Control-Allow-Methods"] = "*"
     response.headers["Access-Control-Allow-Headers"] = "*"
-
     return response
 
 @app.exception_handler(Exception)
