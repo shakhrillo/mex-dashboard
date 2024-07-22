@@ -165,12 +165,13 @@ def get_machine_status(db: Session, machine_id: str):
         color = "danger"
     if not db_machine.machineStopped:
         color = "success"
-    if db_machine.toolMounted and db_machine.machineStopped:
-        color = "warning"
 
     # remainingProductionDays remainingProductionTime
     if db_machine.remainingProductionDays == 0 and db_machine.remainingProductionTime == 0:
         color = "danger"
+    
+    if db_machine.toolMounted and db_machine.machineStopped:
+        color = "warning"
 
     return {
         **db_machine.__dict__,
