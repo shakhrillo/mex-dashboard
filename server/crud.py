@@ -250,12 +250,13 @@ def search_machines(
     db: Session
 ):
     db_machines = db.query(models.MachineData)
-    # filter by date
-    if fromDate:
-        db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{fromDate}%"))
+    # filter by date range
+    if fromDate and toDate:
+        db_machines = db_machines.filter(models.MachineData.createdAt.between(fromDate, toDate))
+    #     db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{fromDate}%"))
     
-    if toDate:
-        db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{toDate}%"))
+    # if toDate:
+    #     db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{toDate}%"))
 
     if note:
         db_machines = db_machines.filter(models.MachineData.note.like(f"%{note}%"))
@@ -263,6 +264,7 @@ def search_machines(
     if barcodeProductionNo:
         db_machines = db_machines.filter(models.MachineData.barcodeProductionNo == barcodeProductionNo)
 
+    # http://35.184.23.4/api/search?fromDate=2024-07-11&toDate=2024-07-11&note=Test&barcodeProductionNo=123456789
     return db_machines.all()
 
 def get_all_machines_list(db: Session):
