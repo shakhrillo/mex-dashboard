@@ -261,7 +261,11 @@ const Table = ({ columns, data }) => {
                   <span>{machine.machine}</span>
                 </div>
                 <div className="side-title-item side-title-item-status">
-                  <div className={`status-box bg-${machine.status}`}></div>
+                  <div 
+                  style={{
+                    width: "100% !important",
+                  }}
+                  className={`status-box bg-${machine.status}`}></div>
                 </div>
                 <div className="side-title-item side-title-item-productionNr">
                   <span>
