@@ -251,17 +251,19 @@ def search_machines(
 ):
     db_machines = db.query(models.MachineData)
     # filter by date
-    db_machines = db_machines.filter(models.MachineData.createdAt >= fromDate)
-    db_machines = db_machines.filter(models.MachineData.createdAt <= toDate)
-    # filter by note
-    db_machines = db_machines.filter(models.MachineData.note.like(f"%{note}%"))
-    # filter by barcodeProductionNo
-    db_machines = db_machines.filter(models.MachineData.barcodeProductionNo == barcodeProductionNo)
-    # order by date
-    db_machines = db_machines.order_by(models.MachineData.createdAt.desc())
-    # get all data
-    db_machines = db_machines.all()
-    return db_machines
+    if fromDate:
+        db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{fromDate}%"))
+    
+    if toDate:
+        db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{toDate}%"))
+
+    if note:
+        db_machines = db_machines.filter(models.MachineData.note.like(f"%{note}%"))
+
+    if barcodeProductionNo:
+        db_machines = db_machines.filter(models.MachineData.barcodeProductionNo == barcodeProductionNo)
+
+    return db_machines.all()
 
 def get_all_machines_list(db: Session):
     db_machines = db.query(models.Machine)
