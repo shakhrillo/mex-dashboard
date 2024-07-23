@@ -160,7 +160,7 @@ body {
 }
 .status-box {
   height: 25.5px;
-  width: 100%;
+  width: 100% !important;
 }
 
 .side-title-item {
