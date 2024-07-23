@@ -58,7 +58,7 @@ def check_token(token: schemas.Token, db: Session = Depends(get_db)):
 
 @app.post("/api/comments/")
 def create_comment(comment: schemas.Comment, db: Session = Depends(get_db)):
-    return crud.create_comment(db=db, comment=comment, user_token=comment.user_token)
+    return crud.create_comment(db=db, comment=comment, user_token=comment.token)
 
 @app.get("/api/machines/{user_token}/start")
 def start_machine(user_token: str, db: Session = Depends(get_db)):
