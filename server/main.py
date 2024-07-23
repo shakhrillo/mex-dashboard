@@ -79,9 +79,19 @@ def update_machines(machine_id: str, machines: dict, db: Session = Depends(get_d
 def get_machines(db: Session = Depends(get_db)):
     return crud.get_all_machines_list(db=db)
 
+# fromDate
+# toDate
+# note
+# barcodeProductionNo
 @app.get("/api/search")
-def search_machines(q: str, db: Session = Depends(get_db)):
-    return crud.search_machines(db=db, q=q)
+def search_machines(
+    fromDate: str,
+    toDate: str,
+    note: str,
+    barcodeProductionNo: str,
+    db: Session = Depends(get_db)
+):
+    return crud.search_machines(db=db, fromDate=fromDate, toDate=toDate, note=note, barcodeProductionNo=barcodeProductionNo)
 
 @app.get("/api/machine/status/{machine_id}")
 def get_machine_status(machine_id: str, db: Session = Depends(get_db)):

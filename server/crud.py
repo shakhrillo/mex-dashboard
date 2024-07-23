@@ -242,35 +242,26 @@ def get_status(db: Session, user_token: str, machine_id: str):
         "message": user_machines
     }
 
-# fromDate 2024-07-04
-# toDate 2024-07-17
-# toArticle 123123
-# status anweisung
-# ma asdd
-# machine 123123
-def search_machines(db: Session, q: str):
-    # get all machines
+def search_machines(
+    fromDate: str,
+    toDate: str,
+    note: str,
+    barcodeProductionNo: str,
+    db: Session
+):
     db_machines = db.query(models.MachineData)
     # filter by date
-    if "fromDate" in q and "toDate" in q:
-        db_machines = db_machines.filter(models.MachineData.createdAt.between(q["fromDate"], q["toDate"]))
-    # filter by article
-    if "toArticle" in q:
-        db_machines = db_machines.filter(models.MachineData.barcodeProductionNo == q["toArticle"])
-    # filter by status
-    if "status" in q:
-        db_machines = db_machines.filter(models.MachineData.partStatus == q["status"])
-    # filter by ma
-    # if "ma" in q:
-    #     db_machines = db_machines.filter(models.MachineData.toolNo == q["ma"])
-    # filter by machine
-    if "machine" in q:
-        db_machines = db_machines.filter(models.MachineData.machineQrCode == q["machine"])
+    db_machines = db_machines.filter(models.MachineData.createdAt >= fromDate)
+    db_machines = db_machines.filter(models.MachineData.createdAt <= toDate)
+    # filter by note
+    db_machines = db_machines.filter(models.MachineData.note.like(f"%{note}%"))
+    # filter by barcodeProductionNo
+    db_machines = db_machines.filter(models.MachineData.barcodeProductionNo == barcodeProductionNo)
+    # order by date
+    db_machines = db_machines.order_by(models.MachineData.createdAt.desc())
     # get all data
     db_machines = db_machines.all()
     return db_machines
-
-
 
 def get_all_machines_list(db: Session):
     db_machines = db.query(models.Machine)
