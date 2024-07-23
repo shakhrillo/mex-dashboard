@@ -163,6 +163,10 @@ body {
   width: 100% !important;
 }
 
+.status-box.status-box-full {
+  width: 100% !important;
+}
+
 .side-title-item {
   height: 26px;
   display: flex;
