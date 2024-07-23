@@ -197,6 +197,7 @@ body {
 }
 .bg-warning {
   background-color: #FC863E;
+  width: auto !important;
 }
 .right-side::-webkit-scrollbar {
   height: 8px;
