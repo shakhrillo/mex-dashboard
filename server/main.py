@@ -1,3 +1,4 @@
+from typing import Optional
 from dotenv import dotenv_values
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.responses import JSONResponse
@@ -85,10 +86,10 @@ def get_machines(db: Session = Depends(get_db)):
 # barcodeProductionNo
 @app.get("/api/search")
 def search_machines(
-    fromDate: str,
-    toDate: str,
-    note: str,
-    barcodeProductionNo: str,
+    fromDate: Optional[str] = None,
+    toDate: Optional[str] = None,
+    note: Optional[str] = None,
+    barcodeProductionNo: Optional[str] = None,
     db: Session = Depends(get_db)
 ):
     return crud.search_machines(db=db, fromDate=fromDate, toDate=toDate, note=note, barcodeProductionNo=barcodeProductionNo)
