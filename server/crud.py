@@ -143,30 +143,12 @@ def get_machine_status(db: Session, machine_id: str):
     cursor2.close()
     conn2.close()
 
-    # let _status = "transparent";
-
-    #       if (data["machineStopped"] === true) {
-    #         _status = "danger";
-    #       }
-    #       if (data["machineStopped"] === false) {
-    #         _status = "success";
-    #       }
-
-    #       if (width == 0 && !data["toolMounted"]) {
-    #         _status = "danger";
-    #       }
-
-    #       if (data["toolMounted"] && data["machineStopped"]) {
-    #         _status = "warning";
-    #       }
-
     color = "transparent"
     if db_machine.machineStopped:
         color = "danger"
     if not db_machine.machineStopped:
         color = "success"
 
-    # remainingProductionDays remainingProductionTime
     if db_machine.remainingProductionDays == 0 and db_machine.remainingProductionTime == 0:
         color = "danger"
     
@@ -206,6 +188,32 @@ def get_machines(db: Session, user_token: str):
 
     # remove duplicates shift
     user_machines = [machine for machine in user_machines if machine.shift == check_shift(machine.createdAt.strftime("%H:%M"))]
+
+    # color = "transparent"
+    # if db_machine.machineStopped:
+    #     color = "danger"
+    # if not db_machine.machineStopped:
+    #     color = "success"
+
+    # if db_machine.remainingProductionDays == 0 and db_machine.remainingProductionTime == 0:
+    #     color = "danger"
+    
+    # if db_machine.toolMounted and db_machine.machineStopped:
+    #     color = "warning"
+
+    for i in range(len(user_machines)):
+        color = "transparent"
+        if user_machines[i].machineStopped:
+            color = "danger"
+        if not user_machines[i].machineStopped:
+            color = "success"
+
+        if user_machines[i].remainingProductionDays == 0 and user_machines[i].remainingProductionTime == 0:
+            color = "danger"
+        
+        if user_machines[i].toolMounted and user_machines[i].machineStopped:
+            color = "warning"
+        user_machines[i].status = color
 
     cursor2.close()
     conn2.close()
