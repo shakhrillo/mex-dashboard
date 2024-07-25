@@ -121,19 +121,16 @@ def get_current(machine_id: str, db: Session = Depends(get_db)):
 
     if last_shift == "F1" and last_tool_cleaning == False:
         return {
-            "text": "Werkzeugreinigung in Schicht F1 erledigt?",
-            "status": "warning",
+            "status": False
         }
     
     if last_shift == "S2" and last_tool_cleaning == False:
         return {
-            "text": "Achtung – Werkzeugreinigung notwendig!“ „Ist erledigt?",
-            "status": "warning",
+            "status": False
         }
     
     return {
-        "text": "Werkzeugreinigung Schicht F1 erledigt",
-        "status": "success",
+        "status": True
     }
 
 @app.get("/api/productionnumber/{bauf}")
