@@ -44,7 +44,7 @@ def create_comment(db: Session, comment: schemas.Comment, user_token: str):
     d = dict({
         "comment": comment.comment,
         "preparation_shift": comment.preparation_shift,
-        "date": datetime.now().strftime("%Y-%m-%d"),
+        "date": datetime.now(),
         "token": comment.token,
         "shift": check_shift(datetime.now().strftime("%H:%M"))
     })
