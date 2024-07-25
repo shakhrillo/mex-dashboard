@@ -121,11 +121,13 @@ def get_current(machine_id: str, db: Session = Depends(get_db)):
 
     if last_shift == "F1" and last_tool_cleaning == False:
         return {
+            "last_shift": last_shift,
             "status": False
         }
     
     if last_shift == "S2" and last_tool_cleaning == False:
         return {
+            "last_shift": last_shift,
             "status": False
         }
     
