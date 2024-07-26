@@ -184,10 +184,15 @@ def get_machines(db: Session, user_token: str):
 
     # Return for today only
     today = datetime.now().strftime("%Y-%m-%d")
-    user_machines = [machine for machine in user_machines if machine.createdAt.strftime("%Y-%m-%d") == today]
+    # user_machines = [machine for machine in user_machines if machine.createdAt.strftime("%Y-%m-%d") == today]
 
     # remove duplicates shift
     user_machines = [machine for machine in user_machines if machine.shift == check_shift(machine.createdAt.strftime("%H:%M"))]
+
+    # if next machine is the same as the current machine, remove it
+    # for i in range(len(user_machines) - 1):
+    #     if user_machines[i].machineQrCode == user_machines[i + 1].machineQrCode:
+    #         user_machines.pop(i + 1)
 
     # color = "transparent"
     # if db_machine.machineStopped:
