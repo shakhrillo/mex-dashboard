@@ -190,9 +190,13 @@ def get_machines(db: Session, user_token: str):
     user_machines = [machine for machine in user_machines if machine.shift == check_shift(machine.createdAt.strftime("%H:%M"))]
 
     # if next machine is the same as the current machine, remove it
-    for i in range(len(user_machines) - 1):
-        if user_machines[i].machineQrCode == user_machines[i + 1].machineQrCode:
-            user_machines.pop(i + 1)
+    new_user_machines = []
+    for i in range(len(user_machines)):
+        if i == 0 or user_machines[i].machineQrCode != user_machines[i - 1].machineQrCode:
+            new_user_machines.append(user_machines[i])
+
+    user_machines = new_user_machines
+
 
     # color = "transparent"
     # if db_machine.machineStopped:
