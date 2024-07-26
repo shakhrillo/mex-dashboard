@@ -142,7 +142,7 @@ def get_current(machine_id: str, db: Session = Depends(get_db)):
     
     if machine_id == "E 45-1":
         return {
-            "last_shift": "F1",
+            "last_shift": "N3",
             "status": True
         }
 
