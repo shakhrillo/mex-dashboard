@@ -271,12 +271,13 @@ def search_machines(
 ):
     db_machines = db.query(models.MachineData)
     # filter by date range
-    if fromDate and toDate:
-        db_machines = db_machines.filter(models.MachineData.createdAt.between(fromDate, toDate))
-    #     db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{fromDate}%"))
+    if fromDate:
+        # including toDate
+        # db_machines = db_machines.filter(models.MachineData.createdAt.between(fromDate, toDate))
+        db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{fromDate}%"))
     
-    # if toDate:
-    #     db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{toDate}%"))
+    if toDate:
+        db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{toDate}%"))
 
     if note:
         db_machines = db_machines.filter(models.MachineData.note.like(f"%{note}%"))
