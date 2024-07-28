@@ -295,7 +295,7 @@ def search_machines(
 
     print(ma)
     if ma:
-        db_machines = db_machines.filter(models.MachineData.machineQrCode.like(f"%{ma.replace(' ', '')}%"))
+        db_machines = db_machines.filter(models.Machine.machineQrCode == ma)
 
     # http://35.184.23.4/api/search?fromDate=2024-07-11&toDate=2024-07-11&note=Test&barcodeProductionNo=123456789
     return db_machines.all()
