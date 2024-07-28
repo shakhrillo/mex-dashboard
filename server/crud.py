@@ -270,14 +270,21 @@ def search_machines(
     db: Session
 ):
     db_machines = db.query(models.MachineData)
+    if toDate == "":
+        # add 1 day to fromDate
+        toDate = datetime.strptime(fromDate, "%Y-%m-%d") + timedelta(days=1)
+        toDate = toDate.strftime("%Y-%m-%d")
+    else:
+        toDate = datetime.strptime(toDate, "%Y-%m-%d") + timedelta(days=1)
+        toDate = toDate.strftime("%Y-%m-%d")
     # filter by date range
-    if fromDate:
+    if fromDate and toDate:
         # including toDate
-        # db_machines = db_machines.filter(models.MachineData.createdAt.between(fromDate, toDate))
-        db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{fromDate}%"))
+        db_machines = db_machines.filter(models.MachineData.createdAt.between(fromDate, toDate))
+        # db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{fromDate}%"))
     
-    if toDate:
-        db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{toDate}%"))
+    # if toDate:
+    #     db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{toDate}%"))
 
     if note:
         db_machines = db_machines.filter(models.MachineData.note.like(f"%{note}%"))
