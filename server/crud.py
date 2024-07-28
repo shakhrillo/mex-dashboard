@@ -293,6 +293,9 @@ def search_machines(
     if barcodeProductionNo:
         db_machines = db_machines.filter(models.MachineData.barcodeProductionNo == barcodeProductionNo)
 
+    print('---------')
+    print(ma)
+    print('---------')
     if ma:
         db_machines = db_machines.filter(models.Machine.machineQrCode == ma)
 
