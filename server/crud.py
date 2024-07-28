@@ -271,8 +271,8 @@ def search_machines(
 ):
     db_machines = db.query(models.MachineData)
     if toDate == "":
-        # add 1 day to fromDate
-        toDate = datetime.strptime(fromDate, "%Y-%m-%d") + timedelta(days=1)
+        # add today
+        toDate = datetime.now() + timedelta(days=1)
         toDate = toDate.strftime("%Y-%m-%d")
     else:
         toDate = datetime.strptime(toDate, "%Y-%m-%d") + timedelta(days=1)
