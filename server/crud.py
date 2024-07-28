@@ -267,6 +267,7 @@ def search_machines(
     toDate: str,
     note: str,
     barcodeProductionNo: str,
+    ma: str,
     db: Session
 ):
     db_machines = db.query(models.MachineData)
@@ -291,6 +292,9 @@ def search_machines(
 
     if barcodeProductionNo:
         db_machines = db_machines.filter(models.MachineData.barcodeProductionNo == barcodeProductionNo)
+
+    if ma:
+        db_machines = db_machines.filter(models.MachineData.machineQrCode == ma)
 
     # http://35.184.23.4/api/search?fromDate=2024-07-11&toDate=2024-07-11&note=Test&barcodeProductionNo=123456789
     return db_machines.all()
