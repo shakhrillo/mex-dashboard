@@ -271,6 +271,8 @@ def search_machines(
     db: Session
 ):
     db_machines = db.query(models.MachineData)
+    if toDate == fromDate:
+        toDate = ""
     if toDate == "":
         # add today
         toDate = datetime.now() + timedelta(days=1)
@@ -288,7 +290,7 @@ def search_machines(
     #     db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{toDate}%"))
 
     if note:
-        db_machines = db_machines.filter(models.MachineData.note.like(f"%{note}%"))
+        db_machines = db_machines.filter(note.lower() in models.MachineData.note.lower())
 
     if barcodeProductionNo:
         db_machines = db_machines.filter(models.MachineData.barcodeProductionNo == barcodeProductionNo)
