@@ -273,6 +273,10 @@ def search_machines(
     db: Session
 ):
     db_machines = db.query(models.MachineData)
+    if fromDate == "":
+        fromDate = "2000-01-01"
+    if toDate == "":
+        toDate = "2099-01-01"
     if toDate == fromDate:
         toDate = datetime.strptime(toDate, "%Y-%m-%d") + timedelta(days=1)
         toDate = toDate.strftime("%Y-%m-%d")
