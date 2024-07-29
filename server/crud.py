@@ -295,7 +295,7 @@ def search_machines(
         # db_machines = db_machines.filter(models.MachineData.note.like(f"%{toArticle}%"))
 
         db_machines = db_machines.filter(
-            func.lower(models.MachineData.note).op('regexp')(r'\b{}\b'.format(toArticle.lower()))
+            models.MachineData.note.ilike(f"%{toArticle}%")
         )
 
     if barcodeProductionNo:
