@@ -2,6 +2,7 @@ from datetime import datetime, time, timedelta
 from dotenv import dotenv_values
 from sqlalchemy.orm import Session
 import mysql.connector
+from sqlalchemy import func
 
 from . import models,schemas
 config = dotenv_values(".env")
@@ -290,7 +291,12 @@ def search_machines(
     #     db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{toDate}%"))
 
     if toArticle:
-        db_machines = db_machines.filter(toArticle in models.MachineData.note)
+        # search text in note and exact match
+        # db_machines = db_machines.filter(models.MachineData.note.like(f"%{toArticle}%"))
+
+        db_machines = db_machines.filter(
+            func.lower(models.MachineData.note).op('regexp')(r'\b{}\b'.format(toArticle.lower()))
+        )
 
     if barcodeProductionNo:
         db_machines = db_machines.filter(models.MachineData.barcodeProductionNo == barcodeProductionNo)
