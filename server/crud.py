@@ -290,7 +290,7 @@ def search_machines(
     #     db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{toDate}%"))
 
     if toArticle:
-        db_machines = db_machines.filter(toArticle.lower() in models.MachineData.note)
+        db_machines = db_machines.filter(toArticle in models.MachineData.note)
 
     if barcodeProductionNo:
         db_machines = db_machines.filter(models.MachineData.barcodeProductionNo == barcodeProductionNo)
