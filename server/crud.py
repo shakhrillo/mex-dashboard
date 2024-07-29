@@ -265,7 +265,7 @@ def get_status(db: Session, user_token: str, machine_id: str):
 def search_machines(
     fromDate: str,
     toDate: str,
-    note: str,
+    toArticle: str,
     barcodeProductionNo: str,
     ma: str,
     db: Session
@@ -289,8 +289,8 @@ def search_machines(
     # if toDate:
     #     db_machines = db_machines.filter(models.MachineData.createdAt.like(f"{toDate}%"))
 
-    if note:
-        db_machines = db_machines.filter(note.lower() in models.MachineData.note.lower())
+    if toArticle:
+        db_machines = db_machines.filter(toArticle.lower() in models.MachineData.note.lower())
 
     if barcodeProductionNo:
         db_machines = db_machines.filter(models.MachineData.barcodeProductionNo == barcodeProductionNo)
