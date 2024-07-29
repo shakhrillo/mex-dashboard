@@ -273,14 +273,16 @@ def search_machines(
 ):
     db_machines = db.query(models.MachineData)
     if toDate == fromDate:
-        toDate = ""
-    if toDate == "":
-        # add today
-        toDate = datetime.now() + timedelta(days=1)
-        toDate = toDate.strftime("%Y-%m-%d")
-    else:
         toDate = datetime.strptime(toDate, "%Y-%m-%d") + timedelta(days=1)
         toDate = toDate.strftime("%Y-%m-%d")
+    else:
+        if toDate == "":
+            # add today
+            toDate = datetime.now() + timedelta(days=1)
+            toDate = toDate.strftime("%Y-%m-%d")
+        else:
+            toDate = datetime.strptime(toDate, "%Y-%m-%d") + timedelta(days=1)
+            toDate = toDate.strftime("%Y-%m-%d")
     # filter by date range
     if fromDate and toDate:
         # including toDate
