@@ -91,9 +91,10 @@ def search_machines(
     toArticle: Optional[str] = None,
     barcodeProductionNo: Optional[str] = None,
     ma: Optional[str] = None,
+    status: Optional[str] = None,
     db: Session = Depends(get_db)
 ):
-    return crud.search_machines(db=db, fromDate=fromDate, toDate=toDate, toArticle=toArticle, barcodeProductionNo=barcodeProductionNo, ma=ma)
+    return crud.search_machines(db=db, fromDate=fromDate, toDate=toDate, toArticle=toArticle, barcodeProductionNo=barcodeProductionNo, ma=ma, status=status)
 
 @app.get("/api/machine/status/{machine_id}")
 def get_machine_status(machine_id: str, db: Session = Depends(get_db)):
