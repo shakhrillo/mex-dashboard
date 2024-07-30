@@ -6,6 +6,10 @@ from mysql.connector import Error
 from dotenv import dotenv_values
 config = dotenv_values(".env")
 
+print("Starting watcher...")
+
+print(config["DB_HOST"])
+
 # Email configuration
 SMTP_SERVER = '192.168.100.47'
 SMTP_PORT = 25
