@@ -84,3 +84,27 @@ pm2 start "uvicorn server.main:app --port=3231" --name "server-nfc"
     "time": 12,
     "type": "active"
 }
+
+
+-- Create the logging table
+CREATE TABLE email_notifications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    bauf_artnr VARCHAR(255),
+    bauf_artbez VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create the trigger
+DELIMITER //
+
+CREATE TRIGGER after_insert_bauf
+AFTER INSERT ON bauf
+FOR EACH ROW
+BEGIN
+    IF NEW.bauf_posnr = 2 THEN
+        INSERT INTO email_notifications (bauf_artnr, bauf_artbez)
+        VALUES (NEW.bauf_artnr, NEW.bauf_artbez);
+    END IF;
+END//
+
+DELIMITER ;
