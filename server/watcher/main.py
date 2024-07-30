@@ -13,13 +13,9 @@ SMTP_USER = 'zmailer@ktbu.local'
 SMTP_PASSWORD = 'Bc2Z05Xp0o'
 TO_EMAIL = 'marco@ktbu.local'
 
-count = 0
 # Function to send email
 def send_email(article_no, article_name):
-    global count
-    count += 1
     print(f"Sending email for article {article_no} - {article_name}")
-    print(f"Email count: {count}")
     # print(f"Sending email for article {article_no} - {article_name}")
     subject = f'Neuer Montageauftrag {article_name} erstellt'
     body = f"""
